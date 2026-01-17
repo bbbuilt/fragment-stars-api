@@ -268,4 +268,6 @@ result = client.buy_stars(
 ## License
 
 MIT License - see [LICENSE](LICENSE) file.
-# update
+
+## Support
+- Ton: UQA37gs5CtR_tGFy0_Z6jgrToMB1wLHZTaxnsZaPZR2iweXV
