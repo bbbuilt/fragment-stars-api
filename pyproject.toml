@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fragment-stars-api"
+version = "1.1.0"
+description = "Python SDK for Fragment API - Buy Telegram Stars and Premium"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Basebay", email = "basebay@proton.me"}
+]
+keywords = ["telegram", "stars", "premium", "fragment", "ton", "api", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "mypy>=1.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/fragment-api/fragment-stars-api"
+Documentation = "https://github.com/fragment-api/fragment-stars-api#readme"
+Repository = "https://github.com/fragment-api/fragment-stars-api"
+Issues = "https://github.com/fragment-api/fragment-stars-api/issues"
+
+[tool.setuptools.packages.find]
+include = ["fragment_api*"]
+
+[tool.setuptools.package-data]
+fragment_api = ["py.typed"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
