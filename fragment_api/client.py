@@ -24,7 +24,7 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "1.1.0"
+__version__ = "2.0.0"
 
 
 class FragmentAPIClient:
@@ -173,6 +173,30 @@ class FragmentAPIClient:
         """
         result = self._request("GET", "/api/v1/commission/rates")
         return CommissionRatesResponse.from_dict(result["data"])
+    
+    def get_queue_status(self) -> dict:
+        """
+        Get queue status information.
+        
+        Returns:
+            dict with queue statistics (pending, processing, total_processed, etc.)
+        """
+        result = self._request("GET", "/api/v1/queue/status")
+        return result["data"]
+    
+    def check_premium_eligibility(self, username: str) -> dict:
+        """
+        Check if user is eligible for Premium purchase.
+        
+        Args:
+            username: Telegram username
+            
+        Returns:
+            dict with eligibility status and reason
+        """
+        data = {"username": username}
+        result = self._request("POST", "/api/v1/premium/check-eligibility", data)
+        return result["data"]
     
     def get_status(self, request_id: str) -> QueuedRequest:
         """

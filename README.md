@@ -101,6 +101,27 @@ print(f"No KYC rate: {rates.rate_no_kyc}%")
 print(f"With KYC rate: {rates.rate_with_kyc}%")
 ```
 
+### Check Queue Status
+
+```python
+status = client.get_queue_status()
+
+print(f"Pending: {status['pending']}")
+print(f"Processing: {status['processing']}")
+print(f"Total processed: {status['total_processed']}")
+```
+
+### Check Premium Eligibility
+
+```python
+result = client.check_premium_eligibility("username")
+
+if result['eligible']:
+    print("✅ User can purchase Premium")
+else:
+    print(f"❌ Not eligible: {result['reason']}")
+```
+
 ### Async Mode (Don't Wait)
 
 ```python
@@ -133,6 +154,8 @@ FragmentAPIClient(
 | `buy_stars(username, amount, seed, cookies?, wait?)` | Buy Telegram Stars |
 | `buy_premium(username, duration, seed, cookies?, wait?)` | Buy Telegram Premium |
 | `get_rates()` | Get commission rates |
+| `get_queue_status()` | Get queue status and statistics |
+| `check_premium_eligibility(username)` | Check if user is eligible for Premium |
 | `get_status(request_id)` | Get request status |
 
 ### Exceptions
@@ -268,6 +291,4 @@ result = client.buy_stars(
 ## License
 
 MIT License - see [LICENSE](LICENSE) file.
-
-## Support
-- Ton: UQA37gs5CtR_tGFy0_Z6jgrToMB1wLHZTaxnsZaPZR2iweXV
+# update

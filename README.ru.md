@@ -101,6 +101,27 @@ print(f"Без KYC: {rates.rate_no_kyc}%")
 print(f"С KYC: {rates.rate_with_kyc}%")
 ```
 
+### Проверка статуса очереди
+
+```python
+status = client.get_queue_status()
+
+print(f"В ожидании: {status['pending']}")
+print(f"Обрабатывается: {status['processing']}")
+print(f"Всего обработано: {status['total_processed']}")
+```
+
+### Проверка доступности Premium
+
+```python
+result = client.check_premium_eligibility("username")
+
+if result['eligible']:
+    print("✅ Пользователь может купить Premium")
+else:
+    print(f"❌ Недоступно: {result['reason']}")
+```
+
 ### Асинхронный режим (не ждать)
 
 ```python
@@ -133,6 +154,8 @@ FragmentAPIClient(
 | `buy_stars(username, amount, seed, cookies?, wait?)` | Купить Telegram Stars |
 | `buy_premium(username, duration, seed, cookies?, wait?)` | Купить Telegram Premium |
 | `get_rates()` | Получить комиссии |
+| `get_queue_status()` | Получить статус очереди и статистику |
+| `check_premium_eligibility(username)` | Проверить доступность Premium для пользователя |
 | `get_status(request_id)` | Получить статус запроса |
 
 ### Исключения
@@ -268,8 +291,3 @@ result = client.buy_stars(
 ## Лицензия
 
 MIT License - см. файл [LICENSE](LICENSE).
-
-## Поддержать разработчика
-
-- Ton: UQA37gs5CtR_tGFy0_Z6jgrToMB1wLHZTaxnsZaPZR2iweXV
-
