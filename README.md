@@ -194,87 +194,50 @@ echo -n "word1 word2 word3 ... word24" | base64
 
 ### How to get Fragment cookies (for KYC mode)
 
-KYC mode requires your Fragment.com cookies. Here's how to get them:
+KYC mode requires your Fragment.com cookies for lower commission rates.
 
-#### Step 1: Login to Fragment
+> 📖 **[See detailed Cookie Guide](COOKIES_GUIDE.md)** for step-by-step instructions with screenshots and troubleshooting.
 
-1. Open Chrome browser
-2. Go to https://fragment.com
-3. Click "Log In" and authorize via Telegram
+#### Quick Guide
 
-#### Step 2: Open Developer Tools
+**Required cookies:**
+- `stel_token` - Session authentication token
+- `stel_ssid` - Session ID  
+- `stel_ton_token` - TON wallet connection token (**CRITICAL - required for purchases**)
+- `stel_dt` - Timezone offset
 
-1. Press `F12` or `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Option+I` (Mac)
-2. Go to **Application** tab
-3. In the left sidebar, expand **Cookies**
-4. Click on `https://fragment.com`
+**Steps:**
 
-#### Step 3: Copy required cookies
+1. **Login to Fragment**: Go to https://fragment.com and login via Telegram
+2. **Connect TON Wallet**: Click "Connect Wallet" and connect Tonkeeper/MyTonWallet
+3. **Open DevTools**: Press F12 → Application → Cookies → https://fragment.com
+4. **Copy cookie values**: Copy the Value field for each required cookie
+5. **Create JSON**:
+   ```json
+   {
+       "stel_token": "your_value",
+       "stel_ssid": "your_value",
+       "stel_ton_token": "your_value",
+       "stel_dt": "-180"
+   }
+   ```
+6. **Encode to base64**:
+   ```bash
+   cat cookies.json | base64 -w 0
+   ```
+7. **Use in code**:
+   ```python
+   result = client.buy_stars(
+       username="user",
+       amount=50,
+       seed="your_seed_base64",
+       cookies="your_cookies_base64"
+   )
+   ```
 
-You need these 4 cookies:
+> ⚠️ **Important**: The `stel_ton_token` cookie is **required** for purchases. Make sure your TON wallet is connected on fragment.com before extracting cookies!
 
-| Cookie Name | Description |
-|-------------|-------------|
-| `stel_ton_token` | TON wallet authentication token |
-| `stel_token` | Session token |
-| `stel_ssid` | Session ID |
-| `stel_dt` | Timezone offset |
-
-For each cookie, copy the **Value** field.
-
-#### Step 4: Create JSON file
-
-Create a file `cookies.json` with this format:
-
-```json
-{
-    "stel_ton_token": "paste_value_here",
-    "stel_token": "paste_value_here",
-    "stel_ssid": "paste_value_here",
-    "stel_dt": "-180"
-}
-```
-
-#### Step 5: Encode to base64
-
-**Linux/Mac:**
-```bash
-cat cookies.json | base64
-```
-
-**Windows (PowerShell):**
-```powershell
-[Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((Get-Content cookies.json -Raw)))
-```
-
-**Python:**
-```python
-import base64
-import json
-
-cookies = {
-    "stel_ton_token": "your_value",
-    "stel_token": "your_value",
-    "stel_ssid": "your_value",
-    "stel_dt": "-180"
-}
-
-encoded = base64.b64encode(json.dumps(cookies).encode()).decode()
-print(encoded)
-```
-
-#### Step 6: Use in code
-
-```python
-result = client.buy_stars(
-    username="user",
-    amount=50,
-    seed="your_seed_base64",
-    cookies="your_cookies_base64"  # Paste encoded string here
-)
-```
-
-> ⚠️ **Security Note:** Never share your cookies! They provide full access to your Fragment account.
+> 💡 **Tip**: If you don't want to deal with cookies, use No-KYC mode (just omit the `cookies` parameter). It has higher commission but no cookies needed.
 
 ## Author
 
