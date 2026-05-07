@@ -71,6 +71,11 @@ class FragmentServiceError(FragmentAPIError):
     pass
 
 
+class InvalidResponseError(FragmentAPIError):
+    """API returned an invalid or unexpected response."""
+    pass
+
+
 # Error code to exception class mapping
 ERROR_CODE_MAP = {
     "VALIDATION_ERROR": ValidationError,
@@ -84,6 +89,10 @@ ERROR_CODE_MAP = {
     "QUEUE_TIMEOUT": QueueTimeoutError,
     "RATE_LIMIT_EXCEEDED": RateLimitError,
     "FRAGMENT_ERROR": FragmentServiceError,
+    "INVALID_RESPONSE": InvalidResponseError,
+    "USER_HAS_PREMIUM": FragmentAPIError,
+    "WALLET_CONNECTION_FAILED": FragmentServiceError,
+    "SERVICE_NOT_CONFIGURED": FragmentServiceError,
     "INTERNAL_ERROR": FragmentAPIError,
 }
 
@@ -94,9 +103,14 @@ def raise_for_error_response(response_data: dict) -> None:
         return
     
     error = response_data.get("error", {})
-    code = error.get("code", 500)
+    raw_code = error.get("code", 500)
+    code = raw_code if isinstance(raw_code, int) else 500
     message = error.get("message", "Unknown error")
-    error_code = error.get("error_code", "INTERNAL_ERROR")
+    error_code = error.get("error_code")
+    if not error_code and isinstance(raw_code, str):
+        error_code = raw_code
+    if not error_code:
+        error_code = "INTERNAL_ERROR"
     
     details = []
     for detail in error.get("details", []):

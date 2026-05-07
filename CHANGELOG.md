@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2026-05-08
+
+### Fixed
+- Updated `buy_premium()` for the current synchronous `/api/v1/premium/buy` API response.
+- Fixed Premium eligibility checks so normal "not eligible" responses return a result instead of raising an exception.
+- Updated queue status documentation and example for the current `queue_length` and `estimated_wait_seconds` fields.
+- Fixed project URLs to point to `bbbuilt/fragment-stars-api`.
+
+### Changed
+- Added optional `local_storage` support to `buy_stars()` and `buy_premium()`.
+- Expanded `PurchaseResult` fields for Premium responses, payment invoice data, and commission balance.
+
 ## [2.0.1] - 2026-01-24
 
 ### Added

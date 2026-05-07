@@ -24,6 +24,8 @@ if result.success:
     print(f"   Stars sent: {result.amount}")
     print(f"   Cost: {result.cost_ton} TON")
     print(f"   Commission: {result.commission_ton} TON")
-    print(f"   Transaction: {result.transaction_hash}")
+    print(f"   Transaction ID: {result.transaction_id}")
+    if result.transaction_hash:
+        print(f"   Transaction hash: {result.transaction_hash}")
 else:
     print(f"❌ Error: {result.error}")

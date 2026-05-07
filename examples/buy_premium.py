@@ -21,6 +21,8 @@ result = client.buy_premium(
 if result.success:
     print(f"✅ Premium purchased!")
     print(f"   Cost: {result.cost_ton} TON")
-    print(f"   Transaction: {result.transaction_hash}")
+    print(f"   Transaction ID: {result.transaction_id}")
+    if result.expires_at:
+        print(f"   Expires at: {result.expires_at}")
 else:
     print(f"❌ Error: {result.error}")

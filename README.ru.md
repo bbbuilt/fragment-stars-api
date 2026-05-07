@@ -8,7 +8,7 @@
 
 **Python SDK для покупки Telegram Stars и Premium через Fragment.com**
 
-Покупайте Telegram Stars и Premium подписки программно через блокчейн TON. Простой API, автоматическая подпись транзакций, управление очередью.
+Покупайте Telegram Stars и Premium подписки программно через блокчейн TON. Простой API, автоматическая подпись транзакций, очередь для Stars.
 
 [🇬🇧 English version](README.md)
 
@@ -18,7 +18,7 @@
 - 💎 **Покупка Telegram Premium** — подписки на 3, 6 или 12 месяцев
 - 🔐 **Два режима** — с KYC и без (разные комиссии)
 - ⚡ **Автоматические транзакции** — просто укажите seed фразу, SDK сделает остальное
-- 📊 **Управление очередью** — автоматический polling результатов
+- 📊 **Управление очередью** — покупки Stars добавляются в очередь и автоматически опрашиваются
 - 🛡️ **Type hints** — полная поддержка типов для автодополнения в IDE
 
 ## Установка
@@ -63,7 +63,7 @@ result = client.buy_stars(
 )
 
 print(f"Успех: {result.success}")
-print(f"Транзакция: {result.transaction_hash}")
+print(f"ID транзакции: {result.transaction_id}")
 ```
 
 ### Покупка Stars (с KYC)
@@ -80,6 +80,8 @@ result = client.buy_stars(
 ```
 
 ### Покупка Premium
+
+Покупки Premium обрабатываются API сразу и возвращают финальный результат напрямую.
 
 ```python
 # 3 месяца
@@ -106,9 +108,8 @@ print(f"С KYC: {rates.rate_with_kyc}%")
 ```python
 status = client.get_queue_status()
 
-print(f"В ожидании: {status['pending']}")
-print(f"Обрабатывается: {status['processing']}")
-print(f"Всего обработано: {status['total_processed']}")
+print(f"Длина очереди: {status['queue_length']}")
+print(f"Ожидание примерно: {status['estimated_wait_seconds']}s")
 ```
 
 ### Проверка доступности Premium
@@ -119,7 +120,7 @@ result = client.check_premium_eligibility("username")
 if result['eligible']:
     print("✅ Пользователь может купить Premium")
 else:
-    print(f"❌ Недоступно: {result['reason']}")
+    print(f"❌ Недоступно: {result.get('reason', 'Причина неизвестна')}")
 ```
 
 ### Асинхронный режим (не ждать)
@@ -151,8 +152,8 @@ FragmentAPIClient(
 
 | Метод | Описание |
 |-------|----------|
-| `buy_stars(username, amount, seed, cookies?, wait?)` | Купить Telegram Stars |
-| `buy_premium(username, duration, seed, cookies?, wait?)` | Купить Telegram Premium |
+| `buy_stars(username, amount, seed, cookies?, local_storage?, wait?)` | Купить Telegram Stars через очередь |
+| `buy_premium(username, duration, seed, cookies?, local_storage?, wait?)` | Купить Telegram Premium напрямую |
 | `get_rates()` | Получить комиссии |
 | `get_queue_status()` | Получить статус очереди и статистику |
 | `check_premium_eligibility(username)` | Проверить доступность Premium для пользователя |
@@ -173,11 +174,11 @@ except FragmentAPIError as e:
 
 ## Как это работает
 
-1. **Вы вызываете** `buy_stars()` или `buy_premium()`
-2. **API создаёт** запрос на покупку и добавляет в очередь
-3. **Сервер открывает** Fragment.com в headless браузере
-4. **Сервер подписывает** TON транзакцию вашей seed фразой
-5. **Транзакция отправляется** в блокчейн TON
+1. **Для Stars** вы вызываете `buy_stars()`, и API добавляет запрос в очередь
+2. **SDK опрашивает** `GET /api/v1/queue/:request_id`, пока покупка Stars не завершится или не упадёт с ошибкой
+3. **Для Premium** вы вызываете `buy_premium()`, и API возвращает финальный результат напрямую
+4. **Сервер открывает** Fragment.com в headless браузере
+5. **Сервер подписывает** TON транзакцию вашей seed фразой
 6. **Stars/Premium доставляются** получателю в Telegram
 
 ## Требования
@@ -196,7 +197,7 @@ echo -n "word1 word2 word3 ... word24" | base64
 
 KYC режим требует ваши cookies от Fragment.com для пониженной комиссии.
 
-> 📖 **[См. подробное руководство по кукам](COOKIES_GUIDE.ru.md)** с пошаговыми инструкциями и решением проблем.
+> 📖 **[См. подробное руководство по кукам](https://github.com/bbbuilt/fragment-stars-api/blob/main/COOKIES_GUIDE.ru.md)** с пошаговыми инструкциями и решением проблем.
 
 #### Краткое руководство
 

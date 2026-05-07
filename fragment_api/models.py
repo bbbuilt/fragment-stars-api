@@ -95,12 +95,29 @@ class PurchaseResult:
     success: bool
     transaction_id: Optional[str] = None
     transaction_hash: Optional[str] = None
+    invoice_id: Optional[str] = None
+    username: Optional[str] = None
     amount: Optional[int] = None
+    duration_months: Optional[int] = None
     cost_ton: Optional[str] = None
     commission_ton: Optional[str] = None
     commission_rate: Optional[float] = None
     mode: Optional[str] = None  # 'kyc' or 'no_kyc'
+    commission_balance_ton: Optional[str] = None
+    expires_at: Optional[str] = None
+    timestamp: Optional[str] = None
+    payment_required: Optional[bool] = None
+    payment_invoice: Optional[dict[str, Any]] = None
     error: Optional[str] = None
+
+
+@dataclass
+class PremiumEligibilityResult:
+    """Premium eligibility check result."""
+    eligible: bool
+    username: Optional[str] = None
+    reason: Optional[str] = None
+    error_code: Optional[str] = None
 
 
 @dataclass

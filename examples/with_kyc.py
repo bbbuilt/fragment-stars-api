@@ -62,14 +62,5 @@ if result.success:
     print(f"   Commission: {result.commission_ton} TON")
 else:
     print(f"❌ Error: {result.error}")
-    if hasattr(result, 'error_code'):
-        print(f"   Error code: {result.error_code}")
-        
-        # Common errors:
-        if result.error_code == 'INVALID_COOKIES':
-            print("\n💡 Tip: Your cookies may be expired or invalid.")
-            print("   Try getting fresh cookies from fragment.com")
-        elif result.error_code == 'WALLET_CONNECTION_FAILED':
-            print("\n💡 Tip: Make sure your Fragment account has a connected TON wallet")
-            print("   The stel_ton_token cookie is required for purchases")
-
+    print("   If this is a cookies error, get fresh Fragment cookies and make")
+    print("   sure the Fragment account has a connected TON wallet.")

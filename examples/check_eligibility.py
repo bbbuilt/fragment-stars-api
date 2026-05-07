@@ -18,5 +18,7 @@ print(f"  Eligible: {result['eligible']}")
 
 if not result['eligible']:
     print(f"  Reason: {result.get('reason', 'Unknown')}")
+    if result.get("error_code"):
+        print(f"  Error code: {result['error_code']}")
 else:
     print("  ✅ User can purchase Premium")

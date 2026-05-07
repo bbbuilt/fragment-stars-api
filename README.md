@@ -8,7 +8,7 @@
 
 **Python SDK for purchasing Telegram Stars and Premium via Fragment.com**
 
-Buy Telegram Stars and Premium subscriptions programmatically using TON blockchain. Simple API, automatic transaction signing, queue management.
+Buy Telegram Stars and Premium subscriptions programmatically using TON blockchain. Simple API, automatic transaction signing, queue management for Stars.
 
 [🇷🇺 Русская версия](README.ru.md)
 
@@ -18,7 +18,7 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 - 💎 **Buy Telegram Premium** — 3, 6, or 12 month subscriptions
 - 🔐 **Two modes** — with or without KYC (different commission rates)
 - ⚡ **Automatic transactions** — just provide seed phrase, SDK handles the rest
-- 📊 **Queue management** — automatic polling for transaction results
+- 📊 **Queue management** — Stars purchases are queued and polled automatically
 - 🛡️ **Type hints** — full typing support for IDE autocompletion
 
 ## Installation
@@ -63,7 +63,7 @@ result = client.buy_stars(
 )
 
 print(f"Success: {result.success}")
-print(f"Transaction: {result.transaction_hash}")
+print(f"Transaction ID: {result.transaction_id}")
 ```
 
 ### Buy Stars (With KYC)
@@ -80,6 +80,8 @@ result = client.buy_stars(
 ```
 
 ### Buy Premium
+
+Premium purchases are processed immediately by the API and return the final result directly.
 
 ```python
 # 3 months
@@ -106,9 +108,8 @@ print(f"With KYC rate: {rates.rate_with_kyc}%")
 ```python
 status = client.get_queue_status()
 
-print(f"Pending: {status['pending']}")
-print(f"Processing: {status['processing']}")
-print(f"Total processed: {status['total_processed']}")
+print(f"Queue length: {status['queue_length']}")
+print(f"Estimated wait: {status['estimated_wait_seconds']}s")
 ```
 
 ### Check Premium Eligibility
@@ -119,7 +120,7 @@ result = client.check_premium_eligibility("username")
 if result['eligible']:
     print("✅ User can purchase Premium")
 else:
-    print(f"❌ Not eligible: {result['reason']}")
+    print(f"❌ Not eligible: {result.get('reason', 'Unknown reason')}")
 ```
 
 ### Async Mode (Don't Wait)
@@ -151,8 +152,8 @@ FragmentAPIClient(
 
 | Method | Description |
 |--------|-------------|
-| `buy_stars(username, amount, seed, cookies?, wait?)` | Buy Telegram Stars |
-| `buy_premium(username, duration, seed, cookies?, wait?)` | Buy Telegram Premium |
+| `buy_stars(username, amount, seed, cookies?, local_storage?, wait?)` | Buy Telegram Stars through the queue |
+| `buy_premium(username, duration, seed, cookies?, local_storage?, wait?)` | Buy Telegram Premium directly |
 | `get_rates()` | Get commission rates |
 | `get_queue_status()` | Get queue status and statistics |
 | `check_premium_eligibility(username)` | Check if user is eligible for Premium |
@@ -173,11 +174,11 @@ except FragmentAPIError as e:
 
 ## How It Works
 
-1. **You call** `buy_stars()` or `buy_premium()`
-2. **API creates** a purchase request and adds it to queue
-3. **Server opens** Fragment.com in headless browser
-4. **Server signs** TON transaction with your seed phrase
-5. **Transaction sent** to TON blockchain
+1. **For Stars**, you call `buy_stars()` and the API adds the request to the queue
+2. **The SDK polls** `GET /api/v1/queue/:request_id` until the Stars purchase is completed or failed
+3. **For Premium**, you call `buy_premium()` and the API returns the final purchase result directly
+4. **Server opens** Fragment.com in headless browser
+5. **Server signs** TON transaction with your seed phrase
 6. **Stars/Premium delivered** to recipient's Telegram
 
 ## Requirements
@@ -196,7 +197,7 @@ echo -n "word1 word2 word3 ... word24" | base64
 
 KYC mode requires your Fragment.com cookies for lower commission rates.
 
-> 📖 **[See detailed Cookie Guide](COOKIES_GUIDE.md)** for step-by-step instructions with screenshots and troubleshooting.
+> 📖 **[See detailed Cookie Guide](https://github.com/bbbuilt/fragment-stars-api/blob/main/COOKIES_GUIDE.md)** for step-by-step instructions with screenshots and troubleshooting.
 
 #### Quick Guide
 
@@ -254,4 +255,3 @@ KYC mode requires your Fragment.com cookies for lower commission rates.
 ## License
 
 MIT License - see [LICENSE](LICENSE) file.
-# update

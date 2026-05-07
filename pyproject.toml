@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fragment-stars-api"
-version = "2.0.0"
+version = "2.0.2"
 description = "Python SDK for Fragment API - Buy Telegram Stars and Premium"
 readme = "README.md"
 license = {text = "MIT"}
@@ -39,10 +39,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/fragment-api/fragment-stars-api"
-Documentation = "https://github.com/fragment-api/fragment-stars-api#readme"
-Repository = "https://github.com/fragment-api/fragment-stars-api"
-Issues = "https://github.com/fragment-api/fragment-stars-api/issues"
+Homepage = "https://github.com/bbbuilt/fragment-stars-api"
+Documentation = "https://github.com/bbbuilt/fragment-stars-api#readme"
+Repository = "https://github.com/bbbuilt/fragment-stars-api"
+Issues = "https://github.com/bbbuilt/fragment-stars-api/issues"
 
 [tool.setuptools.packages.find]
 include = ["fragment_api*"]
