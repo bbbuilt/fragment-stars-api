@@ -244,13 +244,13 @@ KYC mode requires your Fragment.com cookies for lower commission rates.
 
 **Basebay** — Backend developer focused on automation, bots, and infrastructure tools.
 
-- Telegram: [@basebay](https://t.me/basebay)
+- Telegram: [@makecodev](https://t.me/makecodev)
 - GitHub: [bbbuilt](https://github.com/bbbuilt)
 
 ## Support
 
 - GitHub Issues: [fragment-stars-api/issues](https://github.com/bbbuilt/fragment-stars-api/issues)
-- Telegram: [@basebay](https://t.me/basebay)
+- Telegram: [@makecodev](https://t.me/makecodev)
 
 ## License
 

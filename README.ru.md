@@ -244,13 +244,13 @@ KYC режим требует ваши cookies от Fragment.com для пони
 
 **Basebay** — Backend-разработчик, специализирующийся на автоматизации, ботах и инфраструктурных инструментах.
 
-- Telegram: [@basebay](https://t.me/basebay)
+- Telegram: [@makecodev](https://t.me/makecodev)
 - GitHub: [bbbuilt](https://github.com/bbbuilt)
 
 ## Поддержка
 
 - GitHub Issues: [fragment-stars-api/issues](https://github.com/bbbuilt/fragment-stars-api/issues)
-- Telegram: [@basebay](https://t.me/basebay)
+- Telegram: [@makecodev](https://t.me/makecodev)
 
 ## Лицензия
 

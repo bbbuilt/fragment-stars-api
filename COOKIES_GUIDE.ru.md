@@ -309,7 +309,7 @@ result = client.buy_stars(
 ## Нужна помощь?
 
 - **GitHub Issues**: [fragment-stars-api/issues](https://github.com/bbbuilt/fragment-stars-api/issues)
-- **Telegram**: [@basebay](https://t.me/basebay)
+- **Telegram**: [@makecodev](https://t.me/makecodev)
 - **Документация**: См. [README.ru.md](README.ru.md) для дополнительных примеров
 
 ---
