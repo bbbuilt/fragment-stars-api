@@ -13,7 +13,37 @@
 [🇬🇧 English version](README.md)
 
 - Сайт с документацией: https://wemakecode.ru/fragment-api
+- Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Пример Telegram магазина: https://github.com/bbbuilt/tg_stars_premium_shop
+- Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md)
+
+## Vibe coding / настройка AI агента
+
+Если клиент интегрирует API через Codex, Claude, Cursor или другой AI coding agent, сначала дайте агенту готовый skill-файл. Это защищает от типичных ошибок: придуманных API токенов, seed в frontend коде, утечек cookies и повторной покупки из-за слепого retry.
+
+### Codex
+
+1. Добавьте [CODEX_SKILL.md](CODEX_SKILL.md) в проект клиента.
+2. Если в проекте есть `AGENTS.md`, добавьте:
+
+```md
+@CODEX_SKILL.md
+```
+
+3. Попросите Codex: `Интегрируй Fragment Stars API по project skill.`
+
+### Claude
+
+1. Добавьте [CLAUDE_SKILL.md](CLAUDE_SKILL.md) в проект клиента.
+2. Скопируйте содержимое в `CLAUDE.md` или попросите Claude сначала прочитать `CLAUDE_SKILL.md`.
+3. Попросите Claude: `Интегрируй Fragment Stars API по CLAUDE_SKILL.md.`
+
+Важные правила для AI агентов:
+
+- Клиентские вызовы API не требуют выданных API токенов или `X-API-Key`.
+- Seed кошелька и Fragment cookies должны оставаться только на backend.
+- KYC режим бесплатный навсегда: `0%` комиссии API.
+- Нельзя делать слепой retry после того, как транзакция могла быть подписана или отправлена.
 
 ## Возможности
 

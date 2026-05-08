@@ -13,7 +13,37 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 [🇷🇺 Русская версия](README.ru.md)
 
 - Documentation website: https://wemakecode.ru/fragment-api
+- Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
+- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md)
+
+## Vibe Coding / AI Agent Setup
+
+If a client integrates this API with Codex, Claude, Cursor, or another AI coding agent, give the agent the ready-made skill file first. This prevents common mistakes like inventing API tokens, putting wallet seeds in frontend code, or retrying a purchase twice.
+
+### Codex
+
+1. Add [CODEX_SKILL.md](CODEX_SKILL.md) to the client's project.
+2. If the project uses `AGENTS.md`, add:
+
+```md
+@CODEX_SKILL.md
+```
+
+3. Ask Codex: `Integrate Fragment Stars API using the project skill.`
+
+### Claude
+
+1. Add [CLAUDE_SKILL.md](CLAUDE_SKILL.md) to the client's project.
+2. Copy its content into `CLAUDE.md`, or tell Claude to read `CLAUDE_SKILL.md` before coding.
+3. Ask Claude: `Integrate Fragment Stars API following CLAUDE_SKILL.md.`
+
+Important rules for AI agents:
+
+- Client API calls do not need issued API tokens or `X-API-Key`.
+- Wallet seeds and Fragment cookies must stay backend-only.
+- KYC mode is permanently free with `0%` API commission.
+- Do not blindly retry after a transaction may have been signed or sent.
 
 ## Features
 
