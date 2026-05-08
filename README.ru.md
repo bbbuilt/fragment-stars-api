@@ -12,7 +12,7 @@
 
 [🇬🇧 English version](README.md)
 
-- Сайт с документацией: https://api-fragment.duckdns.org
+- Сайт с документацией: https://wemakecode.ru/fragment-api
 - Пример Telegram магазина: https://github.com/bbbuilt/tg_stars_premium_shop
 
 ## Возможности

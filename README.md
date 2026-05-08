@@ -12,7 +12,7 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 
 [🇷🇺 Русская версия](README.ru.md)
 
-- Documentation website: https://api-fragment.duckdns.org
+- Documentation website: https://wemakecode.ru/fragment-api
 - Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
 
 ## Features
