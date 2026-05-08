@@ -15,7 +15,7 @@
 - Сайт с документацией: https://wemakecode.ru/fragment-api
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Пример Telegram магазина: https://github.com/bbbuilt/tg_stars_premium_shop
-- Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md)
+- Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
 
 ## Vibe coding / настройка AI агента
 

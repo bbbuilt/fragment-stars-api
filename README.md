@@ -15,7 +15,7 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 - Documentation website: https://wemakecode.ru/fragment-api
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
-- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md)
+- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
 
 ## Vibe Coding / AI Agent Setup
 
