@@ -12,11 +12,15 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 
 [🇷🇺 Русская версия](README.ru.md)
 
+- Documentation website: https://api-fragment.duckdns.org
+- Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
+
 ## Features
 
 - ⭐ **Buy Telegram Stars** — gift stars to any Telegram user
 - 💎 **Buy Telegram Premium** — 3, 6, or 12 month subscriptions
-- 🔐 **Two modes** — with or without KYC (different commission rates)
+- 🔐 **KYC is free forever** — KYC mode has 0% API commission; call `get_rates()` if you want to verify rates before use
+- 🧩 **Two modes** — KYC with your Fragment cookies, or Non-KYC without user cookies
 - ⚡ **Automatic transactions** — just provide seed phrase, SDK handles the rest
 - 📊 **Queue management** — Stars purchases are queued and polled automatically
 - 🛡️ **Type hints** — full typing support for IDE autocompletion
@@ -68,7 +72,7 @@ print(f"Transaction ID: {result.transaction_id}")
 
 ### Buy Stars (With KYC)
 
-Uses user's Fragment cookies. Lower commission rate.
+Uses user's Fragment cookies. KYC mode has **0% API commission permanently**.
 
 ```python
 result = client.buy_stars(
@@ -95,6 +99,8 @@ result = client.buy_premium("username", 12, seed="...")
 ```
 
 ### Check Commission Rates
+
+KYC mode is free forever, but you can call the API before using it if you want to verify the currently configured rates.
 
 ```python
 rates = client.get_rates()
@@ -195,7 +201,7 @@ echo -n "word1 word2 word3 ... word24" | base64
 
 ### How to get Fragment cookies (for KYC mode)
 
-KYC mode requires your Fragment.com cookies for lower commission rates.
+KYC mode requires your Fragment.com cookies and has **0% API commission permanently**.
 
 > 📖 **[See detailed Cookie Guide](https://github.com/bbbuilt/fragment-stars-api/blob/main/COOKIES_GUIDE.md)** for step-by-step instructions with screenshots and troubleshooting.
 
@@ -238,7 +244,7 @@ KYC mode requires your Fragment.com cookies for lower commission rates.
 
 > ⚠️ **Important**: The `stel_ton_token` cookie is **required** for purchases. Make sure your TON wallet is connected on fragment.com before extracting cookies!
 
-> 💡 **Tip**: If you don't want to deal with cookies, use No-KYC mode (just omit the `cookies` parameter). It has higher commission but no cookies needed.
+> 💡 **Tip**: KYC mode is free forever when you provide Fragment cookies. If you don't want to deal with cookies, use No-KYC mode (just omit the `cookies` parameter); it has a commission but no cookies are needed.
 
 ## Author
 
