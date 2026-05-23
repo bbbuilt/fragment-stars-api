@@ -17,6 +17,24 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 - Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
 - AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
 
+## Production Endpoint and Auth
+
+Use this endpoint for direct HTTP calls and SDK clients:
+
+```text
+https://fragment-api.ydns.eu:8443
+```
+
+Normal client endpoints do **not** require issued API tokens, `X-API-Key`, JWT, OAuth, or `Authorization` headers. The API identifies and tracks commission debt by the wallet derived from the provided seed. Only internal admin endpoints use `X-Admin-Key`.
+
+Health check:
+
+```bash
+curl https://fragment-api.ydns.eu:8443/health
+```
+
+`/health` checks the database and Playwright browser runtime, so it should show if the server cleanup removed required browser files.
+
 ## Vibe Coding / AI Agent Setup
 
 If a client integrates this API with Codex, Claude, Cursor, or another AI coding agent, give the agent the ready-made skill file first. This prevents common mistakes like inventing API tokens, putting wallet seeds in frontend code, or retrying a purchase twice.

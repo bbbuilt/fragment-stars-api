@@ -17,6 +17,24 @@
 - Пример Telegram магазина: https://github.com/bbbuilt/tg_stars_premium_shop
 - Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
 
+## Production endpoint и авторизация
+
+Используйте этот endpoint для прямых HTTP запросов и SDK:
+
+```text
+https://fragment-api.ydns.eu:8443
+```
+
+Обычные клиентские endpoints **не требуют** выданных API токенов, `X-API-Key`, JWT, OAuth или `Authorization` headers. API определяет клиента и долг комиссии по кошельку, который получается из переданного seed. Только внутренние admin endpoints используют `X-Admin-Key`.
+
+Health check:
+
+```bash
+curl https://fragment-api.ydns.eu:8443/health
+```
+
+`/health` проверяет базу данных и Playwright browser runtime, поэтому покажет проблему, если чистящий скрипт сервера удалил нужные browser files.
+
 ## Vibe coding / настройка AI агента
 
 Если клиент интегрирует API через Codex, Claude, Cursor или другой AI coding agent, сначала дайте агенту готовый skill-файл. Это защищает от типичных ошибок: придуманных API токенов, seed в frontend коде, утечек cookies и повторной покупки из-за слепого retry.
