@@ -33,7 +33,7 @@ Health check:
 curl https://fragment-api.ydns.eu:8443/health
 ```
 
-`/health` checks the database and Playwright browser runtime, so it should show if the server cleanup removed required browser files.
+`/health` returns the current API availability status.
 
 ## Vibe Coding / AI Agent Setup
 
