@@ -12,6 +12,8 @@ Use these instructions when integrating Fragment Stars API into a Telegram shop,
 - Only `/admin` endpoints use `X-Admin-Key`; never request this for normal customer integrations.
 - KYC mode is permanently free: `0%` API commission when the client provides their own Fragment cookies.
 - If the user wants to verify current rates, call `GET /api/v1/commission/rates` or SDK `get_rates()`.
+- `payment_method` is optional and defaults to `ton`; supported values are `ton` and `usdt_ton`.
+- For Non-KYC Stars with `payment_method="usdt_ton"`, Stars base cost is paid in USDT on TON and API commission is paid in TON.
 
 ## Integration Approach
 
@@ -48,6 +50,14 @@ Non-KYC mode:
 - API uses owner cookies.
 - Commission is configured server-side; read rates from `/api/v1/commission/rates`.
 
+Payment methods:
+
+- Default: omit `payment_method` or send `"ton"`.
+- USDT on TON: send `"payment_method": "usdt_ton"`.
+- KYC mode supports TON and USDT on TON with `0%` API commission.
+- Non-KYC Stars supports TON and USDT on TON; Non-KYC Premium currently uses TON.
+- Use `GET /api/v1/prices` before checkout to show `price_per_star_ton`, `price_per_star_usdt_ton`, and Premium `base_ton` / `base_usdt_ton`.
+
 ## Direct REST Examples
 
 Buy Stars:
@@ -59,7 +69,8 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
     "username": "@username",
     "amount": 50,
     "seed": "BASE64_WALLET_SEED",
-    "fragment_cookies": "BASE64_FRAGMENT_COOKIES"
+    "fragment_cookies": "BASE64_FRAGMENT_COOKIES",
+    "payment_method": "ton"
   }'
 ```
 
@@ -72,7 +83,8 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
     "username": "@username",
     "duration": 3,
     "seed": "BASE64_WALLET_SEED",
-    "fragment_cookies": "BASE64_FRAGMENT_COOKIES"
+    "fragment_cookies": "BASE64_FRAGMENT_COOKIES",
+    "payment_method": "ton"
   }'
 ```
 

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-05-31
+
+### Added
+- Added optional `payment_method` argument to `buy_stars()` and `buy_premium()`.
+- Supported values are `ton` and `usdt_ton`; default remains `ton` for backward compatibility.
+- `PurchaseResult` now exposes `payment_method` and `cost_usdt_ton`.
+
+### Changed
+- Documentation now describes USDT-on-TON pricing and payment behavior.
+- AI skill files now tell Codex/Claude not to invent auth tokens and how to use `payment_method`.
+
 ## [2.0.2] - 2026-05-08
 
 ### Fixed

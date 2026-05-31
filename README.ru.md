@@ -68,6 +68,7 @@ curl https://fragment-api.ydns.eu:8443/health
 - ⭐ **Покупка Telegram Stars** — дарите звёзды любому пользователю Telegram
 - 💎 **Покупка Telegram Premium** — подписки на 3, 6 или 12 месяцев
 - 🔐 **KYC бесплатный навсегда** — в KYC режиме 0% комиссии API; если хотите перепроверить ставки перед использованием, вызовите `get_rates()`
+- 💵 **TON или USDT on TON** — передайте `payment_method="usdt_ton"`, если хотите оплату через USDT; по умолчанию остаётся `ton`
 - 🧩 **Два режима** — KYC со своими Fragment cookies или Non-KYC без cookies пользователя
 - ⚡ **Автоматические транзакции** — просто укажите seed фразу, SDK сделает остальное
 - 📊 **Управление очередью** — покупки Stars добавляются в очередь и автоматически опрашиваются
@@ -84,8 +85,8 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-# Инициализация с вашим API сервером
-client = FragmentAPIClient("https://your-api-server.com:8443")
+# Инициализация с production API сервером
+client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 # Купить 50 звёзд для пользователя
 result = client.buy_stars("username", 50, seed="your_seed_base64")
@@ -106,7 +107,7 @@ else:
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://your-api-server.com:8443")
+client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 result = client.buy_stars(
     username="telegram_user",
@@ -117,6 +118,30 @@ result = client.buy_stars(
 print(f"Успех: {result.success}")
 print(f"ID транзакции: {result.transaction_id}")
 ```
+
+### Способ оплаты: TON или USDT on TON
+
+Текущие интеграции не ломаются: `payment_method` по умолчанию равен `ton`.
+
+```python
+# Оплата в TON по умолчанию
+result = client.buy_stars("telegram_user", 100, seed="your_wallet_seed_base64")
+
+# Оплата в USDT on TON
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    payment_method="usdt_ton",
+)
+```
+
+Поведение:
+
+- KYC режим принимает `ton` или `usdt_ton`, комиссия API остаётся `0%`.
+- Non-KYC Stars принимает `ton` или `usdt_ton`; при `usdt_ton` базовая цена Stars оплачивается в USDT on TON, а комиссия API — в TON.
+- Non-KYC Premium сейчас использует TON.
+- Для отображения цен вызывайте `GET /api/v1/prices`: там есть цены в TON и USDT on TON.
 
 ### Покупка Stars (с KYC)
 
@@ -206,8 +231,9 @@ FragmentAPIClient(
 
 | Метод | Описание |
 |-------|----------|
-| `buy_stars(username, amount, seed, cookies?, local_storage?, wait?)` | Купить Telegram Stars через очередь |
-| `buy_premium(username, duration, seed, cookies?, local_storage?, wait?)` | Купить Telegram Premium напрямую |
+| `buy_stars(username, amount, seed, cookies?, local_storage?, payment_method?, wait?)` | Купить Telegram Stars через очередь |
+| `buy_premium(username, duration, seed, cookies?, local_storage?, payment_method?, wait?)` | Купить Telegram Premium напрямую |
+| `get_prices()` | Получить текущие цены в TON и USDT-on-TON |
 | `get_rates()` | Получить комиссии |
 | `get_queue_status()` | Получить статус очереди и статистику |
 | `check_premium_eligibility(username)` | Проверить доступность Premium для пользователя |
@@ -238,7 +264,8 @@ except FragmentAPIError as e:
 ## Требования
 
 - Python 3.9+
-- TON кошелёк с достаточным балансом
+- TON кошелёк с достаточным балансом для газа и покупок в TON
+- Для `payment_method="usdt_ton"`: баланс USDT on TON плюс немного TON для газа и комиссии API
 - Seed фраза кошелька (24 слова, base64)
 
 ### Как закодировать seed фразу

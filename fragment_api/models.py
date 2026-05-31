@@ -100,6 +100,8 @@ class PurchaseResult:
     amount: Optional[int] = None
     duration_months: Optional[int] = None
     cost_ton: Optional[str] = None
+    cost_usdt_ton: Optional[str] = None
+    payment_method: Optional[str] = None
     commission_ton: Optional[str] = None
     commission_rate: Optional[float] = None
     mode: Optional[str] = None  # 'kyc' or 'no_kyc'

@@ -24,7 +24,7 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "2.0.3"
+__version__ = "2.1.0"
 
 
 class FragmentAPIClient:
@@ -99,6 +99,7 @@ class FragmentAPIClient:
         seed: str,
         cookies: Optional[str] = None,
         local_storage: Optional[Union[str, dict]] = None,
+        payment_method: str = "ton",
         wait: bool = True,
     ) -> Union[BuyStarsResponse, PurchaseResult]:
         """
@@ -110,6 +111,7 @@ class FragmentAPIClient:
             seed: Wallet seed (base64)
             cookies: Fragment cookies (base64) - optional, for KYC mode
             local_storage: Fragment localStorage (base64 or dict) - optional
+            payment_method: "ton" or "usdt_ton" (default: "ton")
             wait: Wait for result (default: True)
             
         Returns:
@@ -119,6 +121,7 @@ class FragmentAPIClient:
             "username": username,
             "amount": amount,
             "seed": seed,
+            "payment_method": payment_method,
         }
         
         if cookies:
@@ -146,6 +149,7 @@ class FragmentAPIClient:
         seed: str,
         cookies: Optional[str] = None,
         local_storage: Optional[Union[str, dict]] = None,
+        payment_method: str = "ton",
         wait: bool = True,
     ) -> Union[BuyStarsResponse, PurchaseResult]:
         """
@@ -157,6 +161,7 @@ class FragmentAPIClient:
             seed: Wallet seed (base64)
             cookies: Fragment cookies (base64) - optional, for KYC mode
             local_storage: Fragment localStorage (base64 or dict) - optional
+            payment_method: "ton" or "usdt_ton" (default: "ton")
             wait: Kept for backward compatibility. Premium returns final result directly.
             
         Returns:
@@ -166,6 +171,7 @@ class FragmentAPIClient:
             "username": username,
             "duration": duration,
             "seed": seed,
+            "payment_method": payment_method,
         }
         
         if cookies:
@@ -199,6 +205,15 @@ class FragmentAPIClient:
         """
         result = self._request("GET", "/api/v1/commission/rates")
         return CommissionRatesResponse.from_dict(result["data"])
+
+    def get_prices(self) -> dict:
+        """
+        Get current Stars and Premium prices.
+
+        Returns:
+            dict with TON and USDT-on-TON price fields
+        """
+        return self._request("GET", "/api/v1/prices")
     
     def get_queue_status(self) -> dict:
         """
@@ -286,6 +301,8 @@ class FragmentAPIClient:
             amount=payload.get("stars_amount") or payload.get("amount"),
             duration_months=payload.get("duration_months"),
             cost_ton=payload.get("cost_ton"),
+            cost_usdt_ton=payload.get("cost_usdt_ton"),
+            payment_method=payload.get("payment_method"),
             commission_ton=payload.get("commission_ton"),
             commission_rate=payload.get("commission_rate"),
             mode=payload.get("mode"),

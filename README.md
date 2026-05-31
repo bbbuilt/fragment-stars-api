@@ -68,6 +68,7 @@ Important rules for AI agents:
 - ⭐ **Buy Telegram Stars** — gift stars to any Telegram user
 - 💎 **Buy Telegram Premium** — 3, 6, or 12 month subscriptions
 - 🔐 **KYC is free forever** — KYC mode has 0% API commission; call `get_rates()` if you want to verify rates before use
+- 💵 **TON or USDT on TON** — pass `payment_method="usdt_ton"` when you want Fragment to invoice in USDT; default stays `ton`
 - 🧩 **Two modes** — KYC with your Fragment cookies, or Non-KYC without user cookies
 - ⚡ **Automatic transactions** — just provide seed phrase, SDK handles the rest
 - 📊 **Queue management** — Stars purchases are queued and polled automatically
@@ -84,8 +85,8 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-# Initialize with your API server
-client = FragmentAPIClient("https://your-api-server.com:8443")
+# Initialize with the production API server
+client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 # Buy 50 stars for user
 result = client.buy_stars("username", 50, seed="your_seed_base64")
@@ -106,7 +107,7 @@ Uses owner's Fragment account. Higher commission, but no user cookies needed.
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://your-api-server.com:8443")
+client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 result = client.buy_stars(
     username="telegram_user",
@@ -117,6 +118,30 @@ result = client.buy_stars(
 print(f"Success: {result.success}")
 print(f"Transaction ID: {result.transaction_id}")
 ```
+
+### Payment Method: TON or USDT on TON
+
+All existing integrations keep working because `payment_method` defaults to `ton`.
+
+```python
+# Default TON payment
+result = client.buy_stars("telegram_user", 100, seed="your_wallet_seed_base64")
+
+# USDT on TON payment
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    payment_method="usdt_ton",
+)
+```
+
+Behavior:
+
+- KYC mode accepts `ton` or `usdt_ton` and keeps API commission at `0%`.
+- Non-KYC Stars accepts `ton` or `usdt_ton`; with `usdt_ton`, the Stars base price is paid in USDT on TON and the API commission is paid in TON.
+- Non-KYC Premium currently uses TON.
+- Use `GET /api/v1/prices` to display both TON and USDT-on-TON rates before purchase.
 
 ### Buy Stars (With KYC)
 
@@ -206,8 +231,9 @@ FragmentAPIClient(
 
 | Method | Description |
 |--------|-------------|
-| `buy_stars(username, amount, seed, cookies?, local_storage?, wait?)` | Buy Telegram Stars through the queue |
-| `buy_premium(username, duration, seed, cookies?, local_storage?, wait?)` | Buy Telegram Premium directly |
+| `buy_stars(username, amount, seed, cookies?, local_storage?, payment_method?, wait?)` | Buy Telegram Stars through the queue |
+| `buy_premium(username, duration, seed, cookies?, local_storage?, payment_method?, wait?)` | Buy Telegram Premium directly |
+| `get_prices()` | Get current TON and USDT-on-TON prices |
 | `get_rates()` | Get commission rates |
 | `get_queue_status()` | Get queue status and statistics |
 | `check_premium_eligibility(username)` | Check if user is eligible for Premium |
@@ -238,7 +264,8 @@ except FragmentAPIError as e:
 ## Requirements
 
 - Python 3.9+
-- TON wallet with sufficient balance
+- TON wallet with sufficient balance for gas and TON purchases
+- For `payment_method="usdt_ton"`: USDT on TON balance, plus a small TON balance for gas and API commission
 - Wallet seed phrase (24 words, base64 encoded)
 
 ### How to encode seed phrase
