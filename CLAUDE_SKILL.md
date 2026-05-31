@@ -4,7 +4,7 @@ Use these instructions when integrating Fragment Stars API into a Telegram shop,
 
 ## Ground Truth
 
-- Docs: https://wemakecode.ru/fragment-api
+- Docs: https://api-fragment.duckdns.org
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Example shop: https://github.com/bbbuilt/tg_stars_premium_shop
 - Python SDK: `pip install fragment-stars-api`

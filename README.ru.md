@@ -12,10 +12,10 @@
 
 [🇬🇧 English version](README.md)
 
-- Сайт с документацией: https://wemakecode.ru/fragment-api
+- Сайт с документацией: https://api-fragment.duckdns.org
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Пример Telegram магазина: https://github.com/bbbuilt/tg_stars_premium_shop
-- Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
+- Промпты/skills для AI интеграции: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt)
 
 ## Production endpoint и авторизация
 

@@ -12,10 +12,10 @@ Buy Telegram Stars and Premium subscriptions programmatically using TON blockcha
 
 [🇷🇺 Русская версия](README.ru.md)
 
-- Documentation website: https://wemakecode.ru/fragment-api
+- Documentation website: https://api-fragment.duckdns.org
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
-- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://wemakecode.ru/fragment-api/llms.txt) / [llms-full.txt](https://wemakecode.ru/fragment-api/llms-full.txt)
+- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt)
 
 ## Production Endpoint and Auth
 

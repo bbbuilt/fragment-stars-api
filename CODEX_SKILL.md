@@ -9,7 +9,7 @@ Use this skill when the user asks to integrate Fragment Stars API, add Telegram 
 
 ## Canonical Facts
 
-- Documentation site: https://wemakecode.ru/fragment-api
+- Documentation site: https://api-fragment.duckdns.org
 - Production API endpoint: `https://fragment-api.ydns.eu:8443`
 - Example shop repository: https://github.com/bbbuilt/tg_stars_premium_shop
 - Python package: `fragment-stars-api`

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2026-05-31
+
+### Fixed
+- Updated documentation links to the primary site: `https://api-fragment.duckdns.org`.
+
 ## [2.1.0] - 2026-05-31
 
 ### Added
