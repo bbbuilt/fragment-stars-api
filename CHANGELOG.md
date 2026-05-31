@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Updated documentation links to the primary site: `https://api-fragment.duckdns.org`.
+- Added runnable KYC / Non-KYC examples for TON and USDT-on-TON payment methods.
 
 ## [2.1.0] - 2026-05-31
 

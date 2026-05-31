@@ -80,6 +80,15 @@ Important rules for AI agents:
 pip install fragment-stars-api
 ```
 
+
+## Runnable Examples
+
+The `examples/` directory contains copy-paste integrations:
+
+- [`examples/payment_methods.py`](examples/payment_methods.py) — KYC / Non-KYC with TON and USDT-on-TON.
+- [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py) — the same four flows with raw HTTP JSON.
+- [`examples/with_kyc.py`](examples/with_kyc.py) — Fragment cookies setup for KYC mode.
+
 ## Quick Start
 
 ```python
@@ -119,19 +128,61 @@ print(f"Success: {result.success}")
 print(f"Transaction ID: {result.transaction_id}")
 ```
 
-### Payment Method: TON or USDT on TON
+### Payment Method Matrix: KYC / Non-KYC + TON / USDT on TON
 
 All existing integrations keep working because `payment_method` defaults to `ton`.
+Full runnable examples are in [`examples/payment_methods.py`](examples/payment_methods.py) and [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py).
+
+#### 1. Non-KYC + TON
+
+No Fragment cookies are passed. API uses the owner Fragment session.
 
 ```python
-# Default TON payment
-result = client.buy_stars("telegram_user", 100, seed="your_wallet_seed_base64")
-
-# USDT on TON payment
 result = client.buy_stars(
     username="telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
+    payment_method="ton",
+)
+```
+
+#### 2. Non-KYC + USDT on TON
+
+No Fragment cookies are passed. Stars base price is paid in USDT on TON; API commission is paid in TON.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    payment_method="usdt_ton",
+)
+```
+
+#### 3. KYC + TON
+
+Pass Fragment cookies. API commission is always `0%`.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    cookies="fragment_cookies_base64",
+    payment_method="ton",
+)
+```
+
+#### 4. KYC + USDT on TON
+
+Pass Fragment cookies and choose USDT on TON. API commission is still `0%`.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    cookies="fragment_cookies_base64",
     payment_method="usdt_ton",
 )
 ```
@@ -141,7 +192,7 @@ Behavior:
 - KYC mode accepts `ton` or `usdt_ton` and keeps API commission at `0%`.
 - Non-KYC Stars accepts `ton` or `usdt_ton`; with `usdt_ton`, the Stars base price is paid in USDT on TON and the API commission is paid in TON.
 - Non-KYC Premium currently uses TON.
-- Use `GET /api/v1/prices` to display both TON and USDT-on-TON rates before purchase.
+- Use `client.get_prices()` or `GET /api/v1/prices` to display both TON and USDT-on-TON rates before purchase.
 
 ### Buy Stars (With KYC)
 

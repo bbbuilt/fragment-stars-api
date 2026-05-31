@@ -80,6 +80,15 @@ curl https://fragment-api.ydns.eu:8443/health
 pip install fragment-stars-api
 ```
 
+
+## Готовые примеры
+
+В папке `examples/` есть готовые сценарии для копирования:
+
+- [`examples/payment_methods.py`](examples/payment_methods.py) — KYC / Non-KYC с TON и USDT-on-TON.
+- [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py) — те же четыре режима через обычный HTTP JSON.
+- [`examples/with_kyc.py`](examples/with_kyc.py) — настройка Fragment cookies для KYC режима.
+
 ## Быстрый старт
 
 ```python
@@ -119,19 +128,61 @@ print(f"Успех: {result.success}")
 print(f"ID транзакции: {result.transaction_id}")
 ```
 
-### Способ оплаты: TON или USDT on TON
+### Матрица оплаты: KYC / Non-KYC + TON / USDT on TON
 
 Текущие интеграции не ломаются: `payment_method` по умолчанию равен `ton`.
+Полные запускаемые примеры лежат в [`examples/payment_methods.py`](examples/payment_methods.py) и [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py).
+
+#### 1. Non-KYC + TON
+
+Fragment cookies не передаются. API использует Fragment-сессию владельца.
 
 ```python
-# Оплата в TON по умолчанию
-result = client.buy_stars("telegram_user", 100, seed="your_wallet_seed_base64")
-
-# Оплата в USDT on TON
 result = client.buy_stars(
     username="telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
+    payment_method="ton",
+)
+```
+
+#### 2. Non-KYC + USDT on TON
+
+Fragment cookies не передаются. Базовая цена Stars оплачивается в USDT on TON, комиссия API — в TON.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    payment_method="usdt_ton",
+)
+```
+
+#### 3. KYC + TON
+
+Передаются Fragment cookies. Комиссия API всегда `0%`.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    cookies="fragment_cookies_base64",
+    payment_method="ton",
+)
+```
+
+#### 4. KYC + USDT on TON
+
+Передаются Fragment cookies и выбирается USDT on TON. Комиссия API всё равно `0%`.
+
+```python
+result = client.buy_stars(
+    username="telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    cookies="fragment_cookies_base64",
     payment_method="usdt_ton",
 )
 ```
@@ -141,7 +192,7 @@ result = client.buy_stars(
 - KYC режим принимает `ton` или `usdt_ton`, комиссия API остаётся `0%`.
 - Non-KYC Stars принимает `ton` или `usdt_ton`; при `usdt_ton` базовая цена Stars оплачивается в USDT on TON, а комиссия API — в TON.
 - Non-KYC Premium сейчас использует TON.
-- Для отображения цен вызывайте `GET /api/v1/prices`: там есть цены в TON и USDT on TON.
+- Для отображения цен вызывайте `client.get_prices()` или `GET /api/v1/prices`: там есть цены в TON и USDT on TON.
 
 ### Покупка Stars (с KYC)
 
