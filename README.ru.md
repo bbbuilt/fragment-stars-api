@@ -10,6 +10,10 @@
 
 Покупайте Telegram Stars и Premium подписки программно через блокчейн TON. Простой API, автоматическая подпись транзакций, очередь для Stars.
 
+<p align="center">
+  <strong>LIKE IT? <a href="https://github.com/bbbuilt/fragment-stars-api">STAR IT!</a></strong>
+</p>
+
 [🇬🇧 English version](README.md)
 
 - Сайт с документацией: https://api-fragment.duckdns.org
