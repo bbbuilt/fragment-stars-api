@@ -31,6 +31,8 @@ https://fragment-api.ydns.eu:8443
 
 Обычные клиентские endpoints **не требуют** выданных API токенов, `X-API-Key`, JWT, OAuth или `Authorization` headers. API определяет клиента и долг комиссии по кошельку, который получается из переданного seed. Только внутренние admin endpoints используют `X-Admin-Key`.
 
+> **API ключ не нужен.** Не придумывайте и не запрашивайте token. Для публичных клиентских endpoints отправляйте только JSON на production endpoint. Если не используете Python SDK, используйте прямые HTTP endpoints ниже.
+
 Health check:
 
 ```bash
@@ -89,8 +91,12 @@ pip install fragment-stars-api
 
 В папке `examples/` есть готовые сценарии для копирования:
 
+- [`examples/shop_minimal.py`](examples/shop_minimal.py) — самый короткий backend магазин: принять `username`/`amount`, купить Stars.
 - [`examples/payment_methods.py`](examples/payment_methods.py) — KYC / Non-KYC с TON и USDT-on-TON.
 - [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py) — те же четыре режима через обычный HTTP JSON.
+- [`examples/javascript_fetch.js`](examples/javascript_fetch.js) — прямой REST из Node.js 18+.
+- [`examples/php_curl.php`](examples/php_curl.php) — прямой REST из PHP cURL.
+- [`examples/go_net_http.go`](examples/go_net_http.go) — прямой REST из Go `net/http`.
 - [`examples/with_kyc.py`](examples/with_kyc.py) — настройка Fragment cookies для KYC режима.
 
 ## Быстрый старт
@@ -102,7 +108,7 @@ from fragment_api import FragmentAPIClient
 client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 # Купить 50 звёзд для пользователя
-result = client.buy_stars("username", 50, seed="your_seed_base64")
+result = client.buy_stars("@telegram_user", 50, seed="your_seed_base64")
 
 if result.success:
     print(f"✅ Отправлено {result.amount} звёзд!")
@@ -123,7 +129,7 @@ from fragment_api import FragmentAPIClient
 client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64"
 )
@@ -143,7 +149,7 @@ Fragment cookies не передаются. API использует Fragment-с
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     payment_method="ton",
@@ -156,7 +162,7 @@ Fragment cookies не передаются. Базовая цена Stars опл
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     payment_method="usdt_ton",
@@ -169,7 +175,7 @@ result = client.buy_stars(
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     cookies="fragment_cookies_base64",
@@ -183,7 +189,7 @@ result = client.buy_stars(
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     cookies="fragment_cookies_base64",
@@ -204,7 +210,7 @@ result = client.buy_stars(
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="wallet_seed_base64",
     cookies="user_fragment_cookies_base64"
@@ -217,13 +223,13 @@ result = client.buy_stars(
 
 ```python
 # 3 месяца
-result = client.buy_premium("username", 3, seed="...")
+result = client.buy_premium("@telegram_user", 3, seed="...")
 
 # 6 месяцев
-result = client.buy_premium("username", 6, seed="...")
+result = client.buy_premium("@telegram_user", 6, seed="...")
 
 # 12 месяцев
-result = client.buy_premium("username", 12, seed="...")
+result = client.buy_premium("@telegram_user", 12, seed="...")
 ```
 
 ### Проверка комиссий
@@ -249,7 +255,7 @@ print(f"Ожидание примерно: {status['estimated_wait_seconds']}s")
 ### Проверка доступности Premium
 
 ```python
-result = client.check_premium_eligibility("username")
+result = client.check_premium_eligibility("@telegram_user")
 
 if result['eligible']:
     print("✅ Пользователь может купить Premium")
@@ -261,7 +267,7 @@ else:
 
 ```python
 # Возвращает сразу с request_id
-response = client.buy_stars("user", 50, seed="...", wait=False)
+response = client.buy_stars("@telegram_user", 50, seed="...", wait=False)
 print(f"ID запроса: {response.request_id}")
 print(f"Позиция в очереди: {response.position}")
 
@@ -271,6 +277,21 @@ print(f"Статус: {status.status}")
 ```
 
 ## API Reference
+
+### Прямые HTTP endpoints
+
+Эти endpoints нужны, если вы не используете Python SDK. Отправляйте только JSON; API key и auth header не нужны.
+
+| Method | Path | Для чего | Обязательный JSON |
+|--------|------|----------|-------------------|
+| `POST` | `/api/v1/stars/buy` | Купить Stars через очередь | `username`, `amount`, `seed` |
+| `GET` | `/api/v1/queue/{request_id}` | Проверить Stars request | нет |
+| `POST` | `/api/v1/premium/buy` | Купить Premium | `username`, `duration`, `seed` |
+| `POST` | `/api/v1/premium/check-eligibility` | Проверить доступность Premium | `username` |
+| `GET` | `/api/v1/prices` | Получить цены TON и USDT-on-TON | нет |
+| `GET` | `/api/v1/commission/rates` | Проверить ставки комиссии | нет |
+
+Опциональные поля для покупок: `fragment_cookies`, `fragment_local_storage`, `payment_method`. По умолчанию используйте `payment_method="ton"`; для USDT on TON, где поддерживается, передавайте `payment_method="usdt_ton"`.
 
 ### FragmentAPIClient
 
@@ -294,13 +315,28 @@ FragmentAPIClient(
 | `check_premium_eligibility(username)` | Проверить доступность Premium для пользователя |
 | `get_status(request_id)` | Получить статус запроса |
 
+### Частые ошибки
+
+В SDK ловите `FragmentAPIError` и смотрите `error_code` плюс `message`. При прямом REST проверяйте `error.error_code`, `error.message`, а в очереди — `data.error` / `data.error_details`, если поле есть.
+
+| Ошибка | Что значит | Что делать |
+|--------|------------|------------|
+| `VALIDATION_ERROR` | Неверное тело запроса, формат username, amount или payment method | Исправить запрос; username должен выглядеть как `@telegram_user`. |
+| `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed кошелька отсутствует, битый или неверно закодирован в base64 | Заново закодировать 24 слова seed на backend. |
+| `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | На кошельке мало TON, USDT-on-TON или TON для газа | Пополнить кошелёк и создать новый request. |
+| `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment не нашёл Telegram пользователя | Проверить username и создать новый request. |
+| `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment просит дополнительную проверку аккаунта | Открыть Fragment вручную с этим аккаунтом/cookies и пройти проверку. |
+| `TEMPORARY_FRAGMENT_CONNECTION_ERROR` | Временная проблема связи API сервера с Fragment.com | Повторить позже новым request. Старый `request_id` не переиспользовать. |
+| `TEMPORARY_FRAGMENT_FORM_NOT_READY` | Страница или форма Fragment не успела стать готовой | Повторить позже новым request. |
+| `TON_TRANSACTION_CONFIRMATION_UNCERTAIN` | Неясно, была ли подписана/отправлена транзакция | Сначала проверить кошелёк/TON explorer; не делать слепой повтор покупки. |
+
 ### Исключения
 
 ```python
 from fragment_api import FragmentAPIError, QueueTimeoutError
 
 try:
-    result = client.buy_stars("user", 50, seed="...")
+    result = client.buy_stars("@telegram_user", 50, seed="...")
 except QueueTimeoutError:
     print("Таймаут запроса")
 except FragmentAPIError as e:

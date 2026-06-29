@@ -31,6 +31,8 @@ https://fragment-api.ydns.eu:8443
 
 Normal client endpoints do **not** require issued API tokens, `X-API-Key`, JWT, OAuth, or `Authorization` headers. The API identifies and tracks commission debt by the wallet derived from the provided seed. Only internal admin endpoints use `X-Admin-Key`.
 
+> **No API key needed.** Do not invent or request a token. For public client endpoints, send only JSON to the production endpoint. If you are not using the Python SDK, use the direct HTTP endpoints below.
+
 Health check:
 
 ```bash
@@ -89,8 +91,12 @@ pip install fragment-stars-api
 
 The `examples/` directory contains copy-paste integrations:
 
+- [`examples/shop_minimal.py`](examples/shop_minimal.py) — the shortest backend shop: accept `username`/`amount`, buy Stars.
 - [`examples/payment_methods.py`](examples/payment_methods.py) — KYC / Non-KYC with TON and USDT-on-TON.
 - [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py) — the same four flows with raw HTTP JSON.
+- [`examples/javascript_fetch.js`](examples/javascript_fetch.js) — direct REST from Node.js 18+.
+- [`examples/php_curl.php`](examples/php_curl.php) — direct REST from PHP cURL.
+- [`examples/go_net_http.go`](examples/go_net_http.go) — direct REST from Go `net/http`.
 - [`examples/with_kyc.py`](examples/with_kyc.py) — Fragment cookies setup for KYC mode.
 
 ## Quick Start
@@ -102,7 +108,7 @@ from fragment_api import FragmentAPIClient
 client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 # Buy 50 stars for user
-result = client.buy_stars("username", 50, seed="your_seed_base64")
+result = client.buy_stars("@telegram_user", 50, seed="your_seed_base64")
 
 if result.success:
     print(f"✅ Sent {result.amount} stars!")
@@ -123,7 +129,7 @@ from fragment_api import FragmentAPIClient
 client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64"
 )
@@ -143,7 +149,7 @@ No Fragment cookies are passed. API uses the owner Fragment session.
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     payment_method="ton",
@@ -156,7 +162,7 @@ No Fragment cookies are passed. Stars base price is paid in USDT on TON; API com
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     payment_method="usdt_ton",
@@ -169,7 +175,7 @@ Pass Fragment cookies. API commission is always `0%`.
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     cookies="fragment_cookies_base64",
@@ -183,7 +189,7 @@ Pass Fragment cookies and choose USDT on TON. API commission is still `0%`.
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_wallet_seed_base64",
     cookies="fragment_cookies_base64",
@@ -204,7 +210,7 @@ Uses user's Fragment cookies. KYC mode has **0% API commission permanently**.
 
 ```python
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="wallet_seed_base64",
     cookies="user_fragment_cookies_base64"
@@ -217,13 +223,13 @@ Premium purchases are processed immediately by the API and return the final resu
 
 ```python
 # 3 months
-result = client.buy_premium("username", 3, seed="...")
+result = client.buy_premium("@telegram_user", 3, seed="...")
 
 # 6 months
-result = client.buy_premium("username", 6, seed="...")
+result = client.buy_premium("@telegram_user", 6, seed="...")
 
 # 12 months
-result = client.buy_premium("username", 12, seed="...")
+result = client.buy_premium("@telegram_user", 12, seed="...")
 ```
 
 ### Check Commission Rates
@@ -249,7 +255,7 @@ print(f"Estimated wait: {status['estimated_wait_seconds']}s")
 ### Check Premium Eligibility
 
 ```python
-result = client.check_premium_eligibility("username")
+result = client.check_premium_eligibility("@telegram_user")
 
 if result['eligible']:
     print("✅ User can purchase Premium")
@@ -261,7 +267,7 @@ else:
 
 ```python
 # Returns immediately with request_id
-response = client.buy_stars("user", 50, seed="...", wait=False)
+response = client.buy_stars("@telegram_user", 50, seed="...", wait=False)
 print(f"Request ID: {response.request_id}")
 print(f"Position in queue: {response.position}")
 
@@ -271,6 +277,21 @@ print(f"Status: {status.status}")
 ```
 
 ## API Reference
+
+### Direct HTTP Endpoints
+
+These endpoints are useful when you do not use the Python SDK. Send JSON only; no API key or auth header is required.
+
+| Method | Path | Purpose | Required JSON |
+|--------|------|---------|---------------|
+| `POST` | `/api/v1/stars/buy` | Buy Stars through the queue | `username`, `amount`, `seed` |
+| `GET` | `/api/v1/queue/{request_id}` | Poll a Stars request | none |
+| `POST` | `/api/v1/premium/buy` | Buy Premium | `username`, `duration`, `seed` |
+| `POST` | `/api/v1/premium/check-eligibility` | Check Premium availability | `username` |
+| `GET` | `/api/v1/prices` | Get TON and USDT-on-TON prices | none |
+| `GET` | `/api/v1/commission/rates` | Check commission rates | none |
+
+Optional JSON fields for purchases: `fragment_cookies`, `fragment_local_storage`, `payment_method`. Use `payment_method="ton"` by default or `payment_method="usdt_ton"` for USDT on TON where supported.
 
 ### FragmentAPIClient
 
@@ -294,13 +315,28 @@ FragmentAPIClient(
 | `check_premium_eligibility(username)` | Check if user is eligible for Premium |
 | `get_status(request_id)` | Get request status |
 
+### Common Errors
+
+When using the SDK, catch `FragmentAPIError` and read `error_code` plus `message`. With direct REST, inspect `error.error_code`, `error.message`, and queue fields like `data.error` / `data.error_details` if present.
+
+| Error | Meaning | What to do |
+|-------|---------|------------|
+| `VALIDATION_ERROR` | Bad request body, wrong username format, unsupported amount or payment method | Fix the request; usernames should look like `@telegram_user`. |
+| `INVALID_SEED` / `INVALID_WALLET_SEED` | Wallet seed is missing, malformed, or not base64 encoded correctly | Re-encode the 24-word seed on the backend. |
+| `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Wallet has too little TON, USDT-on-TON, or gas balance | Top up the wallet before creating a new request. |
+| `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment could not find the Telegram user | Check the username and try a new request. |
+| `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment asks the account for extra verification | Open Fragment manually with that account/cookies and complete the check. |
+| `TEMPORARY_FRAGMENT_CONNECTION_ERROR` | Temporary connection problem between the API server and Fragment.com | Submit a new request later. Do not reuse the old `request_id`. |
+| `TEMPORARY_FRAGMENT_FORM_NOT_READY` | Fragment page or form did not become ready in time | Submit a new request later. |
+| `TON_TRANSACTION_CONFIRMATION_UNCERTAIN` | Transaction signing/sending may be uncertain | Check the wallet/TON explorer before retrying; do not blindly duplicate purchases. |
+
 ### Exceptions
 
 ```python
 from fragment_api import FragmentAPIError, QueueTimeoutError
 
 try:
-    result = client.buy_stars("user", 50, seed="...")
+    result = client.buy_stars("@telegram_user", 50, seed="...")
 except QueueTimeoutError:
     print("Request timed out")
 except FragmentAPIError as e:
