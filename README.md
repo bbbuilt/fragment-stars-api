@@ -1,50 +1,59 @@
 # Fragment Stars API
 
 <p align="center">
-  <img src="https://img.shields.io/pypi/v/fragment-stars-api?color=blue" alt="PyPI version">
-  <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api" alt="Python versions">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+  <strong>Telegram Stars API for Fragment.com</strong><br>
+  Buy Telegram Stars and Premium from your backend with Python SDK or direct REST.<br>
+  No API key. KYC 0% forever. TON + USDT on TON.
 </p>
-
-**Telegram Stars API and Telegram Premium API for Fragment.com.** Buy Telegram Stars and Premium from your backend with a Python SDK or direct REST calls. Supports TON, USDT on TON, KYC and no-KYC flows, queue polling, and ready-to-copy shop examples.
 
 <p align="center">
-  <strong>LIKE IT? <a href="https://github.com/bbbuilt/fragment-stars-api">STAR IT!</a></strong>
+  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/pypi/v/fragment-stars-api?color=38BDF8&label=PyPI" alt="PyPI version"></a>
+  <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
+  <a href="https://api-fragment.duckdns.org"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
+  <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
+  <img src="https://img.shields.io/badge/license-MIT-94A3B8" alt="MIT License">
 </p>
 
-[Russian README](README.ru.md) · [Documentation website](https://api-fragment.duckdns.org) · [Production endpoint](#production-endpoint) · [Example shop](https://github.com/bbbuilt/tg_stars_premium_shop) · [Integration help](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml) · [Discussions](https://github.com/bbbuilt/fragment-stars-api/discussions/2)
+<p align="center">
+  <a href="#quick-start"><strong>Quick Start</strong></a> ·
+  <a href="examples/shop_minimal.py"><strong>Minimal Shop</strong></a> ·
+  <a href="docs/rest-api.md"><strong>REST API</strong></a> ·
+  <a href="docs/no-kyc-vs-kyc.md"><strong>KYC vs No-KYC</strong></a> ·
+  <a href="https://github.com/bbbuilt/tg_stars_premium_shop"><strong>Example Shop</strong></a> ·
+  <a href="README.ru.md"><strong>RU</strong></a>
+</p>
 
-![Fragment Stars API flow](assets/fragment-api-flow.svg)
+<p align="center">
+  <img src="assets/fragment-api-hero.png" alt="Telegram Stars API for Fragment.com flow: backend request, Fragment Stars API processing, TON or USDT payment, Stars and Premium delivered" width="100%">
+</p>
 
-## Why Developers Use It
+## What You Get
 
-- **No API key needed**: client endpoints accept JSON requests directly; no issued token, JWT, OAuth, or `X-API-Key`.
-- **KYC mode is free forever**: KYC purchases have `0%` API commission; call `get_rates()` if you want to verify rates before use.
-- **TON and USDT on TON**: keep existing `payment_method="ton"` or pass `payment_method="usdt_ton"` where supported.
-- **Python SDK or direct REST**: use `pip install fragment-stars-api`, or integrate from Node.js, PHP, Go, Rust, Java, or any backend via HTTP.
-- **Built for Telegram shops**: queue handling, status polling, common error codes, minimal backend examples, and AI integration prompts.
+<table>
+  <tr>
+    <td width="25%"><strong>No API key</strong><br>Client endpoints accept JSON directly. No issued token, JWT, OAuth, or <code>X-API-Key</code>.</td>
+    <td width="25%"><strong>KYC 0% forever</strong><br>KYC purchases have <code>0%</code> API commission. Verify anytime with <code>get_rates()</code>.</td>
+    <td width="25%"><strong>TON + USDT</strong><br>Use default <code>ton</code> or pass <code>usdt_ton</code> where supported.</td>
+    <td width="25%"><strong>SDK + REST</strong><br>Python package plus raw HTTP examples for Node.js, PHP, Go, and any backend.</td>
+  </tr>
+</table>
 
-## Fast Links
+## Start Here
 
-| Need | Start here |
-|------|------------|
-| Build a Telegram Stars shop | [Minimal backend example](examples/shop_minimal.py) and [shop guide](docs/telegram-stars-shop.md) |
-| Use Python | [Quick Start](#quick-start) and [payment examples](examples/payment_methods.py) |
-| Use direct HTTP | [REST API guide](docs/rest-api.md) and [raw REST example](examples/direct_rest_payment_methods.py) |
+| If you need to... | Open this |
+|-------------------|-----------|
+| Build a Telegram Stars shop | [Minimal backend](examples/shop_minimal.py) and [shop guide](docs/telegram-stars-shop.md) |
+| Copy raw HTTP calls | [REST API guide](docs/rest-api.md) and [direct REST example](examples/direct_rest_payment_methods.py) |
 | Choose KYC or no-KYC | [KYC vs No-KYC guide](docs/no-kyc-vs-kyc.md) |
-| Debug a client error | [Errors guide](docs/errors.md) |
+| Debug an API error | [Errors guide](docs/errors.md) |
 | Let Codex or Claude integrate it | [Codex skill](CODEX_SKILL.md) / [Claude skill](CLAUDE_SKILL.md) |
-| Need help | [Open integration help issue](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml) or contact [@makecodev](https://t.me/makecodev) |
+| Ask for help | [Integration Help issue](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml) or [@makecodev](https://t.me/makecodev) |
 
 ## Production Endpoint
-
-Use this base URL for SDK and direct HTTP calls:
 
 ```text
 https://fragment-api.ydns.eu:8443
 ```
-
-Health check:
 
 ```bash
 curl https://fragment-api.ydns.eu:8443/health
@@ -52,31 +61,11 @@ curl https://fragment-api.ydns.eu:8443/health
 
 Client endpoints do **not** require `Authorization`, `X-API-Key`, JWT, OAuth, or issued API tokens. The API tracks commission by the TON wallet derived from the provided seed. Internal admin endpoints are separate and are not needed for client integrations.
 
-## Build a Telegram Stars Shop in 10 Minutes
-
-1. Install the SDK on your backend.
-2. Store `FRAGMENT_WALLET_SEED` in backend environment variables only.
-3. Accept `username` and `amount` from your bot/shop.
-4. Call `client.buy_stars("@telegram_user", amount, seed=...)`.
-5. Return the final status to your user.
-
-Runnable minimal backend:
-
-```bash
-pip install fastapi uvicorn fragment-stars-api
-export FRAGMENT_WALLET_SEED="base64_seed_phrase"
-uvicorn examples.shop_minimal:app --host 0.0.0.0 --port 8000
-```
-
-Full guide: [docs/telegram-stars-shop.md](docs/telegram-stars-shop.md). Production-ready shop example: [bbbuilt/tg_stars_premium_shop](https://github.com/bbbuilt/tg_stars_premium_shop).
-
-## Installation
+## Quick Start
 
 ```bash
 pip install fragment-stars-api
 ```
-
-## Quick Start
 
 ```python
 from fragment_api import FragmentAPIClient
@@ -96,6 +85,24 @@ if result.success:
 else:
     print(result.error)
 ```
+
+## Build a Telegram Stars Shop in 10 Minutes
+
+1. Install the SDK on your backend.
+2. Store `FRAGMENT_WALLET_SEED` in backend environment variables only.
+3. Accept `username` and `amount` from your bot/shop.
+4. Call `client.buy_stars("@telegram_user", amount, seed=...)`.
+5. Return the final status to your user.
+
+Runnable minimal backend:
+
+```bash
+pip install fastapi uvicorn fragment-stars-api
+export FRAGMENT_WALLET_SEED="base64_seed_phrase"
+uvicorn examples.shop_minimal:app --host 0.0.0.0 --port 8000
+```
+
+Full guide: [docs/telegram-stars-shop.md](docs/telegram-stars-shop.md). Production-ready shop example: [bbbuilt/tg_stars_premium_shop](https://github.com/bbbuilt/tg_stars_premium_shop).
 
 ## Use Cases
 

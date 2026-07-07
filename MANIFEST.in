@@ -9,4 +9,5 @@ recursive-include fragment_api *.py
 recursive-include examples *
 recursive-include docs *.md
 recursive-include assets *.svg
+recursive-include assets *.png
 recursive-include scripts *.py
