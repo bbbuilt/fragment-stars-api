@@ -6,32 +6,43 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
 </p>
 
-**Python SDK for purchasing Telegram Stars and Premium via Fragment.com**
-
-Buy Telegram Stars and Premium subscriptions programmatically using TON blockchain. Simple API, automatic transaction signing, queue management for Stars.
+**Telegram Stars API and Telegram Premium API for Fragment.com.** Buy Telegram Stars and Premium from your backend with a Python SDK or direct REST calls. Supports TON, USDT on TON, KYC and no-KYC flows, queue polling, and ready-to-copy shop examples.
 
 <p align="center">
   <strong>LIKE IT? <a href="https://github.com/bbbuilt/fragment-stars-api">STAR IT!</a></strong>
 </p>
 
-[🇷🇺 Русская версия](README.ru.md)
+[Russian README](README.ru.md) · [Documentation website](https://api-fragment.duckdns.org) · [Production endpoint](#production-endpoint) · [Example shop](https://github.com/bbbuilt/tg_stars_premium_shop) · [Integration help](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml) · [Discussions](https://github.com/bbbuilt/fragment-stars-api/discussions/2)
 
-- Documentation website: https://api-fragment.duckdns.org
-- Production API endpoint: `https://fragment-api.ydns.eu:8443`
-- Example Telegram shop: https://github.com/bbbuilt/tg_stars_premium_shop
-- AI integration prompts: [Codex](CODEX_SKILL.md) / [Claude](CLAUDE_SKILL.md) / [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt)
+![Fragment Stars API flow](assets/fragment-api-flow.svg)
 
-## Production Endpoint and Auth
+## Why Developers Use It
 
-Use this endpoint for direct HTTP calls and SDK clients:
+- **No API key needed**: client endpoints accept JSON requests directly; no issued token, JWT, OAuth, or `X-API-Key`.
+- **KYC mode is free forever**: KYC purchases have `0%` API commission; call `get_rates()` if you want to verify rates before use.
+- **TON and USDT on TON**: keep existing `payment_method="ton"` or pass `payment_method="usdt_ton"` where supported.
+- **Python SDK or direct REST**: use `pip install fragment-stars-api`, or integrate from Node.js, PHP, Go, Rust, Java, or any backend via HTTP.
+- **Built for Telegram shops**: queue handling, status polling, common error codes, minimal backend examples, and AI integration prompts.
+
+## Fast Links
+
+| Need | Start here |
+|------|------------|
+| Build a Telegram Stars shop | [Minimal backend example](examples/shop_minimal.py) and [shop guide](docs/telegram-stars-shop.md) |
+| Use Python | [Quick Start](#quick-start) and [payment examples](examples/payment_methods.py) |
+| Use direct HTTP | [REST API guide](docs/rest-api.md) and [raw REST example](examples/direct_rest_payment_methods.py) |
+| Choose KYC or no-KYC | [KYC vs No-KYC guide](docs/no-kyc-vs-kyc.md) |
+| Debug a client error | [Errors guide](docs/errors.md) |
+| Let Codex or Claude integrate it | [Codex skill](CODEX_SKILL.md) / [Claude skill](CLAUDE_SKILL.md) |
+| Need help | [Open integration help issue](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml) or contact [@makecodev](https://t.me/makecodev) |
+
+## Production Endpoint
+
+Use this base URL for SDK and direct HTTP calls:
 
 ```text
 https://fragment-api.ydns.eu:8443
 ```
-
-Normal client endpoints do **not** require issued API tokens, `X-API-Key`, JWT, OAuth, or `Authorization` headers. The API identifies and tracks commission debt by the wallet derived from the provided seed. Only internal admin endpoints use `X-Admin-Key`.
-
-> **No API key needed.** Do not invent or request a token. For public client endpoints, send only JSON to the production endpoint. If you are not using the Python SDK, use the direct HTTP endpoints below.
 
 Health check:
 
@@ -39,46 +50,25 @@ Health check:
 curl https://fragment-api.ydns.eu:8443/health
 ```
 
-`/health` returns the current API availability status.
+Client endpoints do **not** require `Authorization`, `X-API-Key`, JWT, OAuth, or issued API tokens. The API tracks commission by the TON wallet derived from the provided seed. Internal admin endpoints are separate and are not needed for client integrations.
 
-## Vibe Coding / AI Agent Setup
+## Build a Telegram Stars Shop in 10 Minutes
 
-If a client integrates this API with Codex, Claude, Cursor, or another AI coding agent, give the agent the ready-made skill file first. This prevents common mistakes like inventing API tokens, putting wallet seeds in frontend code, or retrying a purchase twice.
+1. Install the SDK on your backend.
+2. Store `FRAGMENT_WALLET_SEED` in backend environment variables only.
+3. Accept `username` and `amount` from your bot/shop.
+4. Call `client.buy_stars("@telegram_user", amount, seed=...)`.
+5. Return the final status to your user.
 
-### Codex
+Runnable minimal backend:
 
-1. Add [CODEX_SKILL.md](CODEX_SKILL.md) to the client's project.
-2. If the project uses `AGENTS.md`, add:
-
-```md
-@CODEX_SKILL.md
+```bash
+pip install fastapi uvicorn fragment-stars-api
+export FRAGMENT_WALLET_SEED="base64_seed_phrase"
+uvicorn examples.shop_minimal:app --host 0.0.0.0 --port 8000
 ```
 
-3. Ask Codex: `Integrate Fragment Stars API using the project skill.`
-
-### Claude
-
-1. Add [CLAUDE_SKILL.md](CLAUDE_SKILL.md) to the client's project.
-2. Copy its content into `CLAUDE.md`, or tell Claude to read `CLAUDE_SKILL.md` before coding.
-3. Ask Claude: `Integrate Fragment Stars API following CLAUDE_SKILL.md.`
-
-Important rules for AI agents:
-
-- Client API calls do not need issued API tokens or `X-API-Key`.
-- Wallet seeds and Fragment cookies must stay backend-only.
-- KYC mode is permanently free with `0%` API commission.
-- Do not blindly retry after a transaction may have been signed or sent.
-
-## Features
-
-- ⭐ **Buy Telegram Stars** — gift stars to any Telegram user
-- 💎 **Buy Telegram Premium** — 3, 6, or 12 month subscriptions
-- 🔐 **KYC is free forever** — KYC mode has 0% API commission; call `get_rates()` if you want to verify rates before use
-- 💵 **TON or USDT on TON** — pass `payment_method="usdt_ton"` when you want Fragment to invoice in USDT; default stays `ton`
-- 🧩 **Two modes** — KYC with your Fragment cookies, or Non-KYC without user cookies
-- ⚡ **Automatic transactions** — just provide seed phrase, SDK handles the rest
-- 📊 **Queue management** — Stars purchases are queued and polled automatically
-- 🛡️ **Type hints** — full typing support for IDE autocompletion
+Full guide: [docs/telegram-stars-shop.md](docs/telegram-stars-shop.md). Production-ready shop example: [bbbuilt/tg_stars_premium_shop](https://github.com/bbbuilt/tg_stars_premium_shop).
 
 ## Installation
 
@@ -86,201 +76,70 @@ Important rules for AI agents:
 pip install fragment-stars-api
 ```
 
-
-## Runnable Examples
-
-The `examples/` directory contains copy-paste integrations:
-
-- [`examples/shop_minimal.py`](examples/shop_minimal.py) — the shortest backend shop: accept `username`/`amount`, buy Stars.
-- [`examples/payment_methods.py`](examples/payment_methods.py) — KYC / Non-KYC with TON and USDT-on-TON.
-- [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py) — the same four flows with raw HTTP JSON.
-- [`examples/javascript_fetch.js`](examples/javascript_fetch.js) — direct REST from Node.js 18+.
-- [`examples/php_curl.php`](examples/php_curl.php) — direct REST from PHP cURL.
-- [`examples/go_net_http.go`](examples/go_net_http.go) — direct REST from Go `net/http`.
-- [`examples/with_kyc.py`](examples/with_kyc.py) — Fragment cookies setup for KYC mode.
-
 ## Quick Start
 
 ```python
 from fragment_api import FragmentAPIClient
 
-# Initialize with the production API server
 client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
 
-# Buy 50 stars for user
-result = client.buy_stars("@telegram_user", 50, seed="your_seed_base64")
+result = client.buy_stars(
+    username="@telegram_user",
+    amount=100,
+    seed="your_wallet_seed_base64",
+    payment_method="ton",
+)
 
 if result.success:
-    print(f"✅ Sent {result.amount} stars!")
-    print(f"💰 Cost: {result.cost_ton} TON")
+    print(f"Sent {result.amount} Stars")
+    print(result.transaction_hash or result.transaction_id)
 else:
-    print(f"❌ Error: {result.error}")
+    print(result.error)
 ```
 
-## Usage Examples
+## Use Cases
 
-### Buy Stars (No KYC)
+| Use case | Recommended path |
+|----------|------------------|
+| Telegram Stars shop or bot | Use `buy_stars()` from backend and poll queue automatically with SDK. |
+| KYC user has Fragment cookies | Pass `fragment_cookies` / `cookies`; API commission stays `0%`. |
+| Client does not want cookies | Omit cookies and use no-KYC mode. |
+| Client wants USDT pricing | Pass `payment_method="usdt_ton"` for supported Stars flows. |
+| Non-Python stack | Use direct REST endpoints; no API key is needed. |
+| AI/vibe coding integration | Add `CODEX_SKILL.md` or `CLAUDE_SKILL.md` to the client project first. |
 
-Uses owner's Fragment account. Higher commission, but no user cookies needed.
+## KYC vs No-KYC
 
-```python
-from fragment_api import FragmentAPIClient
+| Mode | Cookies required | API commission | Good for |
+|------|------------------|----------------|----------|
+| KYC | Yes, user's Fragment cookies | `0%` forever | Lowest cost, users comfortable with Fragment cookies |
+| No-KYC | No | Commission applies | Fast onboarding, shops that do not want user cookies |
 
-client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
+KYC can use `ton` or `usdt_ton`. No-KYC Stars can use `ton` or `usdt_ton`; with USDT, Stars base price is paid in USDT on TON and API commission is paid in TON. More detail: [docs/no-kyc-vs-kyc.md](docs/no-kyc-vs-kyc.md).
 
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="your_wallet_seed_base64"
-)
+## Python SDK vs Direct REST
 
-print(f"Success: {result.success}")
-print(f"Transaction ID: {result.transaction_id}")
-```
+| Option | Best for | Example |
+|--------|----------|---------|
+| Python SDK | Python bots, FastAPI, Django, background workers | [examples/payment_methods.py](examples/payment_methods.py) |
+| Direct REST | Node.js, PHP, Go, Laravel, Java, Rust, custom backends | [docs/rest-api.md](docs/rest-api.md) |
+| Minimal shop backend | Fastest copy-paste backend start | [examples/shop_minimal.py](examples/shop_minimal.py) |
 
-### Payment Method Matrix: KYC / Non-KYC + TON / USDT on TON
+## Runnable Examples
 
-All existing integrations keep working because `payment_method` defaults to `ton`.
-Full runnable examples are in [`examples/payment_methods.py`](examples/payment_methods.py) and [`examples/direct_rest_payment_methods.py`](examples/direct_rest_payment_methods.py).
-
-#### 1. Non-KYC + TON
-
-No Fragment cookies are passed. API uses the owner Fragment session.
-
-```python
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="your_wallet_seed_base64",
-    payment_method="ton",
-)
-```
-
-#### 2. Non-KYC + USDT on TON
-
-No Fragment cookies are passed. Stars base price is paid in USDT on TON; API commission is paid in TON.
-
-```python
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="your_wallet_seed_base64",
-    payment_method="usdt_ton",
-)
-```
-
-#### 3. KYC + TON
-
-Pass Fragment cookies. API commission is always `0%`.
-
-```python
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="your_wallet_seed_base64",
-    cookies="fragment_cookies_base64",
-    payment_method="ton",
-)
-```
-
-#### 4. KYC + USDT on TON
-
-Pass Fragment cookies and choose USDT on TON. API commission is still `0%`.
-
-```python
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="your_wallet_seed_base64",
-    cookies="fragment_cookies_base64",
-    payment_method="usdt_ton",
-)
-```
-
-Behavior:
-
-- KYC mode accepts `ton` or `usdt_ton` and keeps API commission at `0%`.
-- Non-KYC Stars accepts `ton` or `usdt_ton`; with `usdt_ton`, the Stars base price is paid in USDT on TON and the API commission is paid in TON.
-- Non-KYC Premium currently uses TON.
-- Use `client.get_prices()` or `GET /api/v1/prices` to display both TON and USDT-on-TON rates before purchase.
-
-### Buy Stars (With KYC)
-
-Uses user's Fragment cookies. KYC mode has **0% API commission permanently**.
-
-```python
-result = client.buy_stars(
-    username="@telegram_user",
-    amount=100,
-    seed="wallet_seed_base64",
-    cookies="user_fragment_cookies_base64"
-)
-```
-
-### Buy Premium
-
-Premium purchases are processed immediately by the API and return the final result directly.
-
-```python
-# 3 months
-result = client.buy_premium("@telegram_user", 3, seed="...")
-
-# 6 months
-result = client.buy_premium("@telegram_user", 6, seed="...")
-
-# 12 months
-result = client.buy_premium("@telegram_user", 12, seed="...")
-```
-
-### Check Commission Rates
-
-KYC mode is free forever, but you can call the API before using it if you want to verify the currently configured rates.
-
-```python
-rates = client.get_rates()
-
-print(f"No KYC rate: {rates.rate_no_kyc}%")
-print(f"With KYC rate: {rates.rate_with_kyc}%")
-```
-
-### Check Queue Status
-
-```python
-status = client.get_queue_status()
-
-print(f"Queue length: {status['queue_length']}")
-print(f"Estimated wait: {status['estimated_wait_seconds']}s")
-```
-
-### Check Premium Eligibility
-
-```python
-result = client.check_premium_eligibility("@telegram_user")
-
-if result['eligible']:
-    print("✅ User can purchase Premium")
-else:
-    print(f"❌ Not eligible: {result.get('reason', 'Unknown reason')}")
-```
-
-### Async Mode (Don't Wait)
-
-```python
-# Returns immediately with request_id
-response = client.buy_stars("@telegram_user", 50, seed="...", wait=False)
-print(f"Request ID: {response.request_id}")
-print(f"Position in queue: {response.position}")
-
-# Check status later
-status = client.get_status(response.request_id)
-print(f"Status: {status.status}")
-```
+- [examples/shop_minimal.py](examples/shop_minimal.py) - shortest backend shop: accept `username`/`amount`, buy Stars.
+- [examples/payment_methods.py](examples/payment_methods.py) - KYC / no-KYC with TON and USDT on TON.
+- [examples/direct_rest_payment_methods.py](examples/direct_rest_payment_methods.py) - the same four flows with raw HTTP JSON.
+- [examples/javascript_fetch.js](examples/javascript_fetch.js) - direct REST from Node.js 18+.
+- [examples/php_curl.php](examples/php_curl.php) - direct REST from PHP cURL.
+- [examples/go_net_http.go](examples/go_net_http.go) - direct REST from Go `net/http`.
+- [examples/with_kyc.py](examples/with_kyc.py) - Fragment cookies setup for KYC mode.
 
 ## API Reference
 
 ### Direct HTTP Endpoints
 
-These endpoints are useful when you do not use the Python SDK. Send JSON only; no API key or auth header is required.
+Send JSON only. No API key or auth header is required.
 
 | Method | Path | Purpose | Required JSON |
 |--------|------|---------|---------------|
@@ -291,19 +150,17 @@ These endpoints are useful when you do not use the Python SDK. Send JSON only; n
 | `GET` | `/api/v1/prices` | Get TON and USDT-on-TON prices | none |
 | `GET` | `/api/v1/commission/rates` | Check commission rates | none |
 
-Optional JSON fields for purchases: `fragment_cookies`, `fragment_local_storage`, `payment_method`. Use `payment_method="ton"` by default or `payment_method="usdt_ton"` for USDT on TON where supported.
+Optional purchase fields: `fragment_cookies`, `fragment_local_storage`, `payment_method`. Default `payment_method` is `ton`; use `usdt_ton` for USDT on TON where supported.
 
 ### FragmentAPIClient
 
 ```python
 FragmentAPIClient(
-    base_url: str,              # Required - your API server URL
+    base_url: str,
     timeout: float = 30.0,
-    poll_timeout: float = 300.0
+    poll_timeout: float = 300.0,
 )
 ```
-
-### Methods
 
 | Method | Description |
 |--------|-------------|
@@ -315,115 +172,69 @@ FragmentAPIClient(
 | `check_premium_eligibility(username)` | Check if user is eligible for Premium |
 | `get_status(request_id)` | Get request status |
 
-### Common Errors
+## Common Client Mistakes
 
-When using the SDK, catch `FragmentAPIError` and read `error_code` plus `message`. With direct REST, inspect `error.error_code`, `error.message`, and queue fields like `data.error` / `data.error_details` if present.
+| Mistake | Correct approach |
+|---------|------------------|
+| Asking for an API token | Do not use API tokens for client endpoints. Send JSON to the production endpoint. |
+| Sending seed from frontend | Keep seed and cookies on backend only. Never expose them in a browser or mobile app. |
+| Retrying blindly after an uncertain transaction | Check wallet/TON explorer first. A blind retry can duplicate purchases. |
+| Passing username without `@` in direct REST | Use `@telegram_user` format unless your SDK normalizes it. |
+| Using KYC without `stel_ton_token` | Connect wallet on Fragment first, then export cookies. |
+
+Full troubleshooting: [docs/errors.md](docs/errors.md).
+
+## Common Errors
 
 | Error | Meaning | What to do |
 |-------|---------|------------|
 | `VALIDATION_ERROR` | Bad request body, wrong username format, unsupported amount or payment method | Fix the request; usernames should look like `@telegram_user`. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Wallet seed is missing, malformed, or not base64 encoded correctly | Re-encode the 24-word seed on the backend. |
-| `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Wallet has too little TON, USDT-on-TON, or gas balance | Top up the wallet before creating a new request. |
+| `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Wallet has too little TON, USDT on TON, or gas balance | Top up the wallet before creating a new request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment could not find the Telegram user | Check the username and try a new request. |
 | `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment asks the account for extra verification | Open Fragment manually with that account/cookies and complete the check. |
 | `TEMPORARY_FRAGMENT_CONNECTION_ERROR` | Temporary connection problem between the API server and Fragment.com | Submit a new request later. Do not reuse the old `request_id`. |
 | `TEMPORARY_FRAGMENT_FORM_NOT_READY` | Fragment page or form did not become ready in time | Submit a new request later. |
-| `TON_TRANSACTION_CONFIRMATION_UNCERTAIN` | Transaction signing/sending may be uncertain | Check the wallet/TON explorer before retrying; do not blindly duplicate purchases. |
+| `TON_TRANSACTION_CONFIRMATION_UNCERTAIN` | Transaction signing/sending may be uncertain | Check the wallet/TON explorer before retrying. |
 
-### Exceptions
+## Fragment Cookies for KYC Mode
 
-```python
-from fragment_api import FragmentAPIError, QueueTimeoutError
+KYC mode requires Fragment.com cookies and has **0% API commission permanently**.
 
-try:
-    result = client.buy_stars("@telegram_user", 50, seed="...")
-except QueueTimeoutError:
-    print("Request timed out")
-except FragmentAPIError as e:
-    print(f"Error [{e.error_code}]: {e.message}")
-```
+Required cookies:
 
-## How It Works
+- `stel_token`
+- `stel_ssid`
+- `stel_ton_token`
+- `stel_dt`
 
-1. **For Stars**, you call `buy_stars()` and the API adds the request to the queue
-2. **The SDK polls** `GET /api/v1/queue/:request_id` until the Stars purchase is completed or failed
-3. **For Premium**, you call `buy_premium()` and the API returns the final purchase result directly
-4. **Server opens** Fragment.com in headless browser
-5. **Server signs** TON transaction with your seed phrase
-6. **Stars/Premium delivered** to recipient's Telegram
+Read the full guide: [COOKIES_GUIDE.md](COOKIES_GUIDE.md). If you do not want to handle cookies, use no-KYC mode by omitting the `cookies` parameter.
 
-## Requirements
+## Vibe Coding / AI Agent Setup
 
-- Python 3.9+
-- TON wallet with sufficient balance for gas and TON purchases
-- For `payment_method="usdt_ton"`: USDT on TON balance, plus a small TON balance for gas and API commission
-- Wallet seed phrase (24 words, base64 encoded)
+If a client integrates with Codex, Claude, Cursor, or another AI coding agent, give the agent a ready-made skill file first. It prevents invented API tokens, frontend seed leaks, cookie leaks, and duplicate purchases from blind retries.
 
-### How to encode seed phrase
+- Codex: add [CODEX_SKILL.md](CODEX_SKILL.md) to the client project and reference it from `AGENTS.md`.
+- Claude: add [CLAUDE_SKILL.md](CLAUDE_SKILL.md) to the client project or copy it into `CLAUDE.md`.
+- AI-readable docs: [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt).
 
-```bash
-echo -n "word1 word2 word3 ... word24" | base64
-```
+## Need Help Integrating?
 
-### How to get Fragment cookies (for KYC mode)
+- Open an [Integration Help issue](https://github.com/bbbuilt/fragment-stars-api/issues/new?template=integration-help.yml).
+- Contact Telegram: [@makecodev](https://t.me/makecodev).
+- Show your implementation or ask for feedback in [Integration help / Show your shop](https://github.com/bbbuilt/fragment-stars-api/discussions/2).
 
-KYC mode requires your Fragment.com cookies and has **0% API commission permanently**.
+## Contributing
 
-> 📖 **[See detailed Cookie Guide](https://github.com/bbbuilt/fragment-stars-api/blob/main/COOKIES_GUIDE.md)** for step-by-step instructions with screenshots and troubleshooting.
-
-#### Quick Guide
-
-**Required cookies:**
-- `stel_token` - Session authentication token
-- `stel_ssid` - Session ID  
-- `stel_ton_token` - TON wallet connection token (**CRITICAL - required for purchases**)
-- `stel_dt` - Timezone offset
-
-**Steps:**
-
-1. **Login to Fragment**: Go to https://fragment.com and login via Telegram
-2. **Connect TON Wallet**: Click "Connect Wallet" and connect Tonkeeper/MyTonWallet
-3. **Open DevTools**: Press F12 → Application → Cookies → https://fragment.com
-4. **Copy cookie values**: Copy the Value field for each required cookie
-5. **Create JSON**:
-   ```json
-   {
-       "stel_token": "your_value",
-       "stel_ssid": "your_value",
-       "stel_ton_token": "your_value",
-       "stel_dt": "-180"
-   }
-   ```
-6. **Encode to base64**:
-   ```bash
-   cat cookies.json | base64 -w 0
-   ```
-7. **Use in code**:
-   ```python
-   result = client.buy_stars(
-       username="user",
-       amount=50,
-       seed="your_seed_base64",
-       cookies="your_cookies_base64"
-   )
-   ```
-
-> ⚠️ **Important**: The `stel_ton_token` cookie is **required** for purchases. Make sure your TON wallet is connected on fragment.com before extracting cookies!
-
-> 💡 **Tip**: KYC mode is free forever when you provide Fragment cookies. If you don't want to deal with cookies, use No-KYC mode (just omit the `cookies` parameter); it has a commission but no cookies are needed.
+Issues and integration feedback are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). Do not post wallet seeds, Fragment cookies, private keys, or production customer data in public issues.
 
 ## Author
 
-**Basebay** — Backend developer focused on automation, bots, and infrastructure tools.
+**Basebay** - backend developer focused on automation, bots, and infrastructure tools.
 
 - Telegram: [@makecodev](https://t.me/makecodev)
 - GitHub: [bbbuilt](https://github.com/bbbuilt)
 
-## Support
-
-- GitHub Issues: [fragment-stars-api/issues](https://github.com/bbbuilt/fragment-stars-api/issues)
-- Telegram: [@makecodev](https://t.me/makecodev)
-
 ## License
 
-MIT License - see [LICENSE](LICENSE) file.
+MIT License - see [LICENSE](LICENSE).

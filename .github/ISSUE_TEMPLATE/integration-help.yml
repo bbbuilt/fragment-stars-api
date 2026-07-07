@@ -1,0 +1,59 @@
+name: Integration help
+about: Get help integrating Fragment Stars API into a bot, shop, or backend
+labels: [integration-help]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for using Fragment Stars API. Do not paste wallet seeds, Fragment cookies, private keys, or customer data.
+  - type: input
+    id: stack
+    attributes:
+      label: Backend stack
+      description: Python, Node.js, PHP, Go, Laravel, aiogram, FastAPI, etc.
+      placeholder: Python + aiogram
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - KYC
+        - No-KYC
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: payment_method
+    attributes:
+      label: Payment method
+      options:
+        - TON
+        - USDT on TON
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: What are you building?
+      description: Describe the shop/bot flow and what should happen.
+      placeholder: User enters username and amount, my backend buys Stars, bot confirms delivery.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is blocking you?
+      description: Include safe logs, error_code, request_id, and sanitized request shape. No secrets.
+      render: text
+    validations:
+      required: false
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I did not include wallet seeds, Fragment cookies, private keys, or customer data.
+          required: true

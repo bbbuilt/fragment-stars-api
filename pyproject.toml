@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fragment-stars-api"
 version = "2.1.1"
-description = "Python SDK for Fragment API - Buy Telegram Stars and Premium"
+description = "Telegram Stars and Premium API SDK for Fragment.com - Python and REST, TON/USDT, KYC/no-KYC"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Basebay", email = "basebay@proton.me"}
 ]
-keywords = ["telegram", "stars", "premium", "fragment", "ton", "usdt", "api", "sdk"]
+keywords = ["telegram", "telegram-stars", "telegram-premium", "stars-api", "fragment", "fragment-api", "fragment-stars", "ton", "ton-blockchain", "usdt", "usdt-ton", "api", "api-client", "python-sdk", "telegram-bot"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -39,10 +39,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bbbuilt/fragment-stars-api"
-Documentation = "https://github.com/bbbuilt/fragment-stars-api#readme"
+Homepage = "https://api-fragment.duckdns.org"
+Documentation = "https://api-fragment.duckdns.org"
 Repository = "https://github.com/bbbuilt/fragment-stars-api"
 Issues = "https://github.com/bbbuilt/fragment-stars-api/issues"
+"Example Shop" = "https://github.com/bbbuilt/tg_stars_premium_shop"
 
 [tool.setuptools.packages.find]
 include = ["fragment_api*"]

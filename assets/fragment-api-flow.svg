@@ -1,0 +1,55 @@
+<svg width="1200" height="360" viewBox="0 0 1200 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Fragment Stars API purchase flow</title>
+  <desc id="desc">Client backend sends a request to Fragment Stars API, which signs TON or USDT transactions and delivers Telegram Stars or Premium.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07131F"/>
+      <stop offset="0.5" stop-color="#0E2639"/>
+      <stop offset="1" stop-color="#101721"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#14324A"/>
+      <stop offset="1" stop-color="#101C2B"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="360" rx="34" fill="url(#bg)"/>
+  <circle cx="1020" cy="-20" r="250" fill="#2DD4BF" opacity="0.11"/>
+  <circle cx="120" cy="330" r="230" fill="#38BDF8" opacity="0.12"/>
+  <text x="60" y="66" fill="#EAF6FF" font-family="Verdana, Geneva, sans-serif" font-size="32" font-weight="700">Telegram Stars API for Fragment.com</text>
+  <text x="60" y="101" fill="#9AC2D8" font-family="Verdana, Geneva, sans-serif" font-size="17">No API key · KYC 0% forever · TON + USDT on TON · Python SDK + REST</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="145" width="220" height="120" rx="22" fill="url(#card)" stroke="#294E68"/>
+    <text x="90" y="190" fill="#EAF6FF" font-family="Verdana, Geneva, sans-serif" font-size="20" font-weight="700">Your backend</text>
+    <text x="90" y="222" fill="#9AC2D8" font-family="Verdana, Geneva, sans-serif" font-size="14">bot, shop, API server</text>
+  </g>
+  <path d="M300 205H392" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M383 190L402 205L383 220" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g filter="url(#shadow)">
+    <rect x="422" y="132" width="270" height="146" rx="26" fill="#0E5A78" stroke="#47C7F4"/>
+    <text x="462" y="181" fill="#FFFFFF" font-family="Verdana, Geneva, sans-serif" font-size="22" font-weight="700">Fragment Stars API</text>
+    <text x="462" y="216" fill="#C8F4FF" font-family="Verdana, Geneva, sans-serif" font-size="14">queue · browser · signing</text>
+    <text x="462" y="241" fill="#C8F4FF" font-family="Verdana, Geneva, sans-serif" font-size="14">clear errors · status polling</text>
+  </g>
+  <path d="M712 205H804" stroke="#2DD4BF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M795 190L814 205L795 220" stroke="#2DD4BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g filter="url(#shadow)">
+    <rect x="834" y="145" width="146" height="120" rx="22" fill="url(#card)" stroke="#294E68"/>
+    <text x="872" y="190" fill="#EAF6FF" font-family="Verdana, Geneva, sans-serif" font-size="20" font-weight="700">TON</text>
+    <text x="866" y="222" fill="#9AC2D8" font-family="Verdana, Geneva, sans-serif" font-size="14">or USDT</text>
+  </g>
+  <path d="M1000 205H1070" stroke="#FACC15" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1061 190L1080 205L1061 220" stroke="#FACC15" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g filter="url(#shadow)">
+    <rect x="1100" y="145" width="40" height="120" rx="20" fill="#FACC15" opacity="0.95"/>
+    <circle cx="1120" cy="205" r="31" fill="#FFF4B8"/>
+    <path d="M1120 183L1126 198H1142L1129 208L1134 224L1120 214L1106 224L1111 208L1098 198H1114L1120 183Z" fill="#D97706"/>
+  </g>
+  <text x="1010" y="302" fill="#EAF6FF" font-family="Verdana, Geneva, sans-serif" font-size="18" font-weight="700">Stars / Premium delivered</text>
+</svg>

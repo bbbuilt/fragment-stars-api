@@ -1,0 +1,75 @@
+name: Bug report
+about: Report a reproducible SDK or API integration issue
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste wallet seeds, Fragment cookies, private keys, full localStorage, or customer data.
+  - type: input
+    id: package_version
+    attributes:
+      label: SDK version
+      placeholder: fragment-stars-api 2.1.1
+    validations:
+      required: false
+  - type: input
+    id: request_id
+    attributes:
+      label: API request_id
+      description: Safe to share if available.
+      placeholder: 00000000-0000-0000-0000-000000000000
+    validations:
+      required: false
+  - type: dropdown
+    id: purchase_type
+    attributes:
+      label: Purchase type
+      options:
+        - Stars
+        - Premium
+        - Prices/rates/status
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - KYC
+        - No-KYC
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: payment_method
+    attributes:
+      label: Payment method
+      options:
+        - TON
+        - USDT on TON
+        - Not applicable
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error message and sanitized logs
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I removed wallet seeds, Fragment cookies, private keys, and customer data.
+          required: true

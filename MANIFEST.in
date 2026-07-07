@@ -7,3 +7,6 @@ include COOKIES_GUIDE.ru.md
 include fragment_api/py.typed
 recursive-include fragment_api *.py
 recursive-include examples *
+recursive-include docs *.md
+recursive-include assets *.svg
+recursive-include scripts *.py
