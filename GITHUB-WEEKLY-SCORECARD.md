@@ -2,4 +2,24 @@
 
 Automated GitHub traffic snapshot for `bbbuilt/fragment-stars-api`.
 
-No traffic snapshots have been archived yet. The scheduled GitHub Action will update this file with views, clones, top referrers, popular paths, and conversion hypotheses.
+Last updated: `2026-07-08 06:09 UTC`
+
+## Last 7 Archived Snapshots
+
+- Stars: `9`
+- Views: `0` total / `0` unique
+- Clones: `0` total / `0` unique
+
+## Latest Top Referrers
+
+- No referrer data archived yet.
+
+## Latest Popular Paths
+
+- No path data archived yet.
+
+## Conversion Hypotheses to Review
+
+- If README views grow but clones/stars do not, improve first-screen CTA and examples.
+- If `docs/rest-api.md` gets traffic, add more non-Python examples.
+- If GitHub search/referrers are weak, tune topics, description, and README opening keywords.
