@@ -1,9 +1,19 @@
 # Fragment Stars API
 
+<div align="center">
+
+## THE CHEAPEST FRAGMENT API
+
+### KYC 0% · NO-KYC 0.25%
+
+**Public rates. No API key. Verify anytime with [`GET /api/v1/commission/rates`](https://fragment-api.ydns.eu:8443/api/v1/commission/rates).**
+
+</div>
+
 <p align="center">
   <strong>Telegram Stars API for Fragment.com</strong><br>
   Buy Telegram Stars and Premium from your backend with Python SDK or direct REST.<br>
-  No API key. KYC 0% forever. TON + USDT on TON.
+  No API key. KYC 0% forever. No-KYC only 0.25%. TON + USDT on TON.
 </p>
 
 <p align="center">
@@ -24,7 +34,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/fragment-api-hero.png" alt="Telegram Stars API for Fragment.com flow: backend request, Fragment Stars API processing, TON or USDT payment, Stars and Premium delivered" width="100%">
+  <img src="assets/fragment-api-hero.svg" alt="Lowest-cost Telegram Stars API for Fragment.com with KYC 0% and no-KYC 0.25%" width="100%">
 </p>
 
 ## What You Get
@@ -32,7 +42,7 @@
 <table>
   <tr>
     <td width="25%"><strong>No API key</strong><br>Client endpoints accept JSON directly. No issued token, JWT, OAuth, or <code>X-API-Key</code>.</td>
-    <td width="25%"><strong>KYC 0% forever</strong><br>KYC purchases have <code>0%</code> API commission. Verify anytime with <code>get_rates()</code>.</td>
+    <td width="25%"><strong>Lowest API fees</strong><br><code>0%</code> KYC forever and only <code>0.25%</code> without KYC. Verify with <code>get_rates()</code>.</td>
     <td width="25%"><strong>TON + USDT</strong><br>Use default <code>ton</code> or pass <code>usdt_ton</code> where supported.</td>
     <td width="25%"><strong>SDK + REST</strong><br>Python package plus raw HTTP examples for Node.js, PHP, Go, and any backend.</td>
   </tr>
@@ -120,7 +130,7 @@ Full guide: [docs/telegram-stars-shop.md](docs/telegram-stars-shop.md). Producti
 | Mode | Cookies required | API commission | Good for |
 |------|------------------|----------------|----------|
 | KYC | Yes, user's Fragment cookies | `0%` forever | Lowest cost, users comfortable with Fragment cookies |
-| No-KYC | No | Commission applies | Fast onboarding, shops that do not want user cookies |
+| No-KYC | No | `0.25%` | Fast onboarding, shops that do not want user cookies |
 
 KYC can use `ton` or `usdt_ton`. No-KYC Stars can use `ton` or `usdt_ton`; with USDT, Stars base price is paid in USDT on TON and API commission is paid in TON. More detail: [docs/no-kyc-vs-kyc.md](docs/no-kyc-vs-kyc.md).
 

@@ -125,10 +125,10 @@ class PremiumEligibilityResult:
 @dataclass
 class CommissionRatesResponse:
     """Commission rates response."""
-    rate_no_kyc: float           # Percentage (e.g., 5 for 5%)
-    rate_with_kyc: float         # Percentage (e.g., 1.5 for 1.5%)
-    rate_no_kyc_decimal: float   # Decimal (e.g., 0.05)
-    rate_with_kyc_decimal: float # Decimal (e.g., 0.015)
+    rate_no_kyc: float           # Percentage (0.25 for 0.25%)
+    rate_with_kyc: float         # Percentage (0 for 0%)
+    rate_no_kyc_decimal: float   # Decimal (0.0025 for 0.25%)
+    rate_with_kyc_decimal: float # Decimal (0 for 0%)
     updated_at: datetime
 
     @classmethod

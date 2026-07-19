@@ -1,7 +1,7 @@
 """
-Example: Buy Stars with KYC (lower commission)
+Example: Buy Stars with KYC (0% API commission)
 
-KYC mode uses user's Fragment cookies for lower commission rate.
+KYC mode uses the user's Fragment cookies and has 0% API commission.
 
 IMPORTANT: You need Fragment.com cookies to use KYC mode.
 See README.md section "How to get Fragment cookies" for detailed instructions.
@@ -46,12 +46,12 @@ SEED = "your_seed_base64_here"
 # 6. Encode to base64: cat cookies.json | base64 -w 0
 COOKIES = "user_cookies_base64_here"
 
-# Buy with KYC (lower commission)
+# Buy with KYC (0% API commission)
 result = client.buy_stars(
     username="telegram_username",
     amount=100,
     seed=SEED,
-    cookies=COOKIES  # This enables KYC mode with lower commission
+    cookies=COOKIES  # This enables KYC mode with 0% API commission
 )
 
 if result.success:

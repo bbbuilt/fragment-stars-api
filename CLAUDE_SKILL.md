@@ -11,6 +11,7 @@ Use these instructions when integrating Fragment Stars API into a Telegram shop,
 - Normal client API calls do **not** require issued API tokens, `X-API-Key`, JWT, OAuth, or `Authorization` headers.
 - Only `/admin` endpoints use `X-Admin-Key`; never request this for normal customer integrations.
 - KYC mode is permanently free: `0%` API commission when the client provides their own Fragment cookies.
+- Non-KYC mode has a `0.25%` API commission and does not require Fragment cookies.
 - If the user wants to verify current rates, call `GET /api/v1/commission/rates` or SDK `get_rates()`.
 - `payment_method` is optional and defaults to `ton`; supported values are `ton` and `usdt_ton`.
 - For Non-KYC Stars with `payment_method="usdt_ton"`, Stars base cost is paid in USDT on TON and API commission is paid in TON.
@@ -48,7 +49,7 @@ Non-KYC mode:
 
 - Do not send Fragment cookies.
 - API uses owner cookies.
-- Commission is configured server-side; read rates from `/api/v1/commission/rates`.
+- API commission is `0.25%`; read the live public value from `/api/v1/commission/rates`.
 
 Payment methods:
 

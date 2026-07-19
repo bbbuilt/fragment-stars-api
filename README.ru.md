@@ -1,9 +1,19 @@
 # Fragment Stars API
 
+<div align="center">
+
+## САМОЕ ДЕШЁВОЕ FRAGMENT API
+
+### KYC 0% · БЕЗ KYC 0,25%
+
+**Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://fragment-api.ydns.eu:8443/api/v1/commission/rates).**
+
+</div>
+
 <p align="center">
   <strong>Telegram Stars API для Fragment.com</strong><br>
   Покупайте Telegram Stars и Premium с backend через Python SDK или прямой REST.<br>
-  Без API ключа. KYC 0% навсегда. TON + USDT on TON.
+  Без API ключа. KYC 0% навсегда. Без KYC всего 0,25%. TON + USDT on TON.
 </p>
 
 <p align="center">
@@ -24,7 +34,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/fragment-api-hero.png" alt="Telegram Stars API для Fragment.com: backend request, обработка Fragment Stars API, TON или USDT платеж, доставка Stars и Premium" width="100%">
+  <img src="assets/fragment-api-hero.svg" alt="Самое дешёвое Telegram Stars API для Fragment.com: KYC 0%, без KYC 0,25%" width="100%">
 </p>
 
 ## Что вы получаете
@@ -32,7 +42,7 @@
 <table>
   <tr>
     <td width="25%"><strong>API ключ не нужен</strong><br>Клиентские endpoints принимают JSON напрямую. Не нужен token, JWT, OAuth или <code>X-API-Key</code>.</td>
-    <td width="25%"><strong>KYC 0% навсегда</strong><br>В KYC покупках комиссия API <code>0%</code>. Проверить можно через <code>get_rates()</code>.</td>
+    <td width="25%"><strong>Минимальная комиссия</strong><br>KYC <code>0%</code> навсегда, без KYC всего <code>0,25%</code>. Проверка через <code>get_rates()</code>.</td>
     <td width="25%"><strong>TON + USDT</strong><br>Используйте default <code>ton</code> или передавайте <code>usdt_ton</code>, где поддерживается.</td>
     <td width="25%"><strong>SDK + REST</strong><br>Python пакет и raw HTTP examples для Node.js, PHP, Go и любого backend.</td>
   </tr>
@@ -120,7 +130,7 @@ uvicorn examples.shop_minimal:app --host 0.0.0.0 --port 8000
 | Режим | Cookies нужны | Комиссия API | Когда использовать |
 |-------|---------------|--------------|--------------------|
 | KYC | Да, Fragment cookies пользователя | `0%` навсегда | Минимальная стоимость, пользователь готов передать Fragment cookies |
-| No-KYC | Нет | Есть комиссия | Быстрый старт, магазин не хочет работать с cookies пользователя |
+| No-KYC | Нет | `0,25%` | Быстрый старт, магазин не хочет работать с cookies пользователя |
 
 KYC принимает `ton` или `usdt_ton`. No-KYC Stars принимает `ton` или `usdt_ton`; при USDT базовая цена Stars оплачивается в USDT on TON, а комиссия API — в TON. Подробнее: [docs/no-kyc-vs-kyc.md](docs/no-kyc-vs-kyc.md).
 

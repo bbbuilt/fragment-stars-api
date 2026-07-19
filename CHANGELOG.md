@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.2] - 2026-07-19
+
+### Changed
+- KYC API commission remains permanently free at `0%`.
+- No-KYC API commission is reduced to `0.25%` for new purchases.
+- Updated SDK metadata, guides, AI integration skills, and examples with exact public rates.
+- Added prominent lowest-cost positioning and refreshed repository preview artwork.
+
 ## [2.1.1] - 2026-05-31
 
 ### Fixed

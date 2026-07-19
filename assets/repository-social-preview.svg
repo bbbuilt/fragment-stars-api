@@ -1,6 +1,6 @@
 <svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Fragment Stars API social preview</title>
-  <desc id="desc">Telegram Stars API with no API key, KYC zero percent, TON and USDT support.</desc>
+  <desc id="desc">Lowest-cost Telegram Stars API with KYC zero percent and no-KYC 0.25 percent.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="640" gradientUnits="userSpaceOnUse">
       <stop stop-color="#061522"/>
@@ -18,16 +18,16 @@
   <rect x="74" y="74" width="1132" height="492" rx="44" fill="#081E30" fill-opacity="0.72" stroke="#2C5974" stroke-width="2"/>
   <text x="126" y="170" fill="#C8F4FF" font-family="Verdana, Geneva, sans-serif" font-size="28" font-weight="700">bbbuilt/fragment-stars-api</text>
   <text x="126" y="282" fill="#FFFFFF" font-family="Verdana, Geneva, sans-serif" font-size="78" font-weight="800">Telegram Stars API</text>
-  <text x="126" y="352" fill="#D9F7FF" font-family="Verdana, Geneva, sans-serif" font-size="34">Buy Stars &amp; Premium via Fragment.com</text>
+  <text x="126" y="352" fill="#D9F7FF" font-family="Verdana, Geneva, sans-serif" font-size="34">The cheapest Fragment API · TON + USDT</text>
   <g font-family="Verdana, Geneva, sans-serif" font-size="28" font-weight="700">
-    <rect x="126" y="414" width="218" height="58" rx="29" fill="url(#accent)"/>
-    <text x="158" y="452" fill="#04131F">No API key</text>
-    <rect x="370" y="414" width="210" height="58" rx="29" fill="#113A55" stroke="#38BDF8"/>
-    <text x="402" y="452" fill="#EAF6FF">KYC 0%</text>
-    <rect x="606" y="414" width="274" height="58" rx="29" fill="#113A55" stroke="#2DD4BF"/>
-    <text x="638" y="452" fill="#EAF6FF">TON + USDT</text>
-    <rect x="906" y="414" width="220" height="58" rx="29" fill="#113A55" stroke="#FACC15"/>
-    <text x="938" y="452" fill="#EAF6FF">Python + REST</text>
+    <rect x="126" y="414" width="210" height="58" rx="29" fill="url(#accent)"/>
+    <text x="158" y="452" fill="#04131F">KYC 0%</text>
+    <rect x="360" y="414" width="292" height="58" rx="29" fill="#0A3A36" stroke="#2DD4BF"/>
+    <text x="392" y="452" fill="#EAF6FF">NO-KYC 0.25%</text>
+    <rect x="676" y="414" width="218" height="58" rx="29" fill="#113A55" stroke="#38BDF8"/>
+    <text x="708" y="452" fill="#EAF6FF">No API key</text>
+    <rect x="918" y="414" width="232" height="58" rx="29" fill="#113A55" stroke="#FACC15"/>
+    <text x="950" y="452" fill="#EAF6FF">Python + REST</text>
   </g>
   <path d="M1097 178L1115 225H1165L1125 255L1140 303L1097 274L1055 303L1070 255L1030 225H1079L1097 178Z" fill="#FACC15"/>
 </svg>

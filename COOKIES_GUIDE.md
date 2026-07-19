@@ -1,6 +1,6 @@
 # Fragment Cookies Guide
 
-This guide explains how to get Fragment.com cookies for KYC mode (lower commission rate).
+This guide explains how to get Fragment.com cookies for KYC mode (`0%` API commission).
 
 ## What are Fragment Cookies?
 
@@ -10,10 +10,10 @@ Fragment cookies are authentication tokens that prove you're logged into fragmen
 
 | Mode | Commission | Cookies Required | Prepayment |
 |------|-----------|------------------|------------|
-| **No KYC** | Higher (e.g., 10%) | ❌ No | ✅ Yes |
-| **KYC** | Lower (e.g., 5%) | ✅ Yes | ❌ No |
+| **No KYC** | **0.25%** | No | Yes |
+| **KYC** | **0% forever** | Yes | No |
 
-KYC mode offers lower commission rates because purchases are made through your verified Fragment account.
+KYC mode has no API commission because purchases are made through your verified Fragment account. No-KYC remains available for only `0.25%` without Fragment cookies.
 
 ## Required Cookies
 
@@ -291,7 +291,7 @@ cookies.json
 
 ### Q: What if I don't want to provide cookies?
 
-**A**: Use No-KYC mode instead. It has higher commission but doesn't require cookies:
+**A**: Use No-KYC mode instead. It costs `0.25%` and doesn't require cookies:
 
 ```python
 result = client.buy_stars(

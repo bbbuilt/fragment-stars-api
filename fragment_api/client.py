@@ -24,7 +24,7 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "2.1.1"
+__version__ = "2.1.2"
 
 
 class FragmentAPIClient:
@@ -38,7 +38,7 @@ class FragmentAPIClient:
         >>> # Buy stars (no KYC - uses owner cookies)
         >>> result = client.buy_stars("username", 50, seed="your_seed_base64")
         >>> 
-        >>> # Buy stars with KYC (lower commission)
+        >>> # Buy stars with KYC (0% API commission)
         >>> result = client.buy_stars("username", 50, seed="...", cookies="cookies_base64")
         >>> 
         >>> # Buy premium

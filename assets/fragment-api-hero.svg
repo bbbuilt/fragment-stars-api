@@ -1,0 +1,93 @@
+<svg width="1536" height="590" viewBox="0 0 1536 590" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Lowest-cost Telegram Stars API for Fragment.com</title>
+  <desc id="desc">KYC purchases have zero percent API commission and no-KYC purchases have a 0.25 percent API commission.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1536" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#03101C"/>
+      <stop offset="0.55" stop-color="#061A2C"/>
+      <stop offset="1" stop-color="#020A13"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#48D7E8"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#34D399"/>
+      <stop offset="1" stop-color="#14B8A6"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" stroke="#38BDF8" stroke-opacity="0.055"/>
+    </pattern>
+  </defs>
+  <rect width="1536" height="590" rx="24" fill="url(#bg)"/>
+  <rect width="1536" height="590" rx="24" fill="url(#grid)"/>
+  <circle cx="1340" cy="36" r="300" fill="#0EA5E9" opacity="0.08"/>
+  <circle cx="235" cy="640" r="340" fill="#14B8A6" opacity="0.08"/>
+
+  <g font-family="Verdana, Geneva, sans-serif">
+    <text x="68" y="92" fill="#FFFFFF" font-size="52" font-weight="800">Telegram Stars API</text>
+    <text x="68" y="148" fill="#B9D9EA" font-size="31">for <tspan fill="#38BDF8" font-weight="700">Fragment.com</tspan></text>
+
+    <rect x="68" y="181" width="228" height="48" rx="24" fill="#09283D" stroke="#22D3EE" stroke-opacity="0.55"/>
+    <text x="92" y="213" fill="#E9FAFF" font-size="19" font-weight="700">KYC 0% FOREVER</text>
+    <rect x="312" y="181" width="260" height="48" rx="24" fill="#0A2D2A" stroke="#34D399" stroke-opacity="0.6"/>
+    <text x="336" y="213" fill="#E9FFF8" font-size="19" font-weight="700">NO-KYC ONLY 0.25%</text>
+    <rect x="588" y="181" width="186" height="48" rx="24" fill="#121F39" stroke="#60A5FA" stroke-opacity="0.55"/>
+    <text x="612" y="213" fill="#EFF6FF" font-size="19" font-weight="700">NO API KEY</text>
+    <text x="68" y="267" fill="#65E6D1" font-size="22" font-weight="700" letter-spacing="1">THE CHEAPEST FRAGMENT API</text>
+
+    <g transform="translate(68 316)">
+      <rect width="300" height="198" rx="24" fill="#071B2D" stroke="#1E4662" stroke-width="2"/>
+      <circle cx="48" cy="46" r="22" fill="#0C3757"/>
+      <path d="M36 41H60V51H36V41ZM39 44V48H57V44H39Z" fill="#38BDF8"/>
+      <text x="32" y="96" fill="#FFFFFF" font-size="26" font-weight="700">Your backend</text>
+      <text x="32" y="132" fill="#90AEC3" font-size="18">bot · shop · API server</text>
+      <rect x="32" y="154" width="176" height="30" rx="15" fill="#0B3150"/>
+      <text x="52" y="175" fill="#38BDF8" font-size="14" font-weight="700">SEND ONE REQUEST</text>
+    </g>
+
+    <path d="M392 412H448M430 394L450 412L430 430" stroke="#38BDF8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+    <g transform="translate(474 296)">
+      <rect width="408" height="238" rx="28" fill="#082438" stroke="url(#cyan)" stroke-width="3"/>
+      <circle cx="58" cy="56" r="28" fill="url(#cyan)"/>
+      <path d="M58 38L63.5 49.2L76 51L67 59.8L69.1 72.2L58 66.3L46.9 72.2L49 59.8L40 51L52.5 49.2L58 38Z" fill="white"/>
+      <text x="104" y="64" fill="#FFFFFF" font-size="27" font-weight="700">Fragment Stars API</text>
+      <path d="M36 91H372" stroke="#1B5972" stroke-width="2"/>
+      <g fill="#D9F5FA" font-size="19">
+        <text x="70" y="128">queue and status polling</text>
+        <text x="70" y="161">TON / USDT-on-TON payments</text>
+        <text x="70" y="194">clear, actionable errors</text>
+      </g>
+      <g stroke="#2DD4BF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M42 120L48 126L58 114"/><path d="M42 153L48 159L58 147"/><path d="M42 186L48 192L58 180"/>
+      </g>
+      <rect x="36" y="208" width="336" height="18" rx="9" fill="#0C3D48"/>
+      <text x="109" y="222" fill="#5EEAD4" font-size="12" font-weight="700">WE HANDLE THE COMPLEXITY</text>
+    </g>
+
+    <path d="M906 412H962M944 394L964 412L944 430" stroke="#2DD4BF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+    <g transform="translate(988 316)">
+      <rect width="250" height="198" rx="24" fill="#081A31" stroke="#253C67" stroke-width="2"/>
+      <circle cx="48" cy="46" r="22" fill="#402397"/>
+      <path d="M36 38H60L48 60L36 38ZM40 42L48 56L56 42H40Z" fill="#C4B5FD"/>
+      <text x="32" y="98" fill="#FFFFFF" font-size="28" font-weight="700">TON</text>
+      <text x="32" y="130" fill="#8FA8C2" font-size="17">or USDT on TON</text>
+      <rect x="32" y="154" width="184" height="30" rx="15" fill="#22165A"/>
+      <text x="51" y="175" fill="#A78BFA" font-size="14" font-weight="700">PAYMENT PROCESSED</text>
+    </g>
+
+    <path d="M1262 412H1310M1294 394L1314 412L1294 430" stroke="#FACC15" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    <g transform="translate(1326 329)">
+      <circle cx="68" cy="67" r="52" stroke="#FDE68A" stroke-width="5"/>
+      <path d="M68 32L77 54L101 56L82 72L88 96L68 83L48 96L54 72L35 56L59 54L68 32Z" fill="#F59E0B"/>
+      <text x="68" y="151" text-anchor="middle" fill="#FFFFFF" font-size="17" font-weight="700">STARS / PREMIUM</text>
+      <text x="68" y="177" text-anchor="middle" fill="#92ABC0" font-size="15">delivered</text>
+    </g>
+  </g>
+</svg>

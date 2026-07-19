@@ -7,7 +7,7 @@ Fragment Stars API supports two integration modes. Existing clients stay compati
 | Mode | Requires Fragment cookies | API commission | Payment methods | Best for |
 |------|---------------------------|----------------|-----------------|----------|
 | KYC | Yes | `0%` forever | TON, USDT on TON where supported | Lowest cost, advanced users, own Fragment account |
-| No-KYC | No | Commission applies | TON, USDT on TON for Stars | Fast onboarding, shops that do not want user cookies |
+| No-KYC | No | `0.25%` | TON, USDT on TON for Stars | Fast onboarding, shops that do not want user cookies |
 
 ## KYC Mode
 
@@ -31,7 +31,7 @@ For Stars purchases:
 - `payment_method="ton"` uses TON for the Stars price and API commission.
 - `payment_method="usdt_ton"` uses USDT on TON for the Stars base price and TON for the API commission.
 
-No-KYC is convenient, but it has commission and requires enough wallet balance for the selected payment method plus TON gas.
+No-KYC uses a `0.25%` API commission and requires enough wallet balance for the selected payment method plus TON gas. The rate is public and can be verified through `GET /api/v1/commission/rates`.
 
 ## Safety Rule
 
