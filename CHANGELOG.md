@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.3] - 2026-07-20
+
+### Changed
+- Moved the default public API base URL to standard HTTPS on port `443`: `https://api-fragment.duckdns.org`.
+- `FragmentAPIClient()` now uses the public production endpoint automatically; passing a custom `base_url` remains supported.
+- Updated REST, SDK, AI-agent, and multi-language examples to use the universally accessible endpoint.
+- The legacy `https://fragment-api.ydns.eu:8443` endpoint remains available for backward compatibility.
+
 ## [2.1.2] - 2026-07-19
 
 ### Changed

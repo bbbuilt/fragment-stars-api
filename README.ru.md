@@ -6,7 +6,7 @@
 
 ### KYC 0% · БЕЗ KYC 0,25%
 
-**Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://fragment-api.ydns.eu:8443/api/v1/commission/rates).**
+**Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://api-fragment.duckdns.org/api/v1/commission/rates).**
 
 </div>
 
@@ -62,12 +62,14 @@
 ## Production Endpoint
 
 ```text
-https://fragment-api.ydns.eu:8443
+https://api-fragment.duckdns.org
 ```
 
 ```bash
-curl https://fragment-api.ydns.eu:8443/health
+curl https://api-fragment.duckdns.org/health
 ```
+
+Адрес работает через стандартный HTTPS-порт `443`, включая сети, которые блокируют нестандартные порты. Старые интеграции с endpoint на `:8443` продолжают работать.
 
 Клиентские endpoints **не требуют** `Authorization`, `X-API-Key`, JWT, OAuth или выданных API токенов. API учитывает комиссию по TON кошельку, который получается из переданного seed. Внутренние admin endpoints отдельные и клиентским интеграциям не нужны.
 
@@ -80,7 +82,7 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
+client = FragmentAPIClient()  # Использует https://api-fragment.duckdns.org
 
 result = client.buy_stars(
     username="@telegram_user",
@@ -95,6 +97,8 @@ if result.success:
 else:
     print(result.error)
 ```
+
+Для self-hosted или legacy endpoint передайте адрес явно: `FragmentAPIClient(base_url)`.
 
 ## Telegram Stars магазин за 10 минут
 

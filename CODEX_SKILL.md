@@ -10,7 +10,7 @@ Use this skill when the user asks to integrate Fragment Stars API, add Telegram 
 ## Canonical Facts
 
 - Documentation site: https://api-fragment.duckdns.org
-- Production API endpoint: `https://fragment-api.ydns.eu:8443`
+- Production API endpoint: `https://api-fragment.duckdns.org`
 - Example shop repository: https://github.com/bbbuilt/tg_stars_premium_shop
 - Python package: `fragment-stars-api`
 - Client API does **not** require issued API tokens or `X-API-Key`.
@@ -32,7 +32,7 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
+client = FragmentAPIClient()
 rates = client.get_rates()
 ```
 
@@ -74,7 +74,7 @@ Payment methods:
 Buy Stars:
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -88,7 +88,7 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
 Buy Premium:
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -102,7 +102,7 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
 Check rates:
 
 ```bash
-curl https://fragment-api.ydns.eu:8443/api/v1/commission/rates
+curl https://api-fragment.duckdns.org/api/v1/commission/rates
 ```
 
 ## Queue Handling
@@ -110,7 +110,7 @@ curl https://fragment-api.ydns.eu:8443/api/v1/commission/rates
 Stars purchases are queued. If `POST /api/v1/stars/buy` returns `202` with `request_id`, poll:
 
 ```bash
-GET https://fragment-api.ydns.eu:8443/api/v1/queue/{request_id}
+GET https://api-fragment.duckdns.org/api/v1/queue/{request_id}
 ```
 
 Premium usually returns the final result directly, but handle API errors consistently.
@@ -128,7 +128,7 @@ Instead, check queue status, transaction history, wallet activity, or ask for ma
 
 ## Implementation Checklist
 
-1. Store endpoint in config: `FRAGMENT_API_URL=https://fragment-api.ydns.eu:8443`.
+1. Store endpoint in config: `FRAGMENT_API_URL=https://api-fragment.duckdns.org`.
 2. Keep secrets server-side only.
 3. Add a purchase service wrapper with clear methods: `buy_stars`, `buy_premium`, `get_rates`, `get_queue_status`.
 4. Normalize Telegram usernames: accept with or without `@`, but send a valid username according to the API/SDK you use.

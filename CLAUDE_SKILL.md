@@ -5,7 +5,7 @@ Use these instructions when integrating Fragment Stars API into a Telegram shop,
 ## Ground Truth
 
 - Docs: https://api-fragment.duckdns.org
-- Production API endpoint: `https://fragment-api.ydns.eu:8443`
+- Production API endpoint: `https://api-fragment.duckdns.org`
 - Example shop: https://github.com/bbbuilt/tg_stars_premium_shop
 - Python SDK: `pip install fragment-stars-api`
 - Normal client API calls do **not** require issued API tokens, `X-API-Key`, JWT, OAuth, or `Authorization` headers.
@@ -23,7 +23,7 @@ Prefer Python SDK for Python projects:
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://fragment-api.ydns.eu:8443")
+client = FragmentAPIClient()
 rates = client.get_rates()
 ```
 
@@ -64,7 +64,7 @@ Payment methods:
 Buy Stars:
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -78,7 +78,7 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
 Buy Premium:
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -92,7 +92,7 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
 Check rates:
 
 ```bash
-curl https://fragment-api.ydns.eu:8443/api/v1/commission/rates
+curl https://api-fragment.duckdns.org/api/v1/commission/rates
 ```
 
 ## Queue and Status
@@ -100,7 +100,7 @@ curl https://fragment-api.ydns.eu:8443/api/v1/commission/rates
 Stars purchases are queued. After a `202` response with `request_id`, poll:
 
 ```text
-GET https://fragment-api.ydns.eu:8443/api/v1/queue/{request_id}
+GET https://api-fragment.duckdns.org/api/v1/queue/{request_id}
 ```
 
 Stop polling on `completed`, `failed`, or timeout. Premium usually returns the final result directly.
@@ -119,7 +119,7 @@ Instead, check queue status, wallet transactions, saved shop order state, or ask
 
 ## Build Checklist
 
-1. Add config: `FRAGMENT_API_URL=https://fragment-api.ydns.eu:8443`.
+1. Add config: `FRAGMENT_API_URL=https://api-fragment.duckdns.org`.
 2. Implement a backend-only API wrapper: buy stars, buy premium, get rates, poll queue.
 3. Add shop-level idempotency: one paid customer order must map to one Fragment purchase attempt.
 4. Store secrets in environment variables or encrypted storage, never in git.

@@ -11,7 +11,7 @@ Rules:
 
 from fragment_api import FragmentAPIClient
 
-API_URL = "https://fragment-api.ydns.eu:8443"
+API_URL = "https://api-fragment.duckdns.org"
 client = FragmentAPIClient(API_URL)
 
 SEED = "your_wallet_seed_base64"

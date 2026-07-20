@@ -10,7 +10,7 @@
  * No API key is required. Keep wallet seeds and Fragment cookies backend-only.
  */
 
-$apiUrl = getenv('FRAGMENT_API_BASE_URL') ?: 'https://fragment-api.ydns.eu:8443';
+$apiUrl = getenv('FRAGMENT_API_BASE_URL') ?: 'https://api-fragment.duckdns.org';
 
 function require_env(string $name): string {
     $value = getenv($name);

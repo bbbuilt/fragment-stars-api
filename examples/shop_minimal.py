@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field
 
 from fragment_api import FragmentAPIClient, FragmentAPIError
 
-API_URL = os.getenv("FRAGMENT_API_BASE_URL", "https://fragment-api.ydns.eu:8443")
+API_URL = os.getenv("FRAGMENT_API_BASE_URL", "https://api-fragment.duckdns.org")
 WALLET_SEED = os.getenv("FRAGMENT_WALLET_SEED")
 FRAGMENT_COOKIES = os.getenv("FRAGMENT_COOKIES")
 

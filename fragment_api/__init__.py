@@ -4,7 +4,7 @@ Fragment API Python SDK
 Purchase Telegram Stars and Premium via Fragment API.
 """
 
-from .client import FragmentAPIClient, __version__
+from .client import DEFAULT_API_URL, FragmentAPIClient, __version__
 from .models import (
     BuyStarsResponse,
     PurchaseResult,
@@ -21,6 +21,7 @@ from .exceptions import (
 
 __all__ = [
     # Client
+    "DEFAULT_API_URL",
     "FragmentAPIClient",
     "__version__",
     # Models

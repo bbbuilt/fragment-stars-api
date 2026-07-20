@@ -24,7 +24,9 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "2.1.2"
+__version__ = "2.1.3"
+
+DEFAULT_API_URL = "https://api-fragment.duckdns.org"
 
 
 class FragmentAPIClient:
@@ -33,7 +35,7 @@ class FragmentAPIClient:
     
     Example:
         >>> from fragment_api import FragmentAPIClient
-        >>> client = FragmentAPIClient("https://your-server.com:8443")
+        >>> client = FragmentAPIClient()
         >>> 
         >>> # Buy stars (no KYC - uses owner cookies)
         >>> result = client.buy_stars("username", 50, seed="your_seed_base64")
@@ -47,7 +49,7 @@ class FragmentAPIClient:
     
     def __init__(
         self,
-        base_url: str,
+        base_url: str = DEFAULT_API_URL,
         timeout: float = 30.0,
         poll_timeout: float = 300.0,
     ):
@@ -55,12 +57,12 @@ class FragmentAPIClient:
         Initialize client.
         
         Args:
-            base_url: API server URL (required)
+            base_url: API server URL. Uses the public production endpoint by default.
             timeout: Request timeout in seconds
             poll_timeout: Max time to wait for queue result
         """
         if not base_url:
-            raise ValueError("base_url is required")
+            base_url = DEFAULT_API_URL
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.poll_timeout = poll_timeout

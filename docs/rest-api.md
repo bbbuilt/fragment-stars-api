@@ -5,13 +5,13 @@ Use direct REST if your backend is not Python or you do not want to use the SDK.
 Base URL:
 
 ```text
-https://fragment-api.ydns.eu:8443
+https://api-fragment.duckdns.org
 ```
 
 ## Buy Stars
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
   -H 'Content-Type: application/json' \
   -d '{
     "username": "@telegram_user",
@@ -24,7 +24,7 @@ curl -X POST https://fragment-api.ydns.eu:8443/api/v1/stars/buy \
 The response contains `data.request_id`. Poll it until completed or failed:
 
 ```bash
-curl https://fragment-api.ydns.eu:8443/api/v1/queue/REQUEST_ID
+curl https://api-fragment.duckdns.org/api/v1/queue/REQUEST_ID
 ```
 
 ## Buy Stars with KYC
@@ -55,7 +55,7 @@ Add `fragment_cookies` to use KYC mode. KYC API commission is `0%`.
 ## Buy Premium
 
 ```bash
-curl -X POST https://fragment-api.ydns.eu:8443/api/v1/premium/buy \
+curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
   -H 'Content-Type: application/json' \
   -d '{
     "username": "@telegram_user",

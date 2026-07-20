@@ -6,7 +6,7 @@ This shows the exact JSON body for all common Stars modes.
 
 import requests
 
-API_URL = "https://fragment-api.ydns.eu:8443"
+API_URL = "https://api-fragment.duckdns.org"
 SEED = "your_wallet_seed_base64"
 COOKIES = "your_fragment_cookies_base64"
 
