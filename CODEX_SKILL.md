@@ -107,6 +107,8 @@ curl https://api-fragment.duckdns.org/api/v1/commission/rates
 
 ## Queue Handling
 
+Stars `amount` must be at least `50`. Reject smaller shop orders locally before calling the API.
+
 Stars purchases are queued. If `POST /api/v1/stars/buy` returns `202` with `request_id`, poll:
 
 ```bash
@@ -142,6 +144,8 @@ Instead, check queue status, transaction history, wallet activity, or ask for ma
 - `USER_NOT_FOUND`: username not found by Fragment/Telegram. Ask user to verify username.
 - `INVALID_SEED`: seed is missing, not base64, or not a supported wallet seed format.
 - `INVALID_COOKIES`: Fragment cookies/localStorage are malformed or expired.
+- `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE`: session payload is not Base64-encoded JSON; fix it locally and do not retry unchanged.
+- `API_BUSY`: one Premium browser purchase is active; respect `Retry-After` and never create an automatic retry loop.
 - `INSUFFICIENT_BALANCE`: wallet lacks TON for purchase plus gas.
 - `RATE_LIMIT_EXCEEDED`: slow down requests; API rate limits by client/IP.
 - `FRAGMENT_ERROR` or 5xx: external Fragment/TON provider issue; do not retry after possible transaction send.

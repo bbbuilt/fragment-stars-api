@@ -24,7 +24,7 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "2.1.3"
+__version__ = "2.1.4"
 
 DEFAULT_API_URL = "https://api-fragment.duckdns.org"
 
@@ -109,7 +109,7 @@ class FragmentAPIClient:
         
         Args:
             username: Telegram username
-            amount: Number of stars
+            amount: Number of stars (minimum 50)
             seed: Wallet seed (base64)
             cookies: Fragment cookies (base64) - optional, for KYC mode
             local_storage: Fragment localStorage (base64 or dict) - optional
@@ -119,6 +119,9 @@ class FragmentAPIClient:
         Returns:
             PurchaseResult if wait=True, else BuyStarsResponse
         """
+        if isinstance(amount, bool) or not isinstance(amount, int) or amount < 50:
+            raise ValueError("Stars amount must be an integer of at least 50")
+
         data: dict[str, Any] = {
             "username": username,
             "amount": amount,
@@ -318,6 +321,7 @@ class FragmentAPIClient:
     def _normalize_cookies(self, cookies: Union[str, list, dict]) -> str:
         """Convert cookies to base64 string."""
         if isinstance(cookies, str):
+            self._validate_base64_json(cookies, "cookies", allow_list=True)
             return cookies
         
         if isinstance(cookies, dict):
@@ -326,13 +330,29 @@ class FragmentAPIClient:
                 for k, v in cookies.items()
             ]
         
-        return self._normalize_json_blob(cookies)
+        return base64.b64encode(json.dumps(cookies).encode()).decode()
 
     def _normalize_json_blob(self, value: Union[str, list, dict]) -> str:
         """Return base64 JSON for dict/list values, or pass through strings."""
         if isinstance(value, str):
+            self._validate_base64_json(value, "local_storage", allow_list=False)
             return value
+        if not isinstance(value, dict):
+            raise ValueError("local_storage must be a JSON object")
         return base64.b64encode(json.dumps(value).encode()).decode()
+
+    @staticmethod
+    def _validate_base64_json(value: str, field: str, allow_list: bool) -> None:
+        try:
+            decoded = base64.b64decode(value, validate=True).decode("utf-8")
+            parsed = json.loads(decoded)
+        except (ValueError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"{field} must be Base64-encoded JSON") from exc
+
+        valid = isinstance(parsed, dict) or (allow_list and isinstance(parsed, list))
+        if not valid:
+            expected = "JSON object or array" if allow_list else "JSON object"
+            raise ValueError(f"{field} must be Base64-encoded {expected}")
     
     def close(self):
         """Close session."""

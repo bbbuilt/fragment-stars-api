@@ -10,6 +10,8 @@ https://api-fragment.duckdns.org
 
 ## Buy Stars
 
+`amount` must be an integer from `50` to `1,000,000`. Smaller requests are rejected before payment.
+
 ```bash
 curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
   -H 'Content-Type: application/json' \
@@ -30,6 +32,7 @@ curl https://api-fragment.duckdns.org/api/v1/queue/REQUEST_ID
 ## Buy Stars with KYC
 
 Add `fragment_cookies` to use KYC mode. KYC API commission is `0%`.
+Cookies must be a Base64-encoded JSON object or cookie array. `fragment_local_storage`, when supplied, must be a Base64-encoded JSON object.
 
 ```json
 {

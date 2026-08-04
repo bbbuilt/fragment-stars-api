@@ -80,6 +80,8 @@ class InvalidResponseError(FragmentAPIError):
 ERROR_CODE_MAP = {
     "VALIDATION_ERROR": ValidationError,
     "INVALID_USERNAME_FORMAT": ValidationError,
+    "INVALID_FRAGMENT_COOKIES": ValidationError,
+    "INVALID_FRAGMENT_LOCAL_STORAGE": ValidationError,
     "UNAUTHORIZED": AuthenticationError,
     "INVALID_API_KEY": AuthenticationError,
     "INVALID_SEED": AuthenticationError,
@@ -88,6 +90,7 @@ ERROR_CODE_MAP = {
     "USER_NOT_FOUND": UserNotFoundError,
     "QUEUE_TIMEOUT": QueueTimeoutError,
     "RATE_LIMIT_EXCEEDED": RateLimitError,
+    "API_BUSY": RateLimitError,
     "FRAGMENT_ERROR": FragmentServiceError,
     "INVALID_RESPONSE": InvalidResponseError,
     "USER_HAS_PREMIUM": FragmentAPIError,

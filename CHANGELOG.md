@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.4] - 2026-08-05
+
+### Changed
+- Enforced Fragment's minimum purchase of 50 Stars locally before any API request.
+- Validated Base64 cookie and localStorage values as JSON before sending them.
+- Documented the new actionable session validation errors and `API_BUSY` response.
+
+### Fixed
+- Invalid session exports no longer consume API queue/browser resources.
+- Concurrent Premium attempts are rejected safely instead of spawning multiple browser purchases.
+
 ## [2.1.3] - 2026-07-20
 
 ### Changed

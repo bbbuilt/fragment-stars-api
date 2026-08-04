@@ -34,7 +34,9 @@ Queue status can also include `data.error` and `data.error_details`.
 
 | Error | Cause | Client action |
 |-------|-------|---------------|
-| `VALIDATION_ERROR` | Bad JSON, username format, amount, or payment method | Fix request body. Use `@telegram_user`. |
+| `VALIDATION_ERROR` | Bad JSON, username format, amount below 50, or payment method | Fix request body. Use `@telegram_user` and at least 50 Stars. |
+| `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Base64 value does not decode to the required JSON container | Export session JSON again and Base64-encode the complete value. |
+| `API_BUSY` | A Premium browser purchase is already active | Wait at least the `Retry-After` interval and submit manually; do not loop automatically. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed is missing, malformed, or not base64 encoded | Re-encode the 24-word wallet seed on backend. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Not enough TON, USDT on TON, or gas | Top up wallet and create a new request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment did not find recipient | Check username and create a new request. |
@@ -46,6 +48,8 @@ Queue status can also include `data.error` and `data.error_details`.
 ## Do Not Retry Blindly
 
 If a transaction may have been signed or sent, check the wallet first. A blind retry can duplicate a Stars or Premium purchase.
+
+Requests below 50 Stars are rejected before wallet initialization, invoice creation, or browser work. Do not round a customer order down below 50.
 
 ## What to Include in Support Requests
 

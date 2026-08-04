@@ -10,7 +10,7 @@ body:
     id: package_version
     attributes:
       label: SDK version
-      placeholder: fragment-stars-api 2.1.1
+      placeholder: fragment-stars-api 2.1.4
     validations:
       required: false
   - type: input
