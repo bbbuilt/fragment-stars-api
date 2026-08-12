@@ -25,7 +25,8 @@ print(buy_stars({
     "payment_method": "ton",
 }))
 
-# Non-KYC + USDT-on-TON: Stars base price in USDT-on-TON, API commission in TON.
+# Non-KYC + USDT-on-TON: Stars base price in USDT-on-TON. API commission
+# accumulates in TON and is collected only when the balance reaches 1 TON.
 print(buy_stars({
     "username": "@telegram_username",
     "amount": 100,

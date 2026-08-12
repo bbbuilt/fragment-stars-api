@@ -15,6 +15,8 @@ Use these instructions when integrating Fragment Stars API into a Telegram shop,
 - If the user wants to verify current rates, call `GET /api/v1/commission/rates` or SDK `get_rates()`.
 - `payment_method` is optional and defaults to `ton`; supported values are `ton` and `usdt_ton`.
 - For Non-KYC Stars with `payment_method="usdt_ton"`, Stars base cost is paid in USDT on TON and API commission is paid in TON.
+- Non-KYC commission is accumulated per wallet and collected at `1 TON`; client code must not create its own commission transfer. TON orders fold collection into the main prepayment, while USDT-on-TON Stars uses one TON collection only at the threshold.
+- Read `commission_balance_ton` from purchase responses when displaying the accumulated balance.
 
 ## Integration Approach
 

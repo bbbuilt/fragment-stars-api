@@ -39,6 +39,8 @@ Queue status can also include `data.error` and `data.error_details`.
 | `API_BUSY` | A Premium browser purchase is already active | Wait at least the `Retry-After` interval and submit manually; do not loop automatically. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed is missing, malformed, or not base64 encoded | Re-encode the 24-word wallet seed on backend. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Not enough TON, USDT on TON, or gas | Top up wallet and create a new request. |
+| `COMMISSION_DEBT_PAYMENT_REQUIRED` | No-KYC commission reached the collection threshold, but the wallet cannot pay the accumulated balance and gas | Top up TON in the same wallet, then create a new request. |
+| `COMMISSION_COLLECTION_PENDING` | A previous no-KYC commission collection has a pending or uncertain blockchain status | Check the wallet or TON explorer and contact support with the `request_id`; do not submit another purchase blindly. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment did not find recipient | Check username and create a new request. |
 | `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment wants account verification | Open Fragment manually and complete verification. |
 | `TEMPORARY_FRAGMENT_CONNECTION_ERROR` | Temporary issue between API server and Fragment.com | Submit a new request later. Do not reuse old `request_id`. |

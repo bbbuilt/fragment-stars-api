@@ -138,6 +138,8 @@ Full guide: [docs/telegram-stars-shop.md](docs/telegram-stars-shop.md). Producti
 
 KYC can use `ton` or `usdt_ton`. No-KYC Stars can use `ton` or `usdt_ton`; with USDT, Stars base price is paid in USDT on TON and API commission is paid in TON. More detail: [docs/no-kyc-vs-kyc.md](docs/no-kyc-vs-kyc.md).
 
+No-KYC commission is accumulated per TON wallet instead of creating a small commission transfer for every order. Collection starts when the accumulated balance reaches `1 TON`: TON purchases include the full accumulated commission in the main prepayment, while USDT-on-TON Stars purchases use one separate TON collection at the threshold. The latest balance is returned as `commission_balance_ton`.
+
 ## Python SDK vs Direct REST
 
 | Option | Best for | Example |

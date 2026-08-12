@@ -35,7 +35,8 @@ no_kyc_ton = client.buy_stars(
 print("Non-KYC TON:", no_kyc_ton.success, no_kyc_ton.transaction_id)
 
 # 2. Non-KYC + USDT-on-TON: no cookies.
-# The Stars base price is paid in USDT-on-TON; API commission is paid in TON.
+# The Stars base price is paid in USDT-on-TON. API commission accumulates in TON
+# and is collected only when the wallet's commission balance reaches 1 TON.
 no_kyc_usdt = client.buy_stars(
     username=USERNAME,
     amount=AMOUNT,
