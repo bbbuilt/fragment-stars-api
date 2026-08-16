@@ -37,6 +37,7 @@ Queue status can also include `data.error` and `data.error_details`.
 | `VALIDATION_ERROR` | Bad JSON, username format, amount below 50, or payment method | Fix request body. Use `@telegram_user` and at least 50 Stars. |
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Base64 value does not decode to the required JSON container | Export session JSON again and Base64-encode the complete value. |
 | `API_BUSY` | A Premium browser purchase is already active | Wait at least the `Retry-After` interval and submit manually; do not loop automatically. |
+| `RATE_LIMIT_EXCEEDED` | A wallet exceeded the limit of 300 no-KYC payment invoices per hour | Wait for the `Retry-After` interval before submitting a new request; do not loop automatically. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed is missing, malformed, or not base64 encoded | Re-encode the 24-word wallet seed on backend. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Not enough TON, USDT on TON, or gas | Top up wallet and create a new request. |
 | `COMMISSION_DEBT_PAYMENT_REQUIRED` | No-KYC commission reached the collection threshold, but the wallet cannot pay the accumulated balance and gas | Top up TON in the same wallet, then create a new request. |

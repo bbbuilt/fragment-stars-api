@@ -4,9 +4,8 @@ Example: Check commission rates
 
 from fragment_api import FragmentAPIClient
 
-# Initialize client with your API server
-API_URL = "https://your-api-server.com:8443"
-client = FragmentAPIClient(API_URL)
+# Uses the public production endpoint by default.
+client = FragmentAPIClient()
 
 rates = client.get_rates()
 

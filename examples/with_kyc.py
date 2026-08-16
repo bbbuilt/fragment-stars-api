@@ -15,7 +15,7 @@ Required cookies:
 Cookie format (JSON):
 {
     "stel_token": "your_value_here",
-    "stel_ssid": "your_value_here", 
+    "stel_ssid": "your_value_here",
     "stel_ton_token": "your_value_here",
     "stel_dt": "-180"
 }
@@ -26,9 +26,8 @@ Then encode to base64:
 
 from fragment_api import FragmentAPIClient
 
-# Initialize client with your API server
-API_URL = "https://your-api-server.com:8443"
-client = FragmentAPIClient(API_URL)
+# Uses the public production endpoint by default.
+client = FragmentAPIClient()
 
 # Your wallet seed phrase (base64 encoded)
 # echo -n "word1 word2 ... word24" | base64
@@ -36,7 +35,7 @@ SEED = "your_seed_base64_here"
 
 # User's Fragment cookies (base64 encoded)
 # IMPORTANT: These must be from a Fragment account with connected TON wallet
-# 
+#
 # How to get cookies:
 # 1. Login to fragment.com in Chrome
 # 2. Connect your TON wallet (Tonkeeper/MyTonWallet)
@@ -48,14 +47,14 @@ COOKIES = "user_cookies_base64_here"
 
 # Buy with KYC (0% API commission)
 result = client.buy_stars(
-    username="telegram_username",
+    username="@telegram_username",
     amount=100,
     seed=SEED,
     cookies=COOKIES  # This enables KYC mode with 0% API commission
 )
 
 if result.success:
-    print(f"✅ Success with KYC!")
+    print("✅ Success with KYC!")
     print(f"   Mode: {result.mode}")  # 'kyc'
     print(f"   Commission rate: {result.commission_rate * 100}%")
     print(f"   Cost: {result.cost_ton} TON")

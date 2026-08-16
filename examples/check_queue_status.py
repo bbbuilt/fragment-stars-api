@@ -6,8 +6,8 @@ Monitor the current queue length.
 
 from fragment_api import FragmentAPIClient
 
-# Initialize client
-client = FragmentAPIClient("https://your-server.com:8443")
+# Uses the public production endpoint by default.
+client = FragmentAPIClient()
 
 # Get queue status
 status = client.get_queue_status()

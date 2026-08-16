@@ -6,14 +6,14 @@ Check if a user is eligible for Telegram Premium purchase.
 
 from fragment_api import FragmentAPIClient
 
-# Initialize client
-client = FragmentAPIClient("https://your-server.com:8443")
+# Uses the public production endpoint by default.
+client = FragmentAPIClient()
 
 # Check eligibility
-username = "example_user"
+username = "@example_user"
 result = client.check_premium_eligibility(username)
 
-print(f"Premium Eligibility for @{username}:")
+print(f"Premium Eligibility for {username}:")
 print(f"  Eligible: {result['eligible']}")
 
 if not result['eligible']:

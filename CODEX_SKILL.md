@@ -148,7 +148,7 @@ Instead, check queue status, transaction history, wallet activity, or ask for ma
 - `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE`: session payload is not Base64-encoded JSON; fix it locally and do not retry unchanged.
 - `API_BUSY`: one Premium browser purchase is active; respect `Retry-After` and never create an automatic retry loop.
 - `INSUFFICIENT_BALANCE`: wallet lacks TON for purchase plus gas.
-- `RATE_LIMIT_EXCEEDED`: slow down requests; API rate limits by client/IP.
+- `RATE_LIMIT_EXCEEDED`: stop retries and honor `Retry-After`; no-KYC payment invoices are limited to 300 per wallet per hour.
 - `FRAGMENT_ERROR` or 5xx: external Fragment/TON provider issue; do not retry after possible transaction send.
 
 ## What Not To Do

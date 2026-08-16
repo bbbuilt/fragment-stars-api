@@ -148,13 +148,13 @@ print(encoded)
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient("https://your-api-server.com:8443")
+client = FragmentAPIClient()
 
 # Ваши закодированные в base64 куки из Шага 7
 COOKIES = "eyJzdGVsX3Rva2VuIjoiMTIzNDU2Nzg5MGFiY2RlZiIsInN0ZWxfc3NpZCI6ImFiY2RlZjEyMzQ1Njc4OTAiLCJzdGVsX3Rvbl90b2tlbiI6InRvbmNvbm5lY3RfeHl6MTIzIiwic3RlbF9kdCI6Ii0xODAifQ=="
 
 result = client.buy_stars(
-    username="telegram_user",
+    username="@telegram_user",
     amount=100,
     seed="your_seed_base64",
     cookies=COOKIES  # ← Ваши закодированные куки здесь
@@ -295,7 +295,7 @@ cookies.json
 
 ```python
 result = client.buy_stars(
-    username="user",
+    username="@telegram_user",
     amount=100,
     seed="your_seed_base64"
     # Нет параметра cookies = режим No-KYC

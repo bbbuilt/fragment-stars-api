@@ -202,9 +202,10 @@ FragmentAPIClient(
 | Искать API token | Для клиентских endpoints токены не нужны. Отправляйте JSON на production endpoint. |
 | Отправлять seed из frontend | Seed и cookies должны быть только на backend. Никогда не показывайте их браузеру или mobile app. |
 | Слепо повторять после uncertain transaction | Сначала проверьте кошелёк/TON explorer. Слепой retry может сделать дубль покупки. |
-| Передавать username без `@` в прямом REST | Используйте формат `@telegram_user`, если SDK не нормализует username. |
+| Передавать username без `@` | Используйте `@telegram_user` и в Python SDK, и в direct REST. |
 | Запрашивать меньше 50 Stars | Минимум Fragment — 50. SDK отклонит меньшее количество до запроса или оплаты. |
 | Использовать KYC без `stel_ton_token` | Сначала подключите кошелёк на Fragment, потом экспортируйте cookies. |
+| Превышать лимит no-KYC invoices | Один кошелёк может создать до `300` no-KYC платёжных invoices в час. При `RATE_LIMIT_EXCEEDED` ждите время из `Retry-After`; не запускайте автоматический цикл повторов. |
 
 Полный troubleshooting: [docs/errors.md](docs/errors.md).
 
@@ -215,6 +216,7 @@ FragmentAPIClient(
 | `VALIDATION_ERROR` | Неверное тело запроса, формат username, amount или payment method | Исправить запрос; username должен выглядеть как `@telegram_user`. |
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Данные сессии не являются Base64-encoded JSON | Повторно экспортировать JSON и закодировать полное значение в Base64. |
 | `API_BUSY` | Уже выполняется другая Premium-покупка в браузере | Дождаться завершения и отправить новый запрос. Не повторять автоматически. |
+| `RATE_LIMIT_EXCEEDED` | Кошелёк создал 300 no-KYC платёжных invoices за час | Дождаться времени из `Retry-After` перед новым запросом. Не повторять автоматически. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed кошелька отсутствует, битый или неверно закодирован в base64 | Заново закодировать 24 слова seed на backend. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | На кошельке мало TON, USDT on TON или TON для газа | Пополнить кошелёк и создать новый request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment не нашёл Telegram пользователя | Проверить username и создать новый request. |

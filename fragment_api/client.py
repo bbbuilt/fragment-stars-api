@@ -37,14 +37,14 @@ class FragmentAPIClient:
         >>> from fragment_api import FragmentAPIClient
         >>> client = FragmentAPIClient()
         >>> 
-        >>> # Buy stars (no KYC - uses owner cookies)
-        >>> result = client.buy_stars("username", 50, seed="your_seed_base64")
+        >>> # Buy stars without KYC (no Fragment cookies required)
+        >>> result = client.buy_stars("@username", 50, seed="your_seed_base64")
         >>> 
         >>> # Buy stars with KYC (0% API commission)
-        >>> result = client.buy_stars("username", 50, seed="...", cookies="cookies_base64")
+        >>> result = client.buy_stars("@username", 50, seed="...", cookies="cookies_base64")
         >>> 
         >>> # Buy premium
-        >>> result = client.buy_premium("username", 3, seed="...")  # 3 months
+        >>> result = client.buy_premium("@username", 3, seed="...")  # 3 months
     """
     
     def __init__(

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from fragment_api import DEFAULT_API_URL, FragmentAPIClient, __version__
@@ -57,3 +59,22 @@ def test_api_busy_is_a_rate_limit_error() -> None:
             "success": False,
             "error": {"code": 429, "error_code": "API_BUSY", "message": "busy"},
         })
+
+
+def test_public_examples_match_current_production_contract() -> None:
+    root = Path(__file__).parents[1]
+    public_files = [
+        *root.joinpath("examples").glob("*.py"),
+        root / "COOKIES_GUIDE.md",
+        root / "COOKIES_GUIDE.ru.md",
+    ]
+    combined = "\n".join(path.read_text() for path in public_files)
+
+    assert "your-api-server.com:8443" not in combined
+    assert "your-server.com:8443" not in combined
+    assert 'username="telegram_username"' not in combined
+    assert 'username="telegram_user"' not in combined
+    assert 'username="user"' not in combined
+    assert "QueueStatus.TIMEOUT" in (root / "examples/async_mode.py").read_text()
+    assert "300" in (root / "README.md").read_text()
+    assert "RATE_LIMIT_EXCEEDED" in (root / "docs/errors.md").read_text()

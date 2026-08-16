@@ -202,9 +202,10 @@ FragmentAPIClient(
 | Asking for an API token | Do not use API tokens for client endpoints. Send JSON to the production endpoint. |
 | Sending seed from frontend | Keep seed and cookies on backend only. Never expose them in a browser or mobile app. |
 | Retrying blindly after an uncertain transaction | Check wallet/TON explorer first. A blind retry can duplicate purchases. |
-| Passing username without `@` in direct REST | Use `@telegram_user` format unless your SDK normalizes it. |
+| Passing username without `@` | Use `@telegram_user` for both the Python SDK and direct REST. |
 | Requesting fewer than 50 Stars | Fragment's minimum is 50. The SDK rejects smaller amounts before any network request or payment. |
 | Using KYC without `stel_ton_token` | Connect wallet on Fragment first, then export cookies. |
+| Exceeding the no-KYC invoice limit | A wallet can create up to `300` no-KYC payment invoices per hour. On `RATE_LIMIT_EXCEEDED`, wait for `Retry-After`; do not loop automatically. |
 
 Full troubleshooting: [docs/errors.md](docs/errors.md).
 
@@ -215,6 +216,7 @@ Full troubleshooting: [docs/errors.md](docs/errors.md).
 | `VALIDATION_ERROR` | Bad request body, wrong username format, unsupported amount or payment method | Fix the request; usernames should look like `@telegram_user`. |
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Session data is not Base64-encoded JSON | Export JSON again and Base64-encode the complete value. |
 | `API_BUSY` | Another Premium browser purchase is active | Wait for it to finish and submit a new request. Do not retry automatically. |
+| `RATE_LIMIT_EXCEEDED` | A wallet created 300 no-KYC payment invoices within one hour | Wait for `Retry-After` before submitting a new request. Do not retry automatically. |
 | `INVALID_SEED` / `INVALID_WALLET_SEED` | Wallet seed is missing, malformed, or not base64 encoded correctly | Re-encode the 24-word seed on the backend. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Wallet has too little TON, USDT on TON, or gas balance | Top up the wallet before creating a new request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment could not find the Telegram user | Check the username and try a new request. |
