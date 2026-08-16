@@ -12,3 +12,7 @@ venv/
 # Build artifacts
 dist/
 build/
+
+# Private/local repository analytics
+.github-seo-data/
+GITHUB-WEEKLY-SCORECARD.md

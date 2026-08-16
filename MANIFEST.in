@@ -10,4 +10,3 @@ recursive-include examples *.py *.js *.go *.php
 recursive-include docs *.md
 recursive-include assets *.svg
 recursive-include assets *.png
-recursive-include scripts *.py
