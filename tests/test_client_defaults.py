@@ -83,6 +83,9 @@ def test_public_examples_match_current_production_contract() -> None:
 def test_readmes_show_current_sdk_version() -> None:
     root = Path(__file__).parents[1]
     expected = f"Current SDK: `v{__version__}`"
+    expected_badge = f"badge/PyPI-v{__version__}-38BDF8"
 
-    assert expected in (root / "README.md").read_text()
-    assert expected in (root / "README.ru.md").read_text()
+    for readme in (root / "README.md", root / "README.ru.md"):
+        content = readme.read_text()
+        assert expected in content
+        assert expected_badge in content

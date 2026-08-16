@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/pypi/v/fragment-stars-api?color=38BDF8&label=PyPI" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/badge/PyPI-v2.1.5-38BDF8" alt="PyPI version 2.1.5"></a>
   <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
   <a href="https://fragment-api.space"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
   <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
