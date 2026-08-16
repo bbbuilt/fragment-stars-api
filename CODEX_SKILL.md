@@ -9,12 +9,11 @@ Use this skill when the user asks to integrate Fragment Stars API, add Telegram 
 
 ## Canonical Facts
 
-- Documentation site: https://api-fragment.duckdns.org
-- Production API endpoint: `https://api-fragment.duckdns.org`
+- Documentation site: https://fragment-api.space
+- Production API endpoint: `https://api.fragment-api.space`
 - Example shop repository: https://github.com/bbbuilt/tg_stars_premium_shop
 - Python package: `fragment-stars-api`
 - Client API does **not** require issued API tokens or `X-API-Key`.
-- Admin routes are separate and use `X-Admin-Key`; never ask normal API clients for this.
 - KYC mode is free forever: `0%` API commission when the client provides their own Fragment cookies.
 - Non-KYC mode has a `0.25%` API commission and does not require Fragment cookies.
 - Clients may call `GET /api/v1/commission/rates` or SDK `get_rates()` if they want to verify rates before use.
@@ -76,7 +75,7 @@ Payment methods:
 Buy Stars:
 
 ```bash
-curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
+curl -X POST https://api.fragment-api.space/api/v1/stars/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -90,7 +89,7 @@ curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
 Buy Premium:
 
 ```bash
-curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
+curl -X POST https://api.fragment-api.space/api/v1/premium/buy \
   -H "Content-Type: application/json" \
   -d '{
     "username": "@username",
@@ -104,7 +103,7 @@ curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
 Check rates:
 
 ```bash
-curl https://api-fragment.duckdns.org/api/v1/commission/rates
+curl https://api.fragment-api.space/api/v1/commission/rates
 ```
 
 ## Queue Handling
@@ -114,7 +113,7 @@ Stars `amount` must be at least `50`. Reject smaller shop orders locally before 
 Stars purchases are queued. If `POST /api/v1/stars/buy` returns `202` with `request_id`, poll:
 
 ```bash
-GET https://api-fragment.duckdns.org/api/v1/queue/{request_id}
+GET https://api.fragment-api.space/api/v1/queue/{request_id}
 ```
 
 Premium usually returns the final result directly, but handle API errors consistently.
@@ -132,12 +131,12 @@ Instead, check queue status, transaction history, wallet activity, or ask for ma
 
 ## Implementation Checklist
 
-1. Store endpoint in config: `FRAGMENT_API_URL=https://api-fragment.duckdns.org`.
+1. Store endpoint in config: `FRAGMENT_API_URL=https://api.fragment-api.space`.
 2. Keep secrets server-side only.
 3. Add a purchase service wrapper with clear methods: `buy_stars`, `buy_premium`, `get_rates`, `get_queue_status`.
 4. Normalize Telegram usernames: accept with or without `@`, but send a valid username according to the API/SDK you use.
 5. Poll Stars queue until `completed`, `failed`, or timeout.
-6. Surface API error messages to admins/operators without leaking secrets.
+6. Surface API error messages to operators without leaking secrets.
 7. Add idempotency at the shop/bot level: do not process the same paid order twice.
 8. For KYC onboarding, link users to the cookie guide and validate cookies before first purchase when possible.
 

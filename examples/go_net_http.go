@@ -21,7 +21,7 @@ import (
 	"time"
 )
 
-var apiURL = getEnv("FRAGMENT_API_BASE_URL", "https://api-fragment.duckdns.org")
+var apiURL = getEnv("FRAGMENT_API_BASE_URL", "https://api.fragment-api.space")
 
 type apiError struct {
 	Code      any    `json:"code"`

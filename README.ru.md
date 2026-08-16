@@ -6,7 +6,7 @@
 
 ### KYC 0% · БЕЗ KYC 0,25%
 
-**Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://api-fragment.duckdns.org/api/v1/commission/rates).**
+**Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://api.fragment-api.space/api/v1/commission/rates).**
 
 </div>
 
@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/pypi/v/fragment-stars-api?color=38BDF8&label=PyPI" alt="PyPI version"></a>
   <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
-  <a href="https://api-fragment.duckdns.org"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
+  <a href="https://fragment-api.space"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
   <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
   <img src="https://img.shields.io/badge/license-MIT-94A3B8" alt="MIT License">
 </p>
@@ -62,16 +62,16 @@
 ## Production Endpoint
 
 ```text
-https://api-fragment.duckdns.org
+https://api.fragment-api.space
 ```
 
 ```bash
-curl https://api-fragment.duckdns.org/health
+curl https://api.fragment-api.space/health
 ```
 
-Адрес работает через стандартный HTTPS-порт `443`, включая сети, которые блокируют нестандартные порты. Старые интеграции с endpoint на `:8443` продолжают работать.
+Адрес работает через стандартный HTTPS-порт `443`, включая сети, которые блокируют нестандартные порты. Легаси-адреса `https://api-fragment.duckdns.org` и `https://fragment-api.ydns.eu:8443` остаются совместимыми.
 
-Клиентские endpoints **не требуют** `Authorization`, `X-API-Key`, JWT, OAuth или выданных API токенов. API учитывает комиссию по TON кошельку, который получается из переданного seed. Внутренние admin endpoints отдельные и клиентским интеграциям не нужны.
+Клиентские endpoints **не требуют** `Authorization`, `X-API-Key`, JWT, OAuth или выданных API токенов. API учитывает комиссию по TON кошельку, который получается из переданного seed.
 
 ## Быстрый старт
 
@@ -82,7 +82,7 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient()  # Использует https://api-fragment.duckdns.org
+client = FragmentAPIClient()  # Использует https://api.fragment-api.space
 
 result = client.buy_stars(
     username="@telegram_user",
@@ -242,7 +242,7 @@ KYC режим требует Fragment.com cookies и имеет **0% комис
 
 - Codex: добавьте [CODEX_SKILL.md](CODEX_SKILL.md) в проект клиента и подключите его из `AGENTS.md`.
 - Claude: добавьте [CLAUDE_SKILL.md](CLAUDE_SKILL.md) в проект клиента или скопируйте в `CLAUDE.md`.
-- AI-readable docs: [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt).
+- AI-readable docs: [llms.txt](https://fragment-api.space/llms.txt) / [llms-full.txt](https://fragment-api.space/llms-full.txt).
 
 ## Нужна помощь с интеграцией?
 

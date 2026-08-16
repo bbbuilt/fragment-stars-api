@@ -24,9 +24,9 @@ from .models import (
     QueueStatus,
 )
 
-__version__ = "2.1.4"
+__version__ = "2.1.5"
 
-DEFAULT_API_URL = "https://api-fragment.duckdns.org"
+DEFAULT_API_URL = "https://api.fragment-api.space"
 
 
 class FragmentAPIClient:

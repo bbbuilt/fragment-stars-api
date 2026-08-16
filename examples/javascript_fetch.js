@@ -10,7 +10,7 @@
  * into frontend JavaScript; run this from your backend only.
  */
 
-const API_URL = process.env.FRAGMENT_API_BASE_URL || "https://api-fragment.duckdns.org";
+const API_URL = process.env.FRAGMENT_API_BASE_URL || "https://api.fragment-api.space";
 
 function requireEnv(name) {
   const value = process.env[name];

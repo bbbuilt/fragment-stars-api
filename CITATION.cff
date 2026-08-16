@@ -5,7 +5,7 @@ type: software
 authors:
   - name: Basebay
 repository-code: https://github.com/bbbuilt/fragment-stars-api
-url: https://api-fragment.duckdns.org
+url: https://fragment-api.space
 license: MIT
 abstract: Telegram Stars and Premium API SDK for Fragment.com with Python and REST examples, TON/USDT support, and KYC/no-KYC modes.
 keywords:

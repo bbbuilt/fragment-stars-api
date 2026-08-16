@@ -6,7 +6,7 @@
 
 ### KYC 0% · NO-KYC 0.25%
 
-**Public rates. No API key. Verify anytime with [`GET /api/v1/commission/rates`](https://api-fragment.duckdns.org/api/v1/commission/rates).**
+**Public rates. No API key. Verify anytime with [`GET /api/v1/commission/rates`](https://api.fragment-api.space/api/v1/commission/rates).**
 
 </div>
 
@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/pypi/v/fragment-stars-api?color=38BDF8&label=PyPI" alt="PyPI version"></a>
   <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
-  <a href="https://api-fragment.duckdns.org"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
+  <a href="https://fragment-api.space"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
   <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
   <img src="https://img.shields.io/badge/license-MIT-94A3B8" alt="MIT License">
 </p>
@@ -62,16 +62,16 @@
 ## Production Endpoint
 
 ```text
-https://api-fragment.duckdns.org
+https://api.fragment-api.space
 ```
 
 ```bash
-curl https://api-fragment.duckdns.org/health
+curl https://api.fragment-api.space/health
 ```
 
-This standard HTTPS endpoint works on port `443`, including networks that block non-standard ports. Existing integrations using the legacy `:8443` endpoint remain compatible.
+This standard HTTPS endpoint works on port `443`, including networks that block non-standard ports. The legacy `https://api-fragment.duckdns.org` and `https://fragment-api.ydns.eu:8443` endpoints remain compatible.
 
-Client endpoints do **not** require `Authorization`, `X-API-Key`, JWT, OAuth, or issued API tokens. The API tracks commission by the TON wallet derived from the provided seed. Internal admin endpoints are separate and are not needed for client integrations.
+Client endpoints do **not** require `Authorization`, `X-API-Key`, JWT, OAuth, or issued API tokens. The API tracks commission by the TON wallet derived from the provided seed.
 
 ## Quick Start
 
@@ -82,7 +82,7 @@ pip install fragment-stars-api
 ```python
 from fragment_api import FragmentAPIClient
 
-client = FragmentAPIClient()  # Uses https://api-fragment.duckdns.org
+client = FragmentAPIClient()  # Uses https://api.fragment-api.space
 
 result = client.buy_stars(
     username="@telegram_user",
@@ -242,7 +242,7 @@ If a client integrates with Codex, Claude, Cursor, or another AI coding agent, g
 
 - Codex: add [CODEX_SKILL.md](CODEX_SKILL.md) to the client project and reference it from `AGENTS.md`.
 - Claude: add [CLAUDE_SKILL.md](CLAUDE_SKILL.md) to the client project or copy it into `CLAUDE.md`.
-- AI-readable docs: [llms.txt](https://api-fragment.duckdns.org/llms.txt) / [llms-full.txt](https://api-fragment.duckdns.org/llms-full.txt).
+- AI-readable docs: [llms.txt](https://fragment-api.space/llms.txt) / [llms-full.txt](https://fragment-api.space/llms-full.txt).
 
 ## Need Help Integrating?
 

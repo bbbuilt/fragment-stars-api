@@ -7,9 +7,9 @@ from fragment_api.exceptions import RateLimitError, ValidationError, raise_for_e
 def test_client_uses_public_https_endpoint_by_default() -> None:
     client = FragmentAPIClient()
 
-    assert DEFAULT_API_URL == "https://api-fragment.duckdns.org"
+    assert DEFAULT_API_URL == "https://api.fragment-api.space"
     assert client.base_url == DEFAULT_API_URL
-    assert __version__ == "2.1.4"
+    assert __version__ == "2.1.5"
 
 
 def test_client_still_accepts_custom_endpoint() -> None:

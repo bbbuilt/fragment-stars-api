@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.5] - 2026-08-16
+
+### Changed
+- Made `https://api.fragment-api.space` the default production API URL and updated public site links to `https://fragment-api.space`.
+- Documented continued compatibility for the legacy `https://api-fragment.duckdns.org` and `https://fragment-api.ydns.eu:8443` endpoints.
+
 ## [2.1.4] - 2026-08-05
 
 ### Changed

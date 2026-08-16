@@ -5,15 +5,17 @@ Use direct REST if your backend is not Python or you do not want to use the SDK.
 Base URL:
 
 ```text
-https://api-fragment.duckdns.org
+https://api.fragment-api.space
 ```
+
+The legacy `https://api-fragment.duckdns.org` and `https://fragment-api.ydns.eu:8443` endpoints remain compatible.
 
 ## Buy Stars
 
 `amount` must be an integer from `50` to `1,000,000`. Smaller requests are rejected before payment.
 
 ```bash
-curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
+curl -X POST https://api.fragment-api.space/api/v1/stars/buy \
   -H 'Content-Type: application/json' \
   -d '{
     "username": "@telegram_user",
@@ -26,7 +28,7 @@ curl -X POST https://api-fragment.duckdns.org/api/v1/stars/buy \
 The response contains `data.request_id`. Poll it until completed or failed:
 
 ```bash
-curl https://api-fragment.duckdns.org/api/v1/queue/REQUEST_ID
+curl https://api.fragment-api.space/api/v1/queue/REQUEST_ID
 ```
 
 ## Buy Stars with KYC
@@ -58,7 +60,7 @@ Cookies must be a Base64-encoded JSON object or cookie array. `fragment_local_st
 ## Buy Premium
 
 ```bash
-curl -X POST https://api-fragment.duckdns.org/api/v1/premium/buy \
+curl -X POST https://api.fragment-api.space/api/v1/premium/buy \
   -H 'Content-Type: application/json' \
   -d '{
     "username": "@telegram_user",

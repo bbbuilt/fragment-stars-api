@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fragment-stars-api"
-version = "2.1.4"
+version = "2.1.5"
 description = "Lowest-cost Telegram Stars and Premium API for Fragment.com - KYC 0%, no-KYC 0.25%, TON/USDT"
 readme = "README.md"
 license = "MIT"
@@ -38,8 +38,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://api-fragment.duckdns.org"
-Documentation = "https://api-fragment.duckdns.org"
+Homepage = "https://fragment-api.space"
+Documentation = "https://fragment-api.space"
 Repository = "https://github.com/bbbuilt/fragment-stars-api"
 Issues = "https://github.com/bbbuilt/fragment-stars-api/issues"
 "Example Shop" = "https://github.com/bbbuilt/tg_stars_premium_shop"
