@@ -78,3 +78,11 @@ def test_public_examples_match_current_production_contract() -> None:
     assert "QueueStatus.TIMEOUT" in (root / "examples/async_mode.py").read_text()
     assert "300" in (root / "README.md").read_text()
     assert "RATE_LIMIT_EXCEEDED" in (root / "docs/errors.md").read_text()
+
+
+def test_readmes_show_current_sdk_version() -> None:
+    root = Path(__file__).parents[1]
+    expected = f"Current SDK: `v{__version__}`"
+
+    assert expected in (root / "README.md").read_text()
+    assert expected in (root / "README.ru.md").read_text()

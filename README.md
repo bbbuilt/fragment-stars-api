@@ -8,6 +8,8 @@
 
 **Public rates. No API key. Verify anytime with [`GET /api/v1/commission/rates`](https://api.fragment-api.space/api/v1/commission/rates).**
 
+**Current SDK: `v2.1.5`**
+
 </div>
 
 <p align="center">
