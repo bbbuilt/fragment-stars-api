@@ -38,7 +38,9 @@ Queue status can also include `data.error` and `data.error_details`.
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Base64 value does not decode to the required JSON container | Export session JSON again and Base64-encode the complete value. |
 | `API_BUSY` | A Premium browser purchase is already active | Wait at least the `Retry-After` interval and submit manually; do not loop automatically. |
 | `RATE_LIMIT_EXCEEDED` | A wallet exceeded the limit of 300 no-KYC payment invoices per hour | Wait for the `Retry-After` interval before submitting a new request; do not loop automatically. |
-| `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed is missing, malformed, or not base64 encoded | Re-encode the 24-word wallet seed on backend. |
+| `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed is missing, malformed, or not Base64 encoded | Re-encode the complete supported seed on backend. |
+| `WALLET_ADDRESS_MISMATCH` | `wallet_address` does not belong to the supplied seed/index | Correct the address or index; do not retry unchanged input. |
+| `ACCOUNT_INDEX_NOT_FOUND` | The address was not found in the common BIP39 account range | Pass the exact non-negative `account_index` used by the wallet. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Not enough TON, USDT on TON, or gas | Top up wallet and create a new request. |
 | `COMMISSION_DEBT_PAYMENT_REQUIRED` | No-KYC commission reached the collection threshold, but the wallet cannot pay the accumulated balance and gas | Top up TON in the same wallet, then create a new request. |
 | `COMMISSION_COLLECTION_PENDING` | A previous no-KYC commission collection has a pending or uncertain blockchain status | Check the wallet or TON explorer and contact support with the `request_id`; do not submit another purchase blindly. |

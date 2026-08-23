@@ -14,7 +14,7 @@ SEED = "your_seed_base64_here"
 result = client.buy_premium(
     username="@telegram_username",
     duration=3,  # 3, 6, or 12 months
-    seed=SEED
+    seed=SEED,
 )
 
 if result.success:

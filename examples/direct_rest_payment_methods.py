@@ -18,36 +18,52 @@ def buy_stars(payload: dict) -> dict:
 
 
 # Non-KYC + TON: omit fragment_cookies, default payment_method is ton.
-print(buy_stars({
-    "username": "@telegram_username",
-    "amount": 100,
-    "seed": SEED,
-    "payment_method": "ton",
-}))
+print(
+    buy_stars(
+        {
+            "username": "@telegram_username",
+            "amount": 100,
+            "seed": SEED,
+            "payment_method": "ton",
+        }
+    )
+)
 
 # Non-KYC + USDT-on-TON: Stars base price in USDT-on-TON. API commission
 # accumulates in TON and is collected only when the balance reaches 1 TON.
-print(buy_stars({
-    "username": "@telegram_username",
-    "amount": 100,
-    "seed": SEED,
-    "payment_method": "usdt_ton",
-}))
+print(
+    buy_stars(
+        {
+            "username": "@telegram_username",
+            "amount": 100,
+            "seed": SEED,
+            "payment_method": "usdt_ton",
+        }
+    )
+)
 
 # KYC + TON: provide Fragment cookies, API commission is 0%.
-print(buy_stars({
-    "username": "@telegram_username",
-    "amount": 100,
-    "seed": SEED,
-    "fragment_cookies": COOKIES,
-    "payment_method": "ton",
-}))
+print(
+    buy_stars(
+        {
+            "username": "@telegram_username",
+            "amount": 100,
+            "seed": SEED,
+            "fragment_cookies": COOKIES,
+            "payment_method": "ton",
+        }
+    )
+)
 
 # KYC + USDT-on-TON: provide Fragment cookies and choose USDT.
-print(buy_stars({
-    "username": "@telegram_username",
-    "amount": 100,
-    "seed": SEED,
-    "fragment_cookies": COOKIES,
-    "payment_method": "usdt_ton",
-}))
+print(
+    buy_stars(
+        {
+            "username": "@telegram_username",
+            "amount": 100,
+            "seed": SEED,
+            "fragment_cookies": COOKIES,
+            "payment_method": "usdt_ton",
+        }
+    )
+)

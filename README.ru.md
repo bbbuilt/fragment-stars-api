@@ -8,7 +8,7 @@
 
 **Публичные ставки. Без API ключа. Проверка через [`GET /api/v1/commission/rates`](https://api.fragment-api.space/api/v1/commission/rates).**
 
-**Current SDK: `v2.1.5`**
+**Current SDK: `v2.1.6`**
 
 </div>
 
@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/badge/PyPI-v2.1.5-38BDF8" alt="PyPI version 2.1.5"></a>
+  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/badge/PyPI-v2.1.6-38BDF8" alt="PyPI version 2.1.6"></a>
   <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
   <a href="https://fragment-api.space"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
   <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
@@ -102,6 +102,29 @@ else:
 
 Для self-hosted или legacy endpoint передайте адрес явно: `FragmentAPIClient(base_url)`.
 
+## 12-словные кошельки и account index
+
+API поддерживает 12-словные BIP39 seed для TON V5R1. Храните мнемонику только на backend и передавайте полную фразу, закодированную в Base64.
+
+- Только `seed`: для 12 слов используется `account_index=0`, а старые форматы сохраняют прежний выбор кошелька.
+- `seed + account_index`: выбирает указанный V5R1 account.
+- `seed + wallet_address`: находит подходящий распространённый индекс и проверяет адрес.
+- `seed + wallet_address + account_index`: проверяет, что оба параметра указывают на один кошелёк.
+
+Если известен адрес, но неизвестен индекс, определите его один раз:
+
+```python
+import os
+
+wallet = client.resolve_wallet(
+    seed=os.environ["FRAGMENT_WALLET_SEED"],
+    wallet_address=os.environ["FRAGMENT_WALLET_ADDRESS"],
+)
+print(wallet.account_index)
+```
+
+После этого передавайте `account_index=wallet.account_index` в `buy_stars()` или `buy_premium()`. Примеры: [Python](examples/resolve_wallet_index.py), [REST](examples/resolve_wallet_index_rest.py), [JavaScript](examples/resolve_wallet_index.js). Используется `POST`, а не query-параметры, чтобы seed не попадал в URL и access logs.
+
 ## Telegram Stars магазин за 10 минут
 
 1. Установите SDK на backend.
@@ -159,6 +182,9 @@ KYC принимает `ton` или `usdt_ton`. No-KYC Stars принимает 
 - [examples/php_curl.php](examples/php_curl.php) - прямой REST из PHP cURL.
 - [examples/go_net_http.go](examples/go_net_http.go) - прямой REST из Go `net/http`.
 - [examples/with_kyc.py](examples/with_kyc.py) - настройка Fragment cookies для KYC режима.
+- [examples/resolve_wallet_index.py](examples/resolve_wallet_index.py) - определить индекс 12-словного V5R1 кошелька через SDK.
+- [examples/resolve_wallet_index_rest.py](examples/resolve_wallet_index_rest.py) - определить индекс через direct REST.
+- [examples/resolve_wallet_index.js](examples/resolve_wallet_index.js) - определить индекс из Node.js.
 
 ## API Reference
 
@@ -171,11 +197,12 @@ KYC принимает `ton` или `usdt_ton`. No-KYC Stars принимает 
 | `POST` | `/api/v1/stars/buy` | Купить Stars через очередь | `username`, `amount`, `seed` |
 | `GET` | `/api/v1/queue/{request_id}` | Проверить Stars request | нет |
 | `POST` | `/api/v1/premium/buy` | Купить Premium | `username`, `duration`, `seed` |
+| `POST` | `/api/v1/wallet/resolve` | Определить или проверить account кошелька | `seed` плюс `wallet_address` и/или `account_index` |
 | `POST` | `/api/v1/premium/check-eligibility` | Проверить доступность Premium | `username` |
 | `GET` | `/api/v1/prices` | Получить цены TON и USDT-on-TON | нет |
 | `GET` | `/api/v1/commission/rates` | Проверить ставки комиссии | нет |
 
-Опциональные поля покупки: `fragment_cookies`, `fragment_local_storage`, `payment_method`. По умолчанию `payment_method` равен `ton`; используйте `usdt_ton` для USDT on TON, где поддерживается.
+Опциональные поля покупки: `fragment_cookies`, `fragment_local_storage`, `payment_method`, `wallet_address`, `account_index`. По умолчанию `payment_method` равен `ton`; используйте `usdt_ton` для USDT on TON, где поддерживается.
 
 ### FragmentAPIClient
 
@@ -189,8 +216,9 @@ FragmentAPIClient(
 
 | Метод | Описание |
 |-------|----------|
-| `buy_stars(username, amount, seed, cookies?, local_storage?, payment_method?, wait?)` | Купить Telegram Stars через очередь |
-| `buy_premium(username, duration, seed, cookies?, local_storage?, payment_method?, wait?)` | Купить Telegram Premium напрямую |
+| `buy_stars(username, amount, seed, ..., wallet_address?, account_index?)` | Купить Telegram Stars через очередь |
+| `buy_premium(username, duration, seed, ..., wallet_address?, account_index?)` | Купить Telegram Premium напрямую |
+| `resolve_wallet(seed, wallet_address?, account_index?)` | Определить или проверить выбранный account кошелька |
 | `get_prices()` | Получить текущие цены в TON и USDT-on-TON |
 | `get_rates()` | Получить ставки комиссии |
 | `get_queue_status()` | Получить статус очереди и статистику |
@@ -219,7 +247,9 @@ FragmentAPIClient(
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Данные сессии не являются Base64-encoded JSON | Повторно экспортировать JSON и закодировать полное значение в Base64. |
 | `API_BUSY` | Уже выполняется другая Premium-покупка в браузере | Дождаться завершения и отправить новый запрос. Не повторять автоматически. |
 | `RATE_LIMIT_EXCEEDED` | Кошелёк создал 300 no-KYC платёжных invoices за час | Дождаться времени из `Retry-After` перед новым запросом. Не повторять автоматически. |
-| `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed кошелька отсутствует, битый или неверно закодирован в base64 | Заново закодировать 24 слова seed на backend. |
+| `INVALID_SEED` / `INVALID_WALLET_SEED` | Seed кошелька отсутствует, повреждён или неверно закодирован в Base64 | Заново закодировать полный поддерживаемый seed на backend. |
+| `WALLET_ADDRESS_MISMATCH` | Адрес не принадлежит переданному seed/index | Проверить `wallet_address` и `account_index`; не повторять тот же запрос. |
+| `ACCOUNT_INDEX_NOT_FOUND` | Адрес не найден среди распространённых BIP39 accounts | Передать точный `account_index`, который использует кошелёк. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | На кошельке мало TON, USDT on TON или TON для газа | Пополнить кошелёк и создать новый request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment не нашёл Telegram пользователя | Проверить username и создать новый request. |
 | `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment просит дополнительную проверку аккаунта | Открыть Fragment вручную с этим аккаунтом/cookies и пройти проверку. |

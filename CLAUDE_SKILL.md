@@ -49,8 +49,25 @@ KYC mode:
 Non-KYC mode:
 
 - Do not send Fragment cookies.
-- API uses owner cookies.
+- API handles the Fragment purchase flow without client cookies.
 - API commission is `0.25%`; read the live public value from `/api/v1/commission/rates`.
+
+## Wallet Selection
+
+- Supported seed formats include 12-word BIP39 for V5R1 wallets and existing legacy formats.
+- A 12-word seed without selectors uses `account_index=0`.
+- Purchases may include `account_index`, `wallet_address`, or both.
+- If only an address is known, call backend-only `POST /api/v1/wallet/resolve` with `seed` and `wallet_address`, then store the returned index.
+- Never put seeds in query parameters, browser code, telemetry, or logs.
+
+```python
+import os
+
+wallet = client.resolve_wallet(
+    seed=os.environ["FRAGMENT_WALLET_SEED"],
+    wallet_address=os.environ["FRAGMENT_WALLET_ADDRESS"],
+)
+```
 
 Payment methods:
 
@@ -96,6 +113,14 @@ Check rates:
 curl https://api.fragment-api.space/api/v1/commission/rates
 ```
 
+Resolve a wallet index from a trusted backend:
+
+```bash
+curl -X POST https://api.fragment-api.space/api/v1/wallet/resolve \
+  -H "Content-Type: application/json" \
+  -d '{"seed":"BASE64_WALLET_SEED","wallet_address":"PUBLIC_TON_ADDRESS"}'
+```
+
 ## Queue and Status
 
 Stars `amount` must be at least `50`. Reject smaller shop orders locally before calling the API.
@@ -134,6 +159,8 @@ Instead, check queue status, wallet transactions, saved shop order state, or ask
 
 - `USER_NOT_FOUND`: ask user to check Telegram username.
 - `INVALID_SEED`: seed is missing, malformed, or unsupported.
+- `WALLET_ADDRESS_MISMATCH`: address and seed/index do not match; correct the input.
+- `ACCOUNT_INDEX_NOT_FOUND`: pass the exact BIP39 account index used by the wallet.
 - `INVALID_COOKIES`: Fragment session cookies are invalid or expired.
 - `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE`: session payload is not Base64-encoded JSON; fix it locally and do not retry unchanged.
 - `API_BUSY`: one Premium browser purchase is active; respect `Retry-After` and never create an automatic retry loop.

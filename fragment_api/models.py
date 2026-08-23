@@ -10,6 +10,7 @@ from typing import Any, Optional
 
 class OrderStatus(str, Enum):
     """Order status values."""
+
     CREATED = "created"
     QUEUED = "queued"
     PROCESSING = "processing"
@@ -20,6 +21,7 @@ class OrderStatus(str, Enum):
 
 class QueueStatus(str, Enum):
     """Queue request status values."""
+
     QUEUED = "queued"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -30,6 +32,7 @@ class QueueStatus(str, Enum):
 @dataclass
 class ErrorDetail:
     """Validation error detail."""
+
     field: str
     message: str
 
@@ -37,6 +40,7 @@ class ErrorDetail:
 @dataclass
 class ErrorResponse:
     """API error response."""
+
     code: int
     message: str
     error_code: str
@@ -46,6 +50,7 @@ class ErrorResponse:
 @dataclass
 class QueuedRequest:
     """Queued request data model."""
+
     id: str
     status: QueueStatus
     position: Optional[int] = None
@@ -63,7 +68,7 @@ class QueuedRequest:
     def from_dict(cls, data: dict[str, Any]) -> "QueuedRequest":
         """Create QueuedRequest from API response dict."""
         request_id = data.get("request_id") or data.get("id", "")
-        
+
         return cls(
             id=request_id,
             status=QueueStatus(data["status"]),
@@ -71,7 +76,9 @@ class QueuedRequest:
             estimated_wait_seconds=data.get("estimated_wait_seconds"),
             created_at=_parse_datetime(data["created_at"]) if data.get("created_at") else None,
             started_at=_parse_datetime(data["started_at"]) if data.get("started_at") else None,
-            completed_at=_parse_datetime(data["completed_at"]) if data.get("completed_at") else None,
+            completed_at=_parse_datetime(data["completed_at"])
+            if data.get("completed_at")
+            else None,
             result=data.get("result"),
             error=data.get("error"),
             type=data.get("type"),
@@ -83,6 +90,7 @@ class QueuedRequest:
 @dataclass
 class BuyStarsResponse:
     """Response from buy stars endpoint (queued)."""
+
     request_id: str
     position: int
     estimated_wait_seconds: int
@@ -92,6 +100,7 @@ class BuyStarsResponse:
 @dataclass
 class PurchaseResult:
     """Final result of a completed purchase."""
+
     success: bool
     transaction_id: Optional[str] = None
     transaction_hash: Optional[str] = None
@@ -114,8 +123,28 @@ class PurchaseResult:
 
 
 @dataclass
+class WalletResolution:
+    """Public metadata for a wallet derived from a supplied seed."""
+
+    wallet_address: str
+    wallet_version: str
+    seed_format: str
+    account_index: Optional[int] = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "WalletResolution":
+        return cls(
+            wallet_address=data["wallet_address"],
+            wallet_version=data["wallet_version"],
+            seed_format=data["seed_format"],
+            account_index=data.get("account_index"),
+        )
+
+
+@dataclass
 class PremiumEligibilityResult:
     """Premium eligibility check result."""
+
     eligible: bool
     username: Optional[str] = None
     reason: Optional[str] = None
@@ -125,10 +154,11 @@ class PremiumEligibilityResult:
 @dataclass
 class CommissionRatesResponse:
     """Commission rates response."""
-    rate_no_kyc: float           # Percentage (0.25 for 0.25%)
-    rate_with_kyc: float         # Percentage (0 for 0%)
-    rate_no_kyc_decimal: float   # Decimal (0.0025 for 0.25%)
-    rate_with_kyc_decimal: float # Decimal (0 for 0%)
+
+    rate_no_kyc: float  # Percentage (0.25 for 0.25%)
+    rate_with_kyc: float  # Percentage (0 for 0%)
+    rate_no_kyc_decimal: float  # Decimal (0.0025 for 0.25%)
+    rate_with_kyc_decimal: float  # Decimal (0 for 0%)
     updated_at: datetime
 
     @classmethod

@@ -18,7 +18,7 @@ response = client.buy_stars(
     username="@telegram_username",
     amount=50,
     seed=SEED,
-    wait=False  # Don't wait for result
+    wait=False,  # Don't wait for result
 )
 
 print("Request submitted!")

@@ -2,21 +2,18 @@
 Example: Buy Telegram Stars
 """
 
+import os
+
 from fragment_api import FragmentAPIClient
 
 # Uses the public production endpoint by default.
 client = FragmentAPIClient()
 
-# Your wallet seed phrase (base64 encoded)
-# echo -n "word1 word2 ... word24" | base64
-SEED = "your_seed_base64_here"
+# Base64-encoded supported seed. Keep it in backend environment variables.
+SEED = os.environ["FRAGMENT_WALLET_SEED"]
 
 # Buy 50 stars for user
-result = client.buy_stars(
-    username="@telegram_username",
-    amount=50,
-    seed=SEED
-)
+result = client.buy_stars(username="@telegram_username", amount=50, seed=SEED)
 
 if result.success:
     print("✅ Success!")

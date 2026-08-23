@@ -24,14 +24,15 @@ Then encode to base64:
     cat cookies.json | base64 -w 0
 """
 
+import os
+
 from fragment_api import FragmentAPIClient
 
 # Uses the public production endpoint by default.
 client = FragmentAPIClient()
 
-# Your wallet seed phrase (base64 encoded)
-# echo -n "word1 word2 ... word24" | base64
-SEED = "your_seed_base64_here"
+# Base64-encoded supported seed. Keep it in backend environment variables.
+SEED = os.environ["FRAGMENT_WALLET_SEED"]
 
 # User's Fragment cookies (base64 encoded)
 # IMPORTANT: These must be from a Fragment account with connected TON wallet
@@ -50,7 +51,7 @@ result = client.buy_stars(
     username="@telegram_username",
     amount=100,
     seed=SEED,
-    cookies=COOKIES  # This enables KYC mode with 0% API commission
+    cookies=COOKIES,  # This enables KYC mode with 0% API commission
 )
 
 if result.success:

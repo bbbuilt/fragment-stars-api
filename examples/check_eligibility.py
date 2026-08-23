@@ -16,7 +16,7 @@ result = client.check_premium_eligibility(username)
 print(f"Premium Eligibility for {username}:")
 print(f"  Eligible: {result['eligible']}")
 
-if not result['eligible']:
+if not result["eligible"]:
     print(f"  Reason: {result.get('reason', 'Unknown')}")
     if result.get("error_code"):
         print(f"  Error code: {result['error_code']}")

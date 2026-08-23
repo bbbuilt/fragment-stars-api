@@ -8,7 +8,7 @@
 
 **Public rates. No API key. Verify anytime with [`GET /api/v1/commission/rates`](https://api.fragment-api.space/api/v1/commission/rates).**
 
-**Current SDK: `v2.1.5`**
+**Current SDK: `v2.1.6`**
 
 </div>
 
@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/badge/PyPI-v2.1.5-38BDF8" alt="PyPI version 2.1.5"></a>
+  <a href="https://pypi.org/project/fragment-stars-api/"><img src="https://img.shields.io/badge/PyPI-v2.1.6-38BDF8" alt="PyPI version 2.1.6"></a>
   <img src="https://img.shields.io/pypi/pyversions/fragment-stars-api?color=22C55E" alt="Python versions">
   <a href="https://fragment-api.space"><img src="https://img.shields.io/badge/docs-live-06B6D4" alt="Documentation website"></a>
   <a href="https://github.com/bbbuilt/fragment-stars-api"><img src="https://img.shields.io/badge/LIKE_IT%3F-STAR_IT!-FACC15" alt="Like it? Star it!"></a>
@@ -102,6 +102,29 @@ else:
 
 To use a self-hosted or legacy endpoint, pass it explicitly as `FragmentAPIClient(base_url)`.
 
+## 12-Word Wallets and Account Indexes
+
+The API supports 12-word BIP39 seeds for TON V5R1 wallets. Keep the mnemonic on your backend and Base64-encode the complete space-separated phrase before sending it.
+
+- `seed` only: uses `account_index=0` for a 12-word seed and preserves legacy wallet selection for existing seed formats.
+- `seed + account_index`: selects that V5R1 account directly.
+- `seed + wallet_address`: finds the matching common account index and verifies the address.
+- `seed + wallet_address + account_index`: verifies that both selectors point to the same wallet.
+
+If you know the wallet address but not its index, resolve it once:
+
+```python
+import os
+
+wallet = client.resolve_wallet(
+    seed=os.environ["FRAGMENT_WALLET_SEED"],
+    wallet_address=os.environ["FRAGMENT_WALLET_ADDRESS"],
+)
+print(wallet.account_index)
+```
+
+Then pass `account_index=wallet.account_index` to `buy_stars()` or `buy_premium()`. See [Python](examples/resolve_wallet_index.py), [REST](examples/resolve_wallet_index_rest.py), and [JavaScript](examples/resolve_wallet_index.js) examples. Use `POST`, not URL query parameters, so the seed is not placed in URLs or access logs.
+
 ## Build a Telegram Stars Shop in 10 Minutes
 
 1. Install the SDK on your backend.
@@ -159,6 +182,9 @@ No-KYC commission is accumulated per TON wallet instead of creating a small comm
 - [examples/php_curl.php](examples/php_curl.php) - direct REST from PHP cURL.
 - [examples/go_net_http.go](examples/go_net_http.go) - direct REST from Go `net/http`.
 - [examples/with_kyc.py](examples/with_kyc.py) - Fragment cookies setup for KYC mode.
+- [examples/resolve_wallet_index.py](examples/resolve_wallet_index.py) - resolve a 12-word V5R1 account index with the Python SDK.
+- [examples/resolve_wallet_index_rest.py](examples/resolve_wallet_index_rest.py) - resolve an index with direct REST.
+- [examples/resolve_wallet_index.js](examples/resolve_wallet_index.js) - resolve an index from Node.js.
 
 ## API Reference
 
@@ -171,11 +197,12 @@ Send JSON only. No API key or auth header is required.
 | `POST` | `/api/v1/stars/buy` | Buy Stars through the queue | `username`, `amount`, `seed` |
 | `GET` | `/api/v1/queue/{request_id}` | Poll a Stars request | none |
 | `POST` | `/api/v1/premium/buy` | Buy Premium | `username`, `duration`, `seed` |
+| `POST` | `/api/v1/wallet/resolve` | Resolve or verify a wallet account | `seed` plus `wallet_address` and/or `account_index` |
 | `POST` | `/api/v1/premium/check-eligibility` | Check Premium availability | `username` |
 | `GET` | `/api/v1/prices` | Get TON and USDT-on-TON prices | none |
 | `GET` | `/api/v1/commission/rates` | Check commission rates | none |
 
-Optional purchase fields: `fragment_cookies`, `fragment_local_storage`, `payment_method`. Default `payment_method` is `ton`; use `usdt_ton` for USDT on TON where supported.
+Optional purchase fields: `fragment_cookies`, `fragment_local_storage`, `payment_method`, `wallet_address`, `account_index`. Default `payment_method` is `ton`; use `usdt_ton` for USDT on TON where supported.
 
 ### FragmentAPIClient
 
@@ -189,8 +216,9 @@ FragmentAPIClient(
 
 | Method | Description |
 |--------|-------------|
-| `buy_stars(username, amount, seed, cookies?, local_storage?, payment_method?, wait?)` | Buy Telegram Stars through the queue |
-| `buy_premium(username, duration, seed, cookies?, local_storage?, payment_method?, wait?)` | Buy Telegram Premium directly |
+| `buy_stars(username, amount, seed, ..., wallet_address?, account_index?)` | Buy Telegram Stars through the queue |
+| `buy_premium(username, duration, seed, ..., wallet_address?, account_index?)` | Buy Telegram Premium directly |
+| `resolve_wallet(seed, wallet_address?, account_index?)` | Resolve or verify the selected wallet account |
 | `get_prices()` | Get current TON and USDT-on-TON prices |
 | `get_rates()` | Get commission rates |
 | `get_queue_status()` | Get queue status and statistics |
@@ -219,7 +247,9 @@ Full troubleshooting: [docs/errors.md](docs/errors.md).
 | `INVALID_FRAGMENT_COOKIES` / `INVALID_FRAGMENT_LOCAL_STORAGE` | Session data is not Base64-encoded JSON | Export JSON again and Base64-encode the complete value. |
 | `API_BUSY` | Another Premium browser purchase is active | Wait for it to finish and submit a new request. Do not retry automatically. |
 | `RATE_LIMIT_EXCEEDED` | A wallet created 300 no-KYC payment invoices within one hour | Wait for `Retry-After` before submitting a new request. Do not retry automatically. |
-| `INVALID_SEED` / `INVALID_WALLET_SEED` | Wallet seed is missing, malformed, or not base64 encoded correctly | Re-encode the 24-word seed on the backend. |
+| `INVALID_SEED` / `INVALID_WALLET_SEED` | Wallet seed is missing, malformed, or not Base64 encoded correctly | Re-encode the complete supported seed on the backend. |
+| `WALLET_ADDRESS_MISMATCH` | Address does not belong to the supplied seed/index | Check `wallet_address` and `account_index`; do not retry unchanged input. |
+| `ACCOUNT_INDEX_NOT_FOUND` | Address was not found in the common BIP39 account range | Pass the exact `account_index` used by the wallet. |
 | `INSUFFICIENT_BALANCE` / `INSUFFICIENT_WALLET_BALANCE` | Wallet has too little TON, USDT on TON, or gas balance | Top up the wallet before creating a new request. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment could not find the Telegram user | Check the username and try a new request. |
 | `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment asks the account for extra verification | Open Fragment manually with that account/cookies and complete the check. |

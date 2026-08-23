@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.6] - 2026-08-24
+
+### Added
+- Added 12-word BIP39 seed support for V5R1 wallets with optional `account_index` selection.
+- Added optional `wallet_address` verification/lookup to Stars and Premium purchases.
+- Added `resolve_wallet()` for `POST /api/v1/wallet/resolve` and public Python, REST, and JavaScript examples.
+
+### Changed
+- Purchase methods now support seed-only, seed with `account_index`, seed with `wallet_address`, or both selectors without changing legacy calls.
+
 ## [2.1.5] - 2026-08-16
 
 ### Changed
