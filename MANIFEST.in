@@ -2,6 +2,11 @@ include LICENSE
 include README.md
 include README.ru.md
 include CHANGELOG.md
+include SECURITY.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include CODEX_SKILL.md
+include CLAUDE_SKILL.md
 include COOKIES_GUIDE.md
 include COOKIES_GUIDE.ru.md
 include fragment_api/py.typed

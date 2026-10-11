@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.7] - 2026-10-12
+
+### Fixed
+- Preserve the existing `request_id` on `QueueTimeoutError` for both server queue timeouts and the local polling deadline. Local timeout messages also include the ID.
+- Preserve the request ID on SDK/API and Requests transport exceptions raised while polling, without changing their exception types.
+- Populate `RateLimitError.retry_after` from a valid HTTP `Retry-After` header, including delay-seconds and HTTP-date forms. Missing or malformed values remain `None`.
+
+### Documentation
+- Refresh the PyPI description and integration guides with read-only starting examples, exact API fees and the hosted signing trust boundary.
+- Document manual recovery using the existing request ID. No automatic purchase retry, endpoint change, or request-format change is introduced.
+
 ## [2.1.6] - 2026-08-24
 
 ### Added

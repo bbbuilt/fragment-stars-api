@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from fragment_api import __version__
+
 ROOT = Path(__file__).parents[1]
 
 
@@ -14,9 +16,9 @@ def test_readme_starts_with_a_read_only_request_before_purchase_examples() -> No
         assert text.index("curl https://api.fragment-api.space/api/v1/prices") < text.index(
             "client.buy_stars("
         )
-        assert "2.1.6" in text
+        assert __version__ in text
         assert "0.25%" in text or "0,25%" in text
-        assert "[SECURITY.md](SECURITY.md)" in text
+        assert "[SECURITY.md](https://github.com/bbbuilt/fragment-stars-api/blob/main/SECURITY.md)" in text
 
 
 def test_integration_guides_exist_and_use_the_canonical_endpoint() -> None:
@@ -48,7 +50,19 @@ def test_public_markdown_relative_file_links_exist() -> None:
         links = re.findall(r"\]\(([^)\s]+)\)", text)
         links += re.findall(r'(?:href|src)="([^"]+)"', text)
         for link in links:
+            repo_prefix = "https://github.com/bbbuilt/fragment-stars-api/blob/main/"
+            if link.startswith(repo_prefix):
+                local = link[len(repo_prefix):].split("#", 1)[0]
+                assert (ROOT / local).exists(), f"{path.name}: {link}"
+                continue
             if ":" in link or link.startswith("#"):
                 continue
             destination = link.split("#", 1)[0].split("?", 1)[0]
             assert (path.parent / destination).exists(), f"{path.name}: {link}"
+
+
+def test_pypi_readme_has_no_relative_file_links() -> None:
+    text = (ROOT / "README.md").read_text()
+    links = re.findall(r"\]\(([^)\s]+)\)", text)
+    links += re.findall(r'(?:href|src)="([^"]+)"', text)
+    assert all(link.startswith(("https://", "#")) for link in links)

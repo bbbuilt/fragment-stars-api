@@ -54,7 +54,16 @@ class UserNotFoundError(FragmentAPIError):
 class QueueTimeoutError(FragmentAPIError):
     """Queue timeout error (408)."""
 
-    pass
+    def __init__(
+        self,
+        message: str,
+        code: int,
+        error_code: str,
+        details: Optional[list[ErrorDetail]] = None,
+        request_id: Optional[str] = None,
+    ):
+        super().__init__(message, code, error_code, details)
+        self.request_id = request_id
 
 
 class RateLimitError(FragmentAPIError):

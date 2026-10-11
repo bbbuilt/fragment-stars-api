@@ -52,6 +52,10 @@ Queue status can also include `data.error` and `data.error_details`.
 
 ## Do Not Retry Blindly
 
+From SDK 2.1.7, polling timeouts expose `exc.request_id`. SDK/API errors and Requests transport errors during polling retain this ID too. Use it to inspect the existing request, not to submit a new one. An initial purchase submission error may have no request ID and needs reconciliation.
+
+`RateLimitError.retry_after` preserves a valid `Retry-After` header as seconds; missing or malformed headers leave it `None`. Neither that field nor a timeout causes the SDK to automatically replay a purchase.
+
 If a transaction may have been signed or sent, check the wallet first. A blind retry can duplicate a Stars or Premium purchase.
 
 Requests below 50 Stars are rejected before wallet initialization, invoice creation, or browser work. Do not round a customer order down below 50.

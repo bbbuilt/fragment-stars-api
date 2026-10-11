@@ -61,6 +61,12 @@ with FragmentAPIClient() as client:
 
 Poll at a bounded interval, such as every 2-5 seconds, rather than a busy loop. `queued` and `processing` are not completion. A failed or timed-out request needs its error details checked before any new purchase, especially when a transaction may already have been signed or sent.
 
+### Recover a Polling Failure (SDK 2.1.7+)
+
+`QueueTimeoutError.request_id` preserves the existing request for both a server timeout and a local polling deadline. API and Requests transport exceptions raised during SDK polling also retain `request_id`, without changing their exception type. Read that existing request; do not submit another purchase automatically. If the initial submission failed before an ID was received, the SDK cannot invent one or prove that no payment happened.
+
+`RateLimitError.retry_after` contains the number of seconds indicated by a valid HTTP `Retry-After` header, or `None` when absent/invalid. This is advisory information only: the SDK does not sleep and repeat the purchase for you.
+
 `buy_stars(wait=True)` is convenient for scripts: the SDK polls and returns `PurchaseResult`. For a durable shop, `wait=False` makes it easier to save the API ID before waiting. In an async aiogram handler, move the synchronous SDK call into your job worker or a thread rather than blocking the event loop. A cancelled handler or thread wait does not cancel the remote purchase.
 
 ## Wallet Accounts and Premium

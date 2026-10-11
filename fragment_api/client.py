@@ -6,14 +6,18 @@ Simple client for purchasing Telegram Stars and Premium.
 
 import base64
 import json
+import math
 import time
+from email.utils import parsedate_to_datetime
 from typing import Any, Optional, Union
 
 import requests
 
 from .exceptions import (
+    FragmentAPIError,
     InvalidResponseError,
     QueueTimeoutError,
+    RateLimitError,
     raise_for_error_response,
 )
 from .models import (
@@ -25,7 +29,7 @@ from .models import (
     WalletResolution,
 )
 
-__version__ = "2.1.6"
+__version__ = "2.1.7"
 
 DEFAULT_API_URL = "https://api.fragment-api.space"
 
@@ -91,9 +95,31 @@ class FragmentAPIClient:
             ) from exc
 
         if raise_on_error and not result.get("success", False):
-            raise_for_error_response(result)
+            try:
+                raise_for_error_response(result)
+            except RateLimitError as exc:
+                exc.retry_after = self._parse_retry_after(response.headers.get("Retry-After"))
+                raise
 
         return result
+
+    @staticmethod
+    def _parse_retry_after(value: Optional[str]) -> Optional[int]:
+        if not value:
+            return None
+        value = value.strip()
+        if value.isascii() and value.isdigit():
+            try:
+                return int(value)
+            except ValueError:
+                return None
+        try:
+            date = parsedate_to_datetime(value)
+            if date.tzinfo is None:
+                return None
+            return max(0, math.ceil(date.timestamp() - time.time()))
+        except (TypeError, ValueError, OverflowError):
+            return None
 
     def buy_stars(
         self,
@@ -317,7 +343,12 @@ class FragmentAPIClient:
         start = time.time()
 
         while time.time() - start < self.poll_timeout:
-            status = self.get_status(request_id)
+            try:
+                status = self.get_status(request_id)
+            except (FragmentAPIError, requests.RequestException) as exc:
+                # Preserve exception compatibility and the order ID; never resubmit here.
+                setattr(exc, "request_id", request_id)
+                raise
 
             if status.status == QueueStatus.COMPLETED:
                 r = status.result or {}
@@ -327,11 +358,18 @@ class FragmentAPIClient:
                 return PurchaseResult(success=False, error=status.error or "Unknown error")
 
             if status.status == QueueStatus.TIMEOUT:
-                raise QueueTimeoutError(f"Request timed out: {request_id}", 408, "TIMEOUT")
+                raise QueueTimeoutError(
+                    f"Request timed out: {request_id}", 408, "TIMEOUT", request_id=request_id
+                )
 
             time.sleep(2)
 
-        raise QueueTimeoutError(f"Polling timed out after {self.poll_timeout}s", 408, "TIMEOUT")
+        raise QueueTimeoutError(
+            f"Polling timed out after {self.poll_timeout}s: {request_id}",
+            408,
+            "TIMEOUT",
+            request_id=request_id,
+        )
 
     def _purchase_result_from_dict(self, data: dict[str, Any]) -> PurchaseResult:
         """Convert direct or queued purchase response data to PurchaseResult."""

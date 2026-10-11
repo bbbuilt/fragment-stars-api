@@ -11,7 +11,7 @@ def test_client_uses_public_https_endpoint_by_default() -> None:
 
     assert DEFAULT_API_URL == "https://api.fragment-api.space"
     assert client.base_url == DEFAULT_API_URL
-    assert __version__ == "2.1.6"
+    assert __version__ == "2.1.7"
 
 
 def test_client_still_accepts_custom_endpoint() -> None:
