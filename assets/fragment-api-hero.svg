@@ -1,5 +1,5 @@
 <svg width="1536" height="590" viewBox="0 0 1536 590" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Lowest-cost Telegram Stars API for Fragment.com</title>
+  <title id="title">Telegram Stars API for Fragment.com: Python SDK and REST</title>
   <desc id="desc">KYC purchases have zero percent API commission and no-KYC purchases have a 0.25 percent API commission.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1536" y2="590" gradientUnits="userSpaceOnUse">
@@ -38,7 +38,7 @@
     <text x="336" y="213" fill="#E9FFF8" font-size="19" font-weight="700">NO-KYC ONLY 0.25%</text>
     <rect x="588" y="181" width="186" height="48" rx="24" fill="#121F39" stroke="#60A5FA" stroke-opacity="0.55"/>
     <text x="612" y="213" fill="#EFF6FF" font-size="19" font-weight="700">NO API KEY</text>
-    <text x="68" y="267" fill="#65E6D1" font-size="22" font-weight="700" letter-spacing="1">THE CHEAPEST FRAGMENT API</text>
+    <text x="68" y="267" fill="#65E6D1" font-size="22" font-weight="700" letter-spacing="1">PYTHON SDK + REST · PUBLIC API FEES</text>
 
     <g transform="translate(68 316)">
       <rect width="300" height="198" rx="24" fill="#071B2D" stroke="#1E4662" stroke-width="2"/>

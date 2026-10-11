@@ -2,6 +2,8 @@
 
 Fragment Stars API supports two integration modes. Existing clients stay compatible because `payment_method` defaults to `ton` and cookies are optional.
 
+Both modes send the wallet seed to the hosted API for signing. No-KYC removes the requirement to supply your own Fragment cookies; it does not mean local-only signing or permission to bypass a provider's verification requirements. See [SECURITY.md](../SECURITY.md).
+
 ## Comparison
 
 | Mode | Requires Fragment cookies | API commission | Payment methods | Best for |
@@ -45,6 +47,12 @@ The API accumulates no-KYC commission per TON wallet and collects the full balan
 
 The `1 TON` threshold is a collection threshold, not an extra fee. The commission rate remains `0.25%`.
 
+## API Commission Is Not the Whole Price
+
+The customer still pays the Stars/Premium price and blockchain fees in either mode. For an illustrative base cost of `10 TON`, a `0.25%` API commission is `0.025 TON`; this is an example calculation, not a live quote or gas estimate. Check the public prices/rates and any accumulated commission before showing a total.
+
 ## Safety Rule
 
 If a request returns an uncertain TON transaction status, check the wallet or TON explorer before retrying. A blind retry can duplicate a purchase.
+
+[Python](python.md) · [REST](rest-api.md) · [Build a shop](telegram-stars-shop.md) · [Back to README](../README.md)

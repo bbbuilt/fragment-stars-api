@@ -1,5 +1,5 @@
 name: Bug report
-about: Report a reproducible SDK or API integration issue
+description: Report a reproducible SDK or API integration issue
 labels: [bug]
 body:
   - type: markdown
@@ -10,7 +10,7 @@ body:
     id: package_version
     attributes:
       label: SDK version
-      placeholder: fragment-stars-api 2.1.5
+      placeholder: fragment-stars-api 2.1.6
     validations:
       required: false
   - type: input

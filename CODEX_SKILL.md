@@ -41,6 +41,7 @@ Use direct REST for non-Python stacks.
 
 ## Security Rules
 
+- Purchase calls transmit the seed to the hosted API for signing; KYC also transmits session data. Never claim local-only signing or that secrets never leave the caller's backend. Use a dedicated limited-balance wallet; see [SECURITY.md](SECURITY.md).
 - Never put wallet seed, Fragment cookies, or Fragment localStorage in browser/frontend code.
 - Send purchase requests only from a trusted backend, worker, or bot server.
 - Treat `seed`, `fragment_cookies`, and `fragment_local_storage` as secrets.

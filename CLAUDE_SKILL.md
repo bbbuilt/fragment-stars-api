@@ -32,6 +32,7 @@ Use REST directly for other languages.
 
 ## Security Constraints
 
+- Purchase calls transmit the seed to the hosted API for signing; KYC also transmits session data. Never claim local-only signing or that secrets never leave the caller's backend. Use a dedicated limited-balance wallet; see [SECURITY.md](SECURITY.md).
 - Keep wallet seed, Fragment cookies, and Fragment localStorage only on the backend/server side.
 - Never put secrets in frontend/browser code.
 - Never log seeds, cookies, or localStorage.

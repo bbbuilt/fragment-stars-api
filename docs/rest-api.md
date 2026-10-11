@@ -10,6 +10,18 @@ https://api.fragment-api.space
 
 The legacy `https://api-fragment.duckdns.org` and `https://fragment-api.ydns.eu:8443` endpoints remain compatible.
 
+## Read-Only Connectivity Check
+
+No wallet data is required and no purchase is made:
+
+```bash
+curl https://api.fragment-api.space/health
+curl https://api.fragment-api.space/api/v1/prices
+curl https://api.fragment-api.space/api/v1/commission/rates
+```
+
+Purchase calls below send the seed to the hosted API for signing and spend funds when valid credentials are supplied. Keep them server-to-server, use a dedicated wallet, and read [SECURITY.md](../SECURITY.md).
+
 ## Resolve a 12-Word Wallet Account
 
 Use this backend-only request when a client knows a TON address but does not know the BIP39 V5R1 `account_index`:
@@ -55,11 +67,13 @@ curl -X POST https://api.fragment-api.space/api/v1/stars/buy \
   }'
 ```
 
-The response contains `data.request_id`. Poll it until completed or failed:
+An accepted request contains `data.request_id`. Persist it with your order ID and poll until a final status (`completed`, `failed`, or `timeout`):
 
 ```bash
 curl https://api.fragment-api.space/api/v1/queue/REQUEST_ID
 ```
+
+Use the actual ID from the response, not the placeholder above. `queued` and `processing` are not completion. A timeout or failed status does not by itself establish whether funds moved; inspect error details and wallet history before another purchase. Do not automatically repeat the POST if the response is lost.
 
 ## Buy Stars with KYC
 
@@ -102,6 +116,8 @@ curl -X POST https://api.fragment-api.space/api/v1/premium/buy \
 
 Valid `duration` values are `3`, `6`, and `12`.
 
+Premium currently returns a final result directly; do not assume it has the Stars polling contract. No-KYC Premium uses TON; KYC can use USDT on TON where supported. [Premium guide](telegram-premium-api.md).
+
 ## Other Useful Endpoints
 
 | Method | Path | Purpose |
@@ -119,3 +135,5 @@ Valid `duration` values are `3`, `6`, and `12`.
 - Wallet resolution in Python REST: [examples/resolve_wallet_index_rest.py](../examples/resolve_wallet_index_rest.py)
 - PHP: [examples/php_curl.php](../examples/php_curl.php)
 - Go: [examples/go_net_http.go](../examples/go_net_http.go)
+
+[Python walkthrough](python.md) · [Node.js walkthrough](nodejs.md) · [Errors](errors.md) · [Back to README](../README.md)

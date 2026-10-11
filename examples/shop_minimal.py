@@ -4,15 +4,18 @@ Minimal backend shop example: accept username/amount -> buy Telegram Stars.
 Run:
   pip install fastapi uvicorn fragment-stars-api
   export FRAGMENT_WALLET_SEED="base64_seed_phrase"
-  uvicorn shop_minimal:app --host 0.0.0.0 --port 8000
+  uvicorn examples.shop_minimal:app --host 127.0.0.1 --port 8000
 
 Test:
   curl -X POST http://127.0.0.1:8000/buy-stars \
     -H 'Content-Type: application/json' \
-    -d '{"username":"@telegram_username","amount":100}'
+    -d '{"username":"@telegram_user","amount":100}'
 
 No API key is required. Keep FRAGMENT_WALLET_SEED and FRAGMENT_COOKIES
 on your backend only; never send them to a browser or mobile app.
+Purchase calls send the seed to the hosted API for signing. This demo has
+no customer authentication/payment verification: never expose it publicly.
+The POST above makes a real purchase with valid configured credentials.
 """
 
 import os

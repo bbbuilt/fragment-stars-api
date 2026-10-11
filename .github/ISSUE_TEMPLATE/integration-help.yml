@@ -1,6 +1,6 @@
 name: Integration help
-about: Get help integrating Fragment Stars API into a bot, shop, or backend
-labels: [integration-help]
+description: Get help integrating Fragment Stars API into a bot, shop, or backend
+labels: [question]
 body:
   - type: markdown
     attributes:
