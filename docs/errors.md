@@ -46,6 +46,7 @@ Queue status can also include `data.error` and `data.error_details`.
 | `COMMISSION_COLLECTION_PENDING` | A previous no-KYC commission collection has a pending or uncertain blockchain status | Check the wallet or TON explorer and contact support with the `request_id`; do not submit another purchase blindly. |
 | `USER_NOT_FOUND` / `TELEGRAM_USER_NOT_FOUND` | Fragment did not find recipient | Check username and create a new request. |
 | `FRAGMENT_ADDITIONAL_VERIFICATION_REQUIRED` | Fragment wants account verification | Open Fragment manually and complete verification. |
+| `FRAGMENT_PRICE_CHANGED` | Checkout price exceeded the cap or Fragment rejected an outdated quote | Read the existing request and any refund status. For a KYC Stars price-limit rejection, the payment was not sent. Get a fresh quote before starting a new request; do not replay automatically. |
 | `TEMPORARY_FRAGMENT_CONNECTION_ERROR` | Temporary issue between API server and Fragment.com | Submit a new request later. Do not reuse old `request_id`. |
 | `TEMPORARY_FRAGMENT_FORM_NOT_READY` | Fragment page/form did not become ready | Submit a new request later. |
 | `TON_TRANSACTION_CONFIRMATION_UNCERTAIN` | Transaction state is uncertain | Check wallet/TON explorer before retrying. |

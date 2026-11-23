@@ -7,6 +7,7 @@ Simple client for purchasing Telegram Stars and Premium.
 import base64
 import json
 import math
+import re
 import time
 from email.utils import parsedate_to_datetime
 from typing import Any, Optional, Union
@@ -29,7 +30,7 @@ from .models import (
     WalletResolution,
 )
 
-__version__ = "2.1.7"
+__version__ = "2.1.8"
 
 DEFAULT_API_URL = "https://api.fragment-api.space"
 
@@ -132,6 +133,8 @@ class FragmentAPIClient:
         wait: bool = True,
         wallet_address: Optional[str] = None,
         account_index: Optional[int] = None,
+        *,
+        max_cost: Optional[str] = None,
     ) -> Union[BuyStarsResponse, PurchaseResult]:
         """
         Buy Telegram Stars.
@@ -146,6 +149,8 @@ class FragmentAPIClient:
             wait: Wait for result (default: True)
             wallet_address: Optional public TON address to select/verify the derived wallet
             account_index: Optional BIP39 V5R1 account index
+            max_cost: Optional KYC-only decimal price limit in TON or USDT on TON,
+                according to payment_method. Network fees are separate.
 
         Returns:
             PurchaseResult if wait=True, else BuyStarsResponse
@@ -169,6 +174,21 @@ class FragmentAPIClient:
             data["wallet_address"] = wallet_address
         if account_index is not None:
             data["account_index"] = account_index
+        if max_cost is not None:
+            if "fragment_cookies" not in data:
+                raise ValueError("max_cost requires Fragment cookies (KYC Stars)")
+            decimals = 6 if payment_method == "usdt_ton" else 9
+            pattern = rf"(?:0|[1-9][0-9]{{0,10}})(?:\.[0-9]{{1,{decimals}}})?"
+            if (
+                not isinstance(max_cost, str)
+                or len(max_cost) > 21
+                or not re.fullmatch(pattern, max_cost)
+                or not max_cost.replace(".", "").strip("0")
+            ):
+                raise ValueError(
+                    f"max_cost must be a positive decimal string with up to {decimals} decimal places"
+                )
+            data["max_cost"] = max_cost
 
         result = self._request("POST", "/api/v1/stars/buy", data)
         response = BuyStarsResponse(

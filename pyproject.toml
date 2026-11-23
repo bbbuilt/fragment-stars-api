@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fragment-stars-api"
-version = "2.1.7"
+version = "2.1.8"
 description = "Telegram Stars and Premium API for Fragment.com - Python SDK, no API key, KYC 0%, no-KYC 0.25%, TON/USDT"
 readme = "README.md"
 license = "MIT"

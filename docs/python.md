@@ -39,6 +39,8 @@ with FragmentAPIClient() as client:
 
 The seed must be a supported value encoded as Base64. Stars amounts start at 50. Omitting cookies selects no-KYC; add `cookies=os.environ["FRAGMENT_COOKIES"]` for KYC. For USDT on TON, change `payment_method` to `usdt_ton`. [Four payment/mode combinations](../examples/payment_methods.py).
 
+SDK 2.1.8+ accepts `max_cost="2.96"` on `buy_stars()` with KYC cookies. Use a decimal string in the chosen payment currency; network costs are separate. Without an explicit cap, the original quote remains the limit. If you override `base_url`, verify that your API deployment supports this field. [Limit semantics and REST example](rest-api.md#buy-stars-with-kyc).
+
 Persist your order intent before sending the purchase, then persist the returned `request_id`. A connection error before the ID arrives does not prove that the API did not receive the request. Do not automatically resubmit it.
 
 ## Read the Existing Request

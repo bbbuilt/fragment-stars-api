@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.8] - 2026-11-23
+
+- Added optional `max_cost` to `buy_stars()` for KYC Stars. Pass a positive decimal string in TON or USDT on TON to set your checkout limit. Existing calls remain unchanged.
+
 ## [2.1.7] - 2026-10-12
 
 ### Fixed

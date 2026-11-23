@@ -11,7 +11,7 @@ def test_client_uses_public_https_endpoint_by_default() -> None:
 
     assert DEFAULT_API_URL == "https://api.fragment-api.space"
     assert client.base_url == DEFAULT_API_URL
-    assert __version__ == "2.1.7"
+    assert __version__ == "2.1.8"
 
 
 def test_client_still_accepts_custom_endpoint() -> None:
@@ -26,6 +26,43 @@ def test_buy_stars_rejects_less_than_50_without_network(monkeypatch: pytest.Monk
 
     with pytest.raises(ValueError, match="at least 50"):
         client.buy_stars("@telegram_user", 49, seed="c2VlZA==")
+
+
+@pytest.mark.parametrize(("method", "cap"), [("ton", "2.960000001"), ("usdt_ton", "3.001001")])
+def test_buy_stars_sends_exact_kyc_price_limit(monkeypatch, method, cap):
+    client = FragmentAPIClient()
+    requests = []
+
+    def request(method, path, data):
+        requests.append((method, path, data))
+        return {"success": True, "data": {
+            "request_id": "test-id", "position": 1, "estimated_wait_seconds": 1,
+        }}
+
+    monkeypatch.setattr(client, "_request", request)
+    client.buy_stars("@telegram_user", 200, "c2VlZA==", cookies="W10=",
+                     payment_method=method, wait=False, max_cost=cap)
+    client.buy_stars("@telegram_user", 200, "c2VlZA==", wait=False)
+    assert requests[0] == ("POST", "/api/v1/stars/buy", {
+        "username": "@telegram_user", "amount": 200, "seed": "c2VlZA==",
+        "fragment_cookies": "W10=", "payment_method": method, "max_cost": cap,
+    })
+    assert "max_cost" not in requests[1][2]
+
+
+@pytest.mark.parametrize(("cookies", "method", "cap"), [
+    (None, "ton", "2.96"),
+    ("W10=", "ton", 2.96),
+    ("W10=", "ton", "2e0"),
+    ("W10=", "ton", "0.000000000"),
+    ("W10=", "usdt_ton", "3.0000001"),
+])
+def test_buy_stars_rejects_invalid_price_limit_before_network(monkeypatch, cookies, method, cap):
+    client = FragmentAPIClient()
+    monkeypatch.setattr(client, "_request", lambda *args, **kwargs: pytest.fail("network called"))
+    with pytest.raises(ValueError, match="max_cost"):
+        client.buy_stars("@telegram_user", 200, "c2VlZA==", cookies=cookies,
+                         payment_method=method, max_cost=cap)
 
 
 def test_buy_stars_rejects_base64_cookies_without_json(monkeypatch: pytest.MonkeyPatch) -> None:

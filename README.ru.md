@@ -4,9 +4,9 @@
 
 Покупайте Telegram Stars и дарите Premium из Telegram-бота, магазина или реселлерского backend. Python SDK или прямой REST, оплата TON и USDT в сети TON. **API-ключ не нужен.**
 
-**Current SDK: `v2.1.7`** · **Endpoint:** `https://api.fragment-api.space`
+**Current SDK: `v2.1.8`** · **Endpoint:** `https://api.fragment-api.space`
 
-[![PyPI version 2.1.7](https://img.shields.io/badge/PyPI-v2.1.7-38BDF8)](https://pypi.org/project/fragment-stars-api/)
+[![PyPI version 2.1.8](https://img.shields.io/badge/PyPI-v2.1.8-38BDF8)](https://pypi.org/project/fragment-stars-api/)
 [![Python versions](https://img.shields.io/pypi/pyversions/fragment-stars-api)](https://pypi.org/project/fragment-stars-api/)
 [![MIT License](https://img.shields.io/badge/license-MIT-94A3B8)](https://github.com/bbbuilt/fragment-stars-api/blob/main/LICENSE)
 
@@ -65,6 +65,8 @@ with FragmentAPIClient() as client:
 ```
 
 Это **no-KYC**: cookies не переданы. Для KYC добавьте `cookies=os.environ["FRAGMENT_COOKIES"]`. Для оплаты Stars в USDT сети TON передайте `payment_method="usdt_ton"`; оставьте TON на газ и подлежащую сбору комиссию API.
+
+Для KYC Stars можно передать `max_cost="2.96"` вместе с `cookies`. Это предел цены в валюте оплаты, без сетевых расходов. Без поля пределом остаётся исходная цена. [Подробности и REST-пример](https://github.com/bbbuilt/fragment-stars-api/blob/main/docs/rest-api.md#buy-stars-with-kyc).
 
 Опрашивайте `client.get_status(request_id)` до финального состояния. `queued` и `processing` не подтверждают выдачу. При `wait=True` (по умолчанию) SDK опрашивает очередь сам. При таймауте или неопределённом платеже сверяйте существующий запрос, не создавайте новую покупку автоматически. [Python: интеграция и восстановление](https://github.com/bbbuilt/fragment-stars-api/blob/main/docs/python.md).
 

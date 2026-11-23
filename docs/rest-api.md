@@ -86,9 +86,14 @@ Cookies must be a Base64-encoded JSON object or cookie array. `fragment_local_st
   "amount": 100,
   "seed": "your_wallet_seed_base64",
   "fragment_cookies": "fragment_cookies_base64",
-  "payment_method": "ton"
+  "payment_method": "ton",
+  "max_cost": "2.96"
 }
 ```
+
+`max_cost` is optional and only valid for KYC Stars. Send a positive decimal string: TON supports up to 9 fractional digits; USDT on TON supports up to 6. The actual Fragment amount is paid, not the full limit. Network costs are separate. When omitted, the original quote stays the limit.
+
+If checkout exceeds the limit, the API does not sign that payment and the queue reports `FRAGMENT_PRICE_CHANGED`. Read the existing request and get a fresh quote before starting a new one. In the legacy two-step TON flow, set the limit on `POST /api/v1/stars/pay`, not on `/stars/create`. Use only an API deployment that supports this field.
 
 ## Buy Stars with USDT on TON
 
